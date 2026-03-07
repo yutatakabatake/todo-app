@@ -1,8 +1,14 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router'
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router'
 import TaskList from '../pages/TaskList';
 import Calender from '../pages/Calender';
 import Project from '../pages/Project';
 import { ListTodo, Calendar, Folder } from 'lucide-react';
+
+const NAV_ITEMS = [
+    { path: "/", icon: ListTodo, label: 'Tasks' },
+    { path: "/calender", icon: Calendar, label: 'Calender' },
+    { path: "/project", icon: Folder, label: 'Projects' },
+];
 
 function Navigation() {
     return (
@@ -11,9 +17,20 @@ function Navigation() {
                 <nav>
                     <h1 className='font-bold text-2xl mb-4'>TODO APP</h1>
                     <div className='flex gap-6'>
-                        <Link to="/" className='flex bg-blue-400 gap-1 px-4 py-2 rounded-xl'><ListTodo />Tasks</Link>
-                        <Link to="/calender" className='flex'><Calendar />Calender</Link>
-                        <Link to="/project" className='flex'><Folder />Project</Link>
+                        {NAV_ITEMS.map(item => {
+                            const Icon = item.icon;
+
+                            return (<NavLink
+                                key={item.label}
+                                to={item.path}
+                                className={
+                                    ({ isActive, isPending }) =>
+                                        `flex gap-1 px-4 py-2 rounded-xl
+                                    ${isPending ? '' : isActive ? 'bg-blue-400 text-white' : 'text-gray-600'}`}>
+                                <Icon />
+                                {item.label}
+                            </NavLink>);
+                        })}
                     </div>
                 </nav>
             </header>
