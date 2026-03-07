@@ -2,7 +2,7 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router'
 import TaskList from '../pages/TaskList';
 import Calender from '../pages/Calender';
 import Project from '../pages/Project';
-
+import { ListTodo, Calendar, Folder } from 'lucide-react';
 
 
 function Navigation() {
@@ -11,9 +11,9 @@ function Navigation() {
             <BrowserRouter>
                 <nav>
                     <h1>TODO APP</h1>
-                    <Link to="/">Tasks</Link>
-                    <Link to="/calender">Calender</Link>
-                    <Link to="/project">Project</Link>
+                    <Link to="/"><ListTodo />Tasks</Link>
+                    <Link to="/calender"><Calendar />Calender</Link>
+                    <Link to="/project"><Folder />Project</Link>
                 </nav>
 
                 <Routes>
@@ -21,7 +21,7 @@ function Navigation() {
                     <Route path='/calender' element={<Calender />} />
                     <Route path='/project' element={<Project />} />
                 </Routes>
-            </BrowserRouter>
+            </BrowserRouter >
         </>
     )
 }
