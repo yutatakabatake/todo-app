@@ -22,7 +22,7 @@ function Navigation() {
                             className={
                                 ({ isActive, isPending }) =>
                                     `flex gap-1 px-4 py-2 rounded-xl
-                                    ${isPending ? '' : isActive ? 'bg-blue-400 text-white' : 'text-gray-600'}`}>
+                                    ${isPending ? '' : isActive ? 'bg-blue-400 text-white' : 'text-gray-600 hover:bg-gray-100'}`}>
                             <Icon />
                             {item.label}
                         </NavLink>);
