@@ -16,7 +16,7 @@ function TaskList() {
                 </div>
             </div>
 
-            <div className="flex-1 bg-gray-50 p-6">
+            <div className="flex-1 bg-gray-50 p-6 overflow-y-auto">
                 <div className="max-w-6xl mx-auto space-y-6">
                     <div className="bg-white rounded-lg border overflow-hidden">
                         <div className="bg-gray-50 border-b px-6 py-3">

@@ -8,12 +8,14 @@ import Project from './pages/Project';
 function App() {
   return (
     <BrowserRouter>
-      <Navigation />
-      <Routes>
-        <Route path='/' element={<TaskList />} />
-        <Route path='/calender' element={<Calender />} />
-        <Route path='/project' element={<Project />} />
-      </Routes>
+      <div className="h-screen flex flex-col bg-gray-50">
+        <Navigation />
+        <Routes>
+          <Route path='/' element={<TaskList />} />
+          <Route path='/calender' element={<Calender />} />
+          <Route path='/project' element={<Project />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   )
 }
