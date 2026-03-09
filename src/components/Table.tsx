@@ -4,7 +4,7 @@ type Category = 'Morning' | 'Evening' | 'Night' | 'Nothing'
 
 type Props = {
     timeSlot: Category
-    handleClickEdit: () => void
+    handleClickEdit: any
 }
 
 function Table(props: Props) {

@@ -6,22 +6,25 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import NumberField from './NumberField';
 
 type Props = {
     open: boolean
     isEditing: boolean
+    taskTitle: string
     handleClose: () => void
 }
 
 export default function FormDialog(props: Props) {
-    const { open, isEditing, handleClose } = props;
+    const { open, isEditing, taskTitle, handleClose } = props;
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const formJson = Object.fromEntries((formData as any).entries());
-        const email = formJson.email;
-        console.log(email);
+        console.log('edit');
         handleClose();
     };
 
@@ -29,30 +32,70 @@ export default function FormDialog(props: Props) {
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>{isEditing ? 'Edit task' : 'Add new task'}</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    To subscribe to this website, please enter your email address here. We
-                    will send updates occasionally.
-                </DialogContentText>
                 <form onSubmit={handleSubmit} id="subscription-form">
-                    <TextField
-                        autoFocus
-                        required
-                        margin="dense"
-                        id="name"
-                        name="email"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                        variant="standard"
-                    />
+                    <div className='space-y-4'>
+                        <div className='space-y-2'>
+                            <TextField
+                                required
+                                id="title"
+                                label="Title"
+                                className='space-y-2'
+                                defaultValue={isEditing ? taskTitle : ''} />
+                        </div>
+
+                        <div className='space-y-2'>
+                            <FormControl fullWidth>
+                                <InputLabel id="project">Project</InputLabel>
+                                <Select
+                                    labelId="project"
+                                    id="project"
+                                    // value={age}
+                                    label="Project"
+                                // onChange={}
+                                >
+                                    <MenuItem value={10}>Ten</MenuItem>
+                                    <MenuItem value={20}>Twenty</MenuItem>
+                                    <MenuItem value={30}>Thirty</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+
+                        <div className='space-y-2'>
+                            <FormControl fullWidth>
+                                <InputLabel id="timeSlot">Time slot</InputLabel>
+                                <Select
+                                    labelId="timeSlot"
+                                    id="timeSlot"
+                                    label="timeSlot"
+                                    defaultValue={'Nothing'} >
+                                    <MenuItem value={'Morning'}>Morning</MenuItem>
+                                    <MenuItem value={'Evening'}>Evening</MenuItem>
+                                    <MenuItem value={'Night'}>Night</MenuItem>
+                                    <MenuItem value={'Nothing'}>Nothing</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+
+                        <div className='space-y-2'>
+                            <NumberField label="Number Spinner" />
+                        </div>
+                    </div>
                 </form>
-            </DialogContent>
+            </DialogContent >
             <DialogActions>
+                {isEditing &&
+                    <div className='left-0'>
+                        <Button
+                            color='error'
+                            onClick={() => alert('delete')}>
+                            Delete
+                        </Button>
+                    </div>}
                 <Button onClick={handleClose}>Cancel</Button>
                 <Button type="submit" form="subscription-form">
-                    Subscribe
+                    {isEditing ? 'Edit' : 'Add'}
                 </Button>
             </DialogActions>
-        </Dialog>
+        </Dialog >
     );
 }

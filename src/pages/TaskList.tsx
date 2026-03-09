@@ -7,13 +7,16 @@ import { useState } from 'react';
 function TaskList() {
     const [open, setOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [editingTaskTitle, setEditingTaskTitle] = useState('');
 
     function handleClickNew() {
         setIsEditing(false);
         setOpen(!open);
     }
 
-    function handleClickEdit() {
+    function handleClickEdit(e: React.ChangeEvent<HTMLInputElement>) {
+        const title = e.target.parentNode?.parentNode?.querySelector('.title')?.textContent || '';
+        setEditingTaskTitle(title);
         setOpen(!open);
         setIsEditing(true);
     }
@@ -52,6 +55,7 @@ function TaskList() {
             <FormDialog
                 open={open}
                 isEditing={isEditing}
+                taskTitle={editingTaskTitle}
                 handleClose={handleClose} />
         </>
     )
