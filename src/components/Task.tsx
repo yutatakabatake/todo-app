@@ -7,10 +7,11 @@ type Props = {
     date: string,
     expectedTime: number,
     actualTime: number
+    handleClickEdit: () => void
 }
 
 function Task(props: Props) {
-    const { title, project, date, expectedTime, actualTime } = props;
+    const { title, project, date, expectedTime, actualTime, handleClickEdit } = props;
     return (
         <tr className="border-b">
             <td className="py-3 px-4">
@@ -30,7 +31,7 @@ function Task(props: Props) {
                 <Button
                     color="primary"
                     variant="contained"
-                    onClick={() => alert('edit')}>
+                    onClick={handleClickEdit}>
                     edit
                 </Button>
             </td>

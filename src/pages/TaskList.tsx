@@ -36,10 +36,10 @@ function TaskList() {
 
             <div className="flex-1 bg-gray-50 p-6 overflow-y-auto">
                 <div className="max-w-6xl mx-auto space-y-6">
-                    <Table category='Morning' />
-                    <Table category='Evening' />
-                    <Table category='Night' />
-                    <Table category='Nothing' />
+                    <Table category='Morning' handleClickEdit={handleClickOpen} />
+                    <Table category='Evening' handleClickEdit={handleClickOpen} />
+                    <Table category='Night' handleClickEdit={handleClickOpen} />
+                    <Table category='Nothing' handleClickEdit={handleClickOpen} />
                 </div>
             </div>
             <FormDialog

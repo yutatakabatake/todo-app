@@ -4,10 +4,11 @@ type Category = 'Morning' | 'Evening' | 'Night' | 'Nothing'
 
 type Props = {
     category: Category
+    handleClickEdit: () => void
 }
 
 function Table(props: Props) {
-    const { category } = props;
+    const { category, handleClickEdit } = props;
     return (
         <div className="bg-white rounded-lg border overflow-hidden">
             <div className="bg-gray-50 border-b px-6 py-3">
@@ -40,7 +41,7 @@ function Table(props: Props) {
                     </tr>
                 </thead>
                 <tbody>
-                    <Task title="Eat" project="Life" date="2026/03/06" expectedTime={30} actualTime={50} />
+                    <Task title="Eat" project="Life" date="2026/03/06" expectedTime={30} actualTime={50} handleClickEdit={handleClickEdit} />
                 </tbody>
                 <tfoot>
                     <tr className="bg-gray-50">
