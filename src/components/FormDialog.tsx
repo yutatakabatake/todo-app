@@ -9,11 +9,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 type Props = {
     open: boolean
+    isEditing: boolean
     handleClose: () => void
 }
 
 export default function FormDialog(props: Props) {
-    const { open, handleClose } = props;
+    const { open, isEditing, handleClose } = props;
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -26,7 +27,7 @@ export default function FormDialog(props: Props) {
 
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Subscribe</DialogTitle>
+            <DialogTitle>{isEditing ? 'Edit task' : 'Add new task'}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     To subscribe to this website, please enter your email address here. We
