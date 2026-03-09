@@ -3,16 +3,16 @@ import Task from "./Task"
 type Category = 'Morning' | 'Evening' | 'Night' | 'Nothing'
 
 type Props = {
-    category: Category
+    timeSlot: Category
     handleClickEdit: () => void
 }
 
 function Table(props: Props) {
-    const { category, handleClickEdit } = props;
+    const { timeSlot, handleClickEdit } = props;
     return (
         <div className="bg-white rounded-lg border overflow-hidden">
             <div className="bg-gray-50 border-b px-6 py-3">
-                <h3 className="font-semibold">{category}</h3>
+                <h3 className="font-semibold">{timeSlot}</h3>
             </div>
             <table className="w-full">
                 <thead>
