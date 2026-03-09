@@ -22,11 +22,11 @@ function Task(props: Props) {
                     }}
                 />
             </td>
-            <td className="py-3 px-4">{title}</td>
-            <td className="py-3 px-4">{project}</td>
-            <td className="py-3 px-4">{date}</td>
-            <td className="py-3 px-4 text-right">{expectedTime}min</td>
-            <td className="py-3 px-4 text-right">{actualTime}min</td>
+            <td className="py-3 px-4 title">{title}</td>
+            <td className="py-3 px-4 project">{project}</td>
+            <td className="py-3 px-4 date">{date}</td>
+            <td className="py-3 px-4 text-right expectedTime">{expectedTime}min</td>
+            <td className="py-3 px-4 text-right actualTime">{actualTime}min</td>
             <td className="py-3 px-4">
                 <Button
                     color="primary"
