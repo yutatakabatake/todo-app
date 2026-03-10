@@ -38,16 +38,21 @@ function Table(props: Props) {
                         <th className="font-medium text-sm text-gray-600 py-3 px-4 text-left">
                             Edit
                         </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {tasks.map(task => (
                         <Task
+                            key={task.id}
+                            id={task.id}
                             title={task.title}
                             project={task.project ?? ''}
+                            done={task.done}
                             date={task.date}
                             expectedTime={task.expectedTime}
                             actualTime={task.actualTime ?? 0}
+                            isWorking={task.isWorking}
                             handleClickEdit={handleClickEdit} />
                     ))}
                 </tbody>

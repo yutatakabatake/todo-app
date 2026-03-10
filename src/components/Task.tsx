@@ -2,16 +2,19 @@ import { Checkbox } from "@mui/material"
 import Button from '@mui/material/Button';
 
 type Props = {
+    id: number,
     title: string,
     project: string,
+    done: boolean,
     date: string,
     expectedTime: number,
     actualTime: number
+    isWorking: boolean
     handleClickEdit: () => void
 }
 
 function Task(props: Props) {
-    const { title, project, date, expectedTime, actualTime, handleClickEdit } = props;
+    const { id, title, project, done, date, expectedTime, actualTime, isWorking, handleClickEdit } = props;
     return (
         <tr className="border-b">
             <td className="py-3 px-4">
@@ -34,6 +37,16 @@ function Task(props: Props) {
                     onClick={handleClickEdit}>
                     edit
                 </Button>
+            </td>
+            <td>
+                {isWorking ?
+                    <Button>
+                        Stop
+                    </Button> :
+                    <Button
+                        variant="outlined">
+                        Start
+                    </Button>}
             </td>
         </tr>
     )

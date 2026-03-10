@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 export type TimeSlot = 'Morning' | 'Evening' | 'Night' | 'Nothing'
 export type TaskType = {
+    id: number
     title: string
     project: string | null
     done: boolean
@@ -12,44 +13,53 @@ export type TaskType = {
     expectedTime: number
     actualTime: number | null
     timeSlot: TimeSlot
+    isWorking: boolean
 }
 
 const INIT_TASKS: TaskType[] = [
     {
+        id: 0,
         title: 'Eat',
         project: 'Life',
         done: false,
         date: '2026/03/06',
         expectedTime: 30,
         actualTime: null,
-        timeSlot: 'Morning'
+        timeSlot: 'Morning',
+        isWorking: false
     },
     {
+        id: 1,
         title: 'Run',
         project: 'Life',
         done: false,
         date: '2026/03/06',
         expectedTime: 60,
         actualTime: null,
-        timeSlot: 'Evening'
+        timeSlot: 'Evening',
+        isWorking: false
     },
     {
+        id: 2,
         title: 'Coding',
         project: 'Research',
         done: false,
         date: '2026/03/06',
         expectedTime: 90,
         actualTime: null,
-        timeSlot: 'Night'
+        timeSlot: 'Night',
+        isWorking: false
     },
     {
+        id: 3,
         title: 'Code reading',
         project: null,
         done: false,
         date: '2026/03/06',
         expectedTime: 20,
         actualTime: null,
-        timeSlot: 'Nothing'
+        timeSlot: 'Nothing',
+        isWorking: false
     },
 ];
 
