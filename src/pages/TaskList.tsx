@@ -8,6 +8,7 @@ function TaskList() {
     const [open, setOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editingTaskTitle, setEditingTaskTitle] = useState('');
+    const [filter, setFilter] = useState('today');
 
     function handleClickNew() {
         setIsEditing(false);
@@ -25,6 +26,15 @@ function TaskList() {
         setOpen(!open);
     }
 
+    function handleClilckToday() {
+        setFilter('today');
+    }
+
+    function handleClilckExpired() {
+        setFilter('expired');
+    }
+
+
     return (
         <>
             <div className="border-b px-6 py-4">
@@ -33,7 +43,19 @@ function TaskList() {
                         <h2 className="text-xl font-semibold">TaskList</h2>
                         <p className="text-gray-600">X pending tasks</p>
                     </div>
-                    <div>
+                    <div className='flex gap-6'>
+                        <div className='flex gap-2'>
+                            <Button
+                                variant={filter === 'today' ? 'contained' : 'outlined'}
+                                onClick={handleClilckToday}>
+                                today
+                            </Button>
+                            <Button
+                                variant={filter === 'expired' ? 'contained' : 'outlined'}
+                                onClick={handleClilckExpired}>
+                                expired
+                            </Button>
+                        </div>
                         <Button
                             variant='contained'
                             color='success'
