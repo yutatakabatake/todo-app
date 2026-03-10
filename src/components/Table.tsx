@@ -20,13 +20,13 @@ function Table(props: Props) {
                         <th className="font-medium text-sm text-gray-600 py-3 px-4 text-left w-12">
                             Done
                         </th>
-                        <th className="font-medium text-sm text-gray-600 py-3 px-4 text-left">
+                        <th className="font-medium text-sm text-gray-600 py-3 px-4 text-left w-60">
                             Title
                         </th>
-                        <th className="font-medium text-sm text-gray-600 py-3 px-4 text-left">
+                        <th className="font-medium text-sm text-gray-600 py-3 px-4 text-left w-50">
                             Project
                         </th>
-                        <th className="font-medium text-sm text-gray-600 py-3 px-4 text-left">
+                        <th className="font-medium text-sm text-gray-600 py-3 px-4 text-left w-8">
                             Date
                         </th>
                         <th className="font-medium text-sm text-gray-600 py-3 px-4 text-right">
