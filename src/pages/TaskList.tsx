@@ -18,7 +18,7 @@ export type TaskType = {
 
 const INIT_TASKS: TaskType[] = [
     {
-        id: 0,
+        id: 1,
         title: 'Eat',
         project: 'Life',
         done: false,
@@ -29,7 +29,7 @@ const INIT_TASKS: TaskType[] = [
         isWorking: false
     },
     {
-        id: 1,
+        id: 2,
         title: 'Run',
         project: 'Life',
         done: false,
@@ -40,7 +40,7 @@ const INIT_TASKS: TaskType[] = [
         isWorking: false
     },
     {
-        id: 2,
+        id: 3,
         title: 'Coding',
         project: 'Research',
         done: false,
@@ -51,7 +51,7 @@ const INIT_TASKS: TaskType[] = [
         isWorking: false
     },
     {
-        id: 3,
+        id: 4,
         title: 'Code reading',
         project: null,
         done: false,
@@ -101,7 +101,7 @@ function TaskList() {
         expectedTime: TaskType['expectedTime'],
         timeSlot: TimeSlot) {
         const newTask: TaskType = {
-            id: tasks.length,
+            id: tasks.length + 1,
             title: title,
             project: project,
             done: false,
