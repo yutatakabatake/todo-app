@@ -128,6 +128,27 @@ function TaskList() {
         setTasks(newTasks);
     }
 
+    function handleEditTask(
+        editingTask: TaskType | undefined,
+        newTitle: TaskType['title'],
+        newProject: TaskType['project'],
+        newDate: TaskType['date'],
+        newExpectedTime: TaskType['expectedTime'],
+        newTimeSlot: TimeSlot
+    ) {
+        const newTasks = tasks.map(task => (task.id === editingTask?.id ?
+            {
+                ...task,
+                title: newTitle,
+                project: newProject,
+                date: newDate,
+                expectedTime: newExpectedTime,
+                timeSlot: newTimeSlot
+            } :
+            task));
+        setTasks(newTasks);
+    }
+
     return (
         <>
             <div className="border-b px-6 py-4">
@@ -194,12 +215,12 @@ function TaskList() {
             </div>
             <FormDialog
                 open={open}
-                filter={filter}
                 isEditing={isEditing}
                 editingTask={editingTask}
                 handleClose={handleClose}
                 handleAddTask={handleAddTask}
-                handleDeleteTask={handleDeleteTask} />
+                handleDeleteTask={handleDeleteTask}
+                handleEditTask={handleEditTask} />
         </>
     )
 }

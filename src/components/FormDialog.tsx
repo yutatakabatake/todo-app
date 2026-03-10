@@ -9,11 +9,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import NumberField from './NumberField';
-import type { TaskType, TimeSlot, Filter } from '../pages/TaskList';
+import type { TaskType, TimeSlot } from '../pages/TaskList';
 
 type Props = {
     open: boolean
-    filter: Filter
     isEditing: boolean
     editingTask: TaskType | undefined
     handleClose: () => void
@@ -25,10 +24,18 @@ type Props = {
         timeSlot: TimeSlot
     ) => void
     handleDeleteTask: (id: TaskType['id']) => void
+    handleEditTask: (
+        editingTask: TaskType | undefined,
+        newTitle: TaskType['title'],
+        newProject: TaskType['project'],
+        newDate: TaskType['date'],
+        newExpectedTime: TaskType['expectedTime'],
+        newTimeSlot: TimeSlot
+    ) => void
 }
 
 export default function FormDialog(props: Props) {
-    const { open, filter, isEditing, editingTask, handleClose, handleAddTask, handleDeleteTask } = props;
+    const { open, isEditing, editingTask, handleClose, handleAddTask, handleDeleteTask, handleEditTask } = props;
 
     function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -46,7 +53,7 @@ export default function FormDialog(props: Props) {
         const date: TaskType['date'] = `${year}/${month < 10 ? '0' + month : month}/${day < 10 ? '0' + day : day}`;
 
         if (isEditing) {
-            alert('edit');
+            handleEditTask(editingTask, title, project, date, expectedTime, timeSlot);
         } else {
             handleAddTask(title, project, date, expectedTime, timeSlot);
         }
@@ -110,7 +117,7 @@ export default function FormDialog(props: Props) {
                         </div>
 
                         <div className='space-y-2'>
-                            <NumberField id='name' name='expectedTime' label='expectedTime' />
+                            <NumberField id='name' name='expectedTime' label='expectedTime' required />
                         </div>
                     </div>
                 </form>
@@ -125,13 +132,6 @@ export default function FormDialog(props: Props) {
                         </Button>
                     </div>}
                 <Button onClick={handleClose}>Cancel</Button>
-                {isEditing && filter === 'expired' &&
-                    <div>
-                        <Button
-                            onClick={() => alert('today')}>
-                            today
-                        </Button>
-                    </div>}
                 <Button type="submit" form="subscription-form">
                     {isEditing ? 'Edit' : 'Add'}
                 </Button>
