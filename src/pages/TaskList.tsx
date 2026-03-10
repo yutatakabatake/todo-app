@@ -66,7 +66,7 @@ const INIT_TASKS: TaskType[] = [
 function TaskList() {
     const [open, setOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [editingTaskTitle, setEditingTaskTitle] = useState('');
+    const [editingTask, setEditingTask] = useState<TaskType | undefined>();
     const [filter, setFilter] = useState('today');
     const [tasks, setTasks] = useState(INIT_TASKS);
 
@@ -76,8 +76,10 @@ function TaskList() {
     }
 
     function handleClickEdit(e: React.ChangeEvent<HTMLInputElement>) {
-        const title = e.target.parentNode?.parentNode?.querySelector('.title')?.textContent || '';
-        setEditingTaskTitle(title);
+        const nowEditingTaskId = parseInt((e.currentTarget.parentNode?.parentNode as HTMLElement)?.dataset.id?.toString() ?? '');
+        const nowEditingTask = tasks.find(task => task.id === nowEditingTaskId);
+
+        setEditingTask(nowEditingTask);
         setOpen(!open);
         setIsEditing(true);
     }
@@ -114,6 +116,10 @@ function TaskList() {
         setTasks([...tasks, newTask]);
     }
 
+    function handleDeleteTask(id: TaskType['id']) {
+        const newTasks = tasks.filter(task => task.id !== id);
+        setTasks(newTasks);
+    }
 
     return (
         <>
@@ -162,9 +168,10 @@ function TaskList() {
             <FormDialog
                 open={open}
                 isEditing={isEditing}
-                taskTitle={editingTaskTitle}
+                editingTask={editingTask}
                 handleClose={handleClose}
-                handleAddTask={handleAddTask} />
+                handleAddTask={handleAddTask}
+                handleDeleteTask={handleDeleteTask} />
         </>
     )
 }

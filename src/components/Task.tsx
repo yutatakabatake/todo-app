@@ -17,7 +17,7 @@ type Props = {
 function Task(props: Props) {
     const { id, title, project, done, date, expectedTime, actualTime, isWorking, handleClickEdit } = props;
     return (
-        <tr className="border-b">
+        <tr className="border-b" data-id={id.toString()}>
             <td className="py-3 px-4">
                 <Checkbox
                     onChange={() => alert('done')}

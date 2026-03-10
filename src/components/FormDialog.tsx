@@ -14,7 +14,7 @@ import type { TaskType, TimeSlot } from '../pages/TaskList';
 type Props = {
     open: boolean
     isEditing: boolean
-    taskTitle: string
+    editingTask: TaskType | undefined
     handleClose: () => void
     handleAddTask: (
         title: TaskType['title'],
@@ -23,10 +23,11 @@ type Props = {
         expectedTime: TaskType['expectedTime'],
         timeSlot: TimeSlot
     ) => void
+    handleDeleteTask: (id: TaskType['id']) => void
 }
 
 export default function FormDialog(props: Props) {
-    const { open, isEditing, taskTitle, handleClose, handleAddTask } = props;
+    const { open, isEditing, editingTask, handleClose, handleAddTask, handleDeleteTask } = props;
 
     function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -51,6 +52,11 @@ export default function FormDialog(props: Props) {
         handleClose();
     }
 
+    function handleDelete(id: TaskType['id']) {
+        handleDeleteTask(id);
+        handleClose();
+    }
+
     return (
         <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth={true}>
             <DialogTitle>{isEditing ? 'Edit task' : 'Add new task'}</DialogTitle>
@@ -65,7 +71,7 @@ export default function FormDialog(props: Props) {
                                 name='title'
                                 label="Title"
                                 sx={{ mt: 1 }}
-                                defaultValue={isEditing ? taskTitle : ''} />
+                                defaultValue={isEditing ? editingTask?.title : ''} />
                         </div>
 
                         <div className='space-y-2'>
@@ -113,7 +119,7 @@ export default function FormDialog(props: Props) {
                     <div className='mr-auto'>
                         <Button
                             color='error'
-                            onClick={() => alert('delete')}>
+                            onClick={() => editingTask?.id !== undefined && handleDelete(editingTask.id)}>
                             Delete
                         </Button>
                     </div>}
