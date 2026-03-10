@@ -1,14 +1,14 @@
 import Task from "./Task"
-
-type Category = 'Morning' | 'Evening' | 'Night' | 'Nothing'
+import type { TaskType, TimeSlot } from "../pages/TaskList"
 
 type Props = {
-    timeSlot: Category
+    timeSlot: TimeSlot
     handleClickEdit: any
+    tasks: TaskType[]
 }
 
 function Table(props: Props) {
-    const { timeSlot, handleClickEdit } = props;
+    const { timeSlot, handleClickEdit, tasks } = props;
     return (
         <div className="bg-white rounded-lg border overflow-hidden">
             <div className="bg-gray-50 border-b px-6 py-3">
@@ -41,7 +41,15 @@ function Table(props: Props) {
                     </tr>
                 </thead>
                 <tbody>
-                    <Task title="Eat" project="Life" date="2026/03/06" expectedTime={30} actualTime={50} handleClickEdit={handleClickEdit} />
+                    {tasks.map(task => (
+                        <Task
+                            title={task.title}
+                            project={task.project}
+                            date={task.date}
+                            expectedTime={task.expectedTime}
+                            actualTime={task.actualTime ?? 0}
+                            handleClickEdit={handleClickEdit} />
+                    ))}
                 </tbody>
                 <tfoot>
                     <tr className="bg-gray-50">

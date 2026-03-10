@@ -3,12 +3,62 @@ import Table from "../components/Table";
 import FormDialog from "../components/FormDialog";
 import { useState } from 'react';
 
+export type TimeSlot = 'Morning' | 'Evening' | 'Night' | 'Nothing'
+export type TaskType = {
+    title: string
+    project: string
+    done: boolean
+    date: string
+    expectedTime: number
+    actualTime: number | null
+    timeSlot: TimeSlot
+}
+
+const INIT_TASKS = [
+    {
+        title: 'Eat',
+        project: 'Life',
+        done: false,
+        date: '2026/03/06',
+        expectedTime: 30,
+        actualTime: null,
+        timeSlot: 'Morning'
+    },
+    {
+        title: 'Run',
+        project: 'Life',
+        done: false,
+        date: '2026/03/06',
+        expectedTime: 60,
+        actualTime: null,
+        timeSlot: 'Evening'
+    },
+    {
+        title: 'Coding',
+        project: 'Research',
+        done: false,
+        date: '2026/03/06',
+        expectedTime: 90,
+        actualTime: null,
+        timeSlot: 'Night'
+    },
+    {
+        title: 'Code reading',
+        project: null,
+        done: false,
+        date: '2026/03/06',
+        expectedTime: 20,
+        actualTime: null,
+        timeSlot: 'Nothing'
+    },
+];
 
 function TaskList() {
     const [open, setOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editingTaskTitle, setEditingTaskTitle] = useState('');
     const [filter, setFilter] = useState('today');
+    const [tasks, setTasks] = useState(INIT_TASKS);
 
     function handleClickNew() {
         setIsEditing(false);
@@ -69,14 +119,14 @@ function TaskList() {
             <div className="flex-1 bg-gray-50 p-6 overflow-y-auto">
                 {filter === 'today' &&
                     <div className="max-w-6xl mx-auto space-y-6">
-                        <Table timeSlot='Morning' handleClickEdit={handleClickEdit} />
-                        <Table timeSlot='Evening' handleClickEdit={handleClickEdit} />
-                        <Table timeSlot='Night' handleClickEdit={handleClickEdit} />
-                        <Table timeSlot='Nothing' handleClickEdit={handleClickEdit} />
+                        <Table timeSlot='Morning' handleClickEdit={handleClickEdit} tasks={tasks.filter(task => task.timeSlot === 'Morning')} />
+                        <Table timeSlot='Evening' handleClickEdit={handleClickEdit} tasks={tasks.filter(task => task.timeSlot === 'Evening')} />
+                        <Table timeSlot='Night' handleClickEdit={handleClickEdit} tasks={tasks.filter(task => task.timeSlot === 'Night')} />
+                        <Table timeSlot='Nothing' handleClickEdit={handleClickEdit} tasks={tasks.filter(task => task.timeSlot === 'Nothing')} />
                     </div>}
                 {filter === 'expired' &&
                     <div className="max-w-6xl mx-auto space-y-6">
-                        <Table timeSlot='Nothing' handleClickEdit={handleClickEdit} />
+                        <Table timeSlot='Nothing' handleClickEdit={handleClickEdit} tasks={tasks} />
                     </div>}
             </div>
             <FormDialog
