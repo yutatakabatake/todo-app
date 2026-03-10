@@ -9,10 +9,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import NumberField from './NumberField';
-import type { TaskType, TimeSlot } from '../pages/TaskList';
+import type { TaskType, TimeSlot, Filter } from '../pages/TaskList';
 
 type Props = {
     open: boolean
+    filter: Filter
     isEditing: boolean
     editingTask: TaskType | undefined
     handleClose: () => void
@@ -27,7 +28,7 @@ type Props = {
 }
 
 export default function FormDialog(props: Props) {
-    const { open, isEditing, editingTask, handleClose, handleAddTask, handleDeleteTask } = props;
+    const { open, filter, isEditing, editingTask, handleClose, handleAddTask, handleDeleteTask } = props;
 
     function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -124,6 +125,13 @@ export default function FormDialog(props: Props) {
                         </Button>
                     </div>}
                 <Button onClick={handleClose}>Cancel</Button>
+                {isEditing && filter === 'expired' &&
+                    <div>
+                        <Button
+                            onClick={() => alert('today')}>
+                            today
+                        </Button>
+                    </div>}
                 <Button type="submit" form="subscription-form">
                     {isEditing ? 'Edit' : 'Add'}
                 </Button>

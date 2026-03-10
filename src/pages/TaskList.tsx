@@ -4,6 +4,7 @@ import FormDialog from "../components/FormDialog";
 import { useState } from 'react';
 
 export type TimeSlot = 'Morning' | 'Evening' | 'Night' | 'Nothing'
+export type Filter = 'today' | 'expired'
 export type TaskType = {
     id: number
     title: string
@@ -67,7 +68,7 @@ function TaskList() {
     const [open, setOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editingTask, setEditingTask] = useState<TaskType | undefined>();
-    const [filter, setFilter] = useState('today');
+    const [filter, setFilter] = useState<Filter>('today');
     const [tasks, setTasks] = useState(INIT_TASKS);
 
     function handleClickNew() {
@@ -193,6 +194,7 @@ function TaskList() {
             </div>
             <FormDialog
                 open={open}
+                filter={filter}
                 isEditing={isEditing}
                 editingTask={editingTask}
                 handleClose={handleClose}
