@@ -28,7 +28,7 @@ export default function FormDialog(props: Props) {
     };
 
     return (
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth={true}>
             <DialogTitle>{isEditing ? 'Edit task' : 'Add new task'}</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit} id="subscription-form">
@@ -36,9 +36,10 @@ export default function FormDialog(props: Props) {
                         <div className='space-y-2'>
                             <TextField
                                 required
+                                fullWidth
                                 id="title"
                                 label="Title"
-                                className='space-y-2'
+                                sx={{ mt: 1 }}
                                 defaultValue={isEditing ? taskTitle : ''} />
                         </div>
 
@@ -83,7 +84,7 @@ export default function FormDialog(props: Props) {
             </DialogContent >
             <DialogActions>
                 {isEditing &&
-                    <div className='left-0'>
+                    <div className='mr-auto'>
                         <Button
                             color='error'
                             onClick={() => alert('delete')}>
