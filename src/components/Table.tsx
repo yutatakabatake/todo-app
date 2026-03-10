@@ -5,10 +5,11 @@ type Props = {
     timeSlot: TimeSlot
     handleClickEdit: any
     tasks: TaskType[]
+    handleDoneTask: (id: TaskType['id']) => void
 }
 
 function Table(props: Props) {
-    const { timeSlot, handleClickEdit, tasks } = props;
+    const { timeSlot, handleClickEdit, tasks, handleDoneTask } = props;
     return (
         <div className="bg-white rounded-lg border overflow-hidden">
             <div className="bg-gray-50 border-b px-6 py-3">
@@ -53,7 +54,8 @@ function Table(props: Props) {
                             expectedTime={task.expectedTime}
                             actualTime={task.actualTime ?? 0}
                             isWorking={task.isWorking}
-                            handleClickEdit={handleClickEdit} />
+                            handleClickEdit={handleClickEdit}
+                            handleDoneTask={handleDoneTask} />
                     ))}
                 </tbody>
                 <tfoot>

@@ -12,18 +12,20 @@ type Props = {
     actualTime: TaskType['actualTime']
     isWorking: TaskType['isWorking']
     handleClickEdit: () => void
+    handleDoneTask: (id: TaskType['id']) => void
 }
 
 function Task(props: Props) {
-    const { id, title, project, done, date, expectedTime, actualTime, isWorking, handleClickEdit } = props;
+    const { id, title, project, done, date, expectedTime, actualTime, isWorking, handleClickEdit, handleDoneTask } = props;
     return (
         <tr className="border-b" data-id={id.toString()}>
             <td className="py-3 px-4">
                 <Checkbox
-                    onChange={() => alert('done')}
+                    onChange={() => handleDoneTask(id)}
                     slotProps={{
                         input: { 'aria-label': 'controlled' },
                     }}
+                    checked={done}
                 />
             </td>
             <td className="py-3 px-4 title">{title}</td>
