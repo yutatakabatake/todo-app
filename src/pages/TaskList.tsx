@@ -6,7 +6,7 @@ import { useState } from 'react';
 export type TimeSlot = 'Morning' | 'Evening' | 'Night' | 'Nothing'
 export type TaskType = {
     title: string
-    project: string
+    project: string | null
     done: boolean
     date: string
     expectedTime: number
@@ -14,7 +14,7 @@ export type TaskType = {
     timeSlot: TimeSlot
 }
 
-const INIT_TASKS = [
+const INIT_TASKS: TaskType[] = [
     {
         title: 'Eat',
         project: 'Life',

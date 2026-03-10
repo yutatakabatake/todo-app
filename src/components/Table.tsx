@@ -44,7 +44,7 @@ function Table(props: Props) {
                     {tasks.map(task => (
                         <Task
                             title={task.title}
-                            project={task.project}
+                            project={task.project ?? ''}
                             date={task.date}
                             expectedTime={task.expectedTime}
                             actualTime={task.actualTime ?? 0}
