@@ -1,15 +1,16 @@
 import { Checkbox } from "@mui/material"
 import Button from '@mui/material/Button';
+import type { TaskType } from "../pages/TaskList";
 
 type Props = {
-    id: number,
-    title: string,
-    project: string,
-    done: boolean,
-    date: string,
-    expectedTime: number,
-    actualTime: number
-    isWorking: boolean
+    id: TaskType['id']
+    title: TaskType['title']
+    project: TaskType['project']
+    done: TaskType['done']
+    date: TaskType['date'],
+    expectedTime: TaskType['expectedTime']
+    actualTime: TaskType['actualTime']
+    isWorking: TaskType['isWorking']
     handleClickEdit: () => void
 }
 
