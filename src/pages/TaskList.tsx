@@ -67,12 +67,17 @@ function TaskList() {
             </div>
 
             <div className="flex-1 bg-gray-50 p-6 overflow-y-auto">
-                <div className="max-w-6xl mx-auto space-y-6">
-                    <Table timeSlot='Morning' handleClickEdit={handleClickEdit} />
-                    <Table timeSlot='Evening' handleClickEdit={handleClickEdit} />
-                    <Table timeSlot='Night' handleClickEdit={handleClickEdit} />
-                    <Table timeSlot='Nothing' handleClickEdit={handleClickEdit} />
-                </div>
+                {filter === 'today' &&
+                    <div className="max-w-6xl mx-auto space-y-6">
+                        <Table timeSlot='Morning' handleClickEdit={handleClickEdit} />
+                        <Table timeSlot='Evening' handleClickEdit={handleClickEdit} />
+                        <Table timeSlot='Night' handleClickEdit={handleClickEdit} />
+                        <Table timeSlot='Nothing' handleClickEdit={handleClickEdit} />
+                    </div>}
+                {filter === 'expired' &&
+                    <div className="max-w-6xl mx-auto space-y-6">
+                        <Table timeSlot='Nothing' handleClickEdit={handleClickEdit} />
+                    </div>}
             </div>
             <FormDialog
                 open={open}
