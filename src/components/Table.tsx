@@ -9,7 +9,6 @@ type Props = {
 
 function Table(props: Props) {
     const { timeSlot, handleClickEdit, tasks } = props;
-    console.log(tasks);
     return (
         <div className="bg-white rounded-lg border overflow-hidden">
             <div className="bg-gray-50 border-b px-6 py-3">

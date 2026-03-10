@@ -32,17 +32,16 @@ export default function FormDialog(props: Props) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries((formData as any).entries());
-        const title = formJson.title;
-        const project = formJson.project;
-        const timeSlot = formJson.timeSlot;
-        const expectedTime = formJson.expectedTime;
+        const title: TaskType['title'] = formJson.title;
+        const project: TaskType['project'] = formJson.project;
+        const timeSlot: TimeSlot = formJson.timeSlot;
+        const expectedTime: TaskType['expectedTime'] = parseInt(formJson.expectedTime);
 
         const today = new Date();
         const year = today.getFullYear();
         const month = today.getMonth() + 1;
         const day = today.getDate();
-        const date = `${year}/${month < 10 ? '0' + month : month}/${day < 10 ? '0' + day : day}`;
-
+        const date: TaskType['date'] = `${year}/${month < 10 ? '0' + month : month}/${day < 10 ? '0' + day : day}`;
 
         if (isEditing) {
             alert('edit');
