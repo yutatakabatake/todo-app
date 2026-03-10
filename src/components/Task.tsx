@@ -7,7 +7,7 @@ type Props = {
     title: TaskType['title']
     project: TaskType['project']
     done: TaskType['done']
-    date: TaskType['date'],
+    date: TaskType['date']
     expectedTime: TaskType['expectedTime']
     actualTime: TaskType['actualTime']
     isWorking: TaskType['isWorking']

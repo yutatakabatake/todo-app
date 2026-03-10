@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -10,22 +9,48 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import NumberField from './NumberField';
+import type { TaskType, TimeSlot } from '../pages/TaskList';
 
 type Props = {
     open: boolean
     isEditing: boolean
     taskTitle: string
     handleClose: () => void
+    handleAddTask: (
+        title: TaskType['title'],
+        project: TaskType['project'],
+        date: TaskType['date'],
+        expectedTime: TaskType['expectedTime'],
+        timeSlot: TimeSlot
+    ) => void
 }
 
 export default function FormDialog(props: Props) {
-    const { open, isEditing, taskTitle, handleClose } = props;
+    const { open, isEditing, taskTitle, handleClose, handleAddTask } = props;
 
-    const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
+    function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
         event.preventDefault();
-        console.log('edit');
+        const formData = new FormData(event.currentTarget);
+        const formJson = Object.fromEntries((formData as any).entries());
+        const title = formJson.title;
+        const project = formJson.project;
+        const timeSlot = formJson.timeSlot;
+        const expectedTime = formJson.expectedTime;
+
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1;
+        const day = today.getDate();
+        const date = `${year}/${month < 10 ? '0' + month : month}/${day < 10 ? '0' + day : day}`;
+
+
+        if (isEditing) {
+            alert('edit');
+        } else {
+            handleAddTask(title, project, date, expectedTime, timeSlot);
+        }
         handleClose();
-    };
+    }
 
     return (
         <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth={true}>
@@ -37,7 +62,8 @@ export default function FormDialog(props: Props) {
                             <TextField
                                 required
                                 fullWidth
-                                id="title"
+                                id="name"
+                                name='title'
                                 label="Title"
                                 sx={{ mt: 1 }}
                                 defaultValue={isEditing ? taskTitle : ''} />
@@ -48,14 +74,14 @@ export default function FormDialog(props: Props) {
                                 <InputLabel id="project">Project</InputLabel>
                                 <Select
                                     labelId="project"
-                                    id="project"
+                                    id="name"
+                                    name='project'
                                     // value={age}
                                     label="Project"
                                 // onChange={}
                                 >
-                                    <MenuItem value={10}>Ten</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
+                                    <MenuItem value={'Life'}>Life</MenuItem>
+                                    <MenuItem value={'Research'}>Research</MenuItem>
                                 </Select>
                             </FormControl>
                         </div>
@@ -65,7 +91,8 @@ export default function FormDialog(props: Props) {
                                 <InputLabel id="timeSlot">Time slot</InputLabel>
                                 <Select
                                     labelId="timeSlot"
-                                    id="timeSlot"
+                                    id="name"
+                                    name='timeSlot'
                                     label="timeSlot"
                                     defaultValue={'Nothing'} >
                                     <MenuItem value={'Morning'}>Morning</MenuItem>
@@ -77,7 +104,7 @@ export default function FormDialog(props: Props) {
                         </div>
 
                         <div className='space-y-2'>
-                            <NumberField label="Number Spinner" />
+                            <NumberField id='name' name='expectedTime' label='expectedTime' />
                         </div>
                     </div>
                 </form>

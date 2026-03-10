@@ -94,6 +94,26 @@ function TaskList() {
         setFilter('expired');
     }
 
+    function handleAddTask(
+        title: TaskType['title'],
+        project: TaskType['project'],
+        date: TaskType['date'],
+        expectedTime: TaskType['expectedTime'],
+        timeSlot: TimeSlot) {
+        const newTask: TaskType = {
+            id: tasks.length,
+            title: title,
+            project: project,
+            done: false,
+            date: date,
+            expectedTime: expectedTime,
+            actualTime: null,
+            timeSlot: timeSlot,
+            isWorking: false
+        };
+        setTasks([...tasks, newTask]);
+    }
+
 
     return (
         <>
@@ -143,7 +163,8 @@ function TaskList() {
                 open={open}
                 isEditing={isEditing}
                 taskTitle={editingTaskTitle}
-                handleClose={handleClose} />
+                handleClose={handleClose}
+                handleAddTask={handleAddTask} />
         </>
     )
 }
