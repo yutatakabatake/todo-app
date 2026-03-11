@@ -10,6 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import NumberField from './NumberField';
 import type { TaskType, TimeSlot } from '../pages/TaskList';
+import dayjs from 'dayjs'
 
 type Props = {
     open: boolean
@@ -46,11 +47,7 @@ export default function FormDialog(props: Props) {
         const timeSlot: TimeSlot = formJson.timeSlot;
         const expectedTime: TaskType['expectedTime'] = parseInt(formJson.expectedTime);
 
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth() + 1;
-        const day = today.getDate();
-        const date: TaskType['date'] = `${year}/${month < 10 ? '0' + month : month}/${day < 10 ? '0' + day : day}`;
+        const date: TaskType['date'] = dayjs().format('YYYY/MM/DD');
 
         if (isEditing) {
             handleEditTask(editingTask, title, project, date, expectedTime, timeSlot);
