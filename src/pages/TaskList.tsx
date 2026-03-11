@@ -12,7 +12,7 @@ export type Filter = 'today' | 'expired'
 export type TaskType = {
     id: number
     title: string
-    project: string | null
+    projectId: number | null
     done: boolean
     date: string
     expectedTime: number
@@ -22,11 +22,22 @@ export type TaskType = {
     isWorking: boolean
 }
 
+export type ProjectType = {
+    id: number
+    value: string
+}
+
+const INIT_PROJECTS: ProjectType[] = [
+    { id: 1, value: 'Life' },
+    { id: 2, value: 'Research' },
+    { id: 3, value: 'Work' },
+];
+
 const INIT_TASKS: TaskType[] = [
     {
         id: 1,
         title: 'Eat',
-        project: 'Life',
+        projectId: 1,
         done: false,
         date: dayjs().format('YYYY/MM/DD'),
         expectedTime: 30,
@@ -38,7 +49,7 @@ const INIT_TASKS: TaskType[] = [
     {
         id: 2,
         title: 'Run',
-        project: 'Life',
+        projectId: 1,
         done: false,
         date: dayjs().format('YYYY/MM/DD'),
         expectedTime: 60,
@@ -50,7 +61,7 @@ const INIT_TASKS: TaskType[] = [
     {
         id: 3,
         title: 'Coding',
-        project: 'Research',
+        projectId: 2,
         done: false,
         date: dayjs().format('YYYY/MM/DD'),
         expectedTime: 90,
@@ -62,7 +73,7 @@ const INIT_TASKS: TaskType[] = [
     {
         id: 4,
         title: 'Code reading',
-        project: null,
+        projectId: 2,
         done: false,
         date: dayjs().format('YYYY/MM/DD'),
         expectedTime: 20,
@@ -73,7 +84,7 @@ const INIT_TASKS: TaskType[] = [
     }, {
         id: 5,
         title: 'Sleep',
-        project: null,
+        projectId: 3,
         done: false,
         date: dayjs('2026/03/03').format('YYYY/MM/DD'),
         expectedTime: 15,
@@ -90,6 +101,7 @@ function TaskList() {
     const [editingTask, setEditingTask] = useState<TaskType | undefined>();
     const [filter, setFilter] = useState<Filter>('today');
     const [tasks, setTasks] = useState(INIT_TASKS);
+    const [projects, setProjects] = useState<ProjectType[] | undefined>(INIT_PROJECTS);
 
     function handleClickNew() {
         setIsEditing(false);
@@ -115,7 +127,7 @@ function TaskList() {
 
     function handleAddTask(
         title: TaskType['title'],
-        project: TaskType['project'],
+        projectId: TaskType['projectId'],
         date: TaskType['date'],
         expectedTime: TaskType['expectedTime'],
         timeSlot: TimeSlot
@@ -123,7 +135,7 @@ function TaskList() {
         const newTask: TaskType = {
             id: tasks.length + 1,
             title: title,
-            project: project,
+            projectId: projectId,
             done: false,
             date: date,
             expectedTime: expectedTime,
@@ -148,7 +160,7 @@ function TaskList() {
     function handleEditTask(
         editingTask: TaskType | undefined,
         newTitle: TaskType['title'],
-        newProject: TaskType['project'],
+        newProject: TaskType['projectId'],
         newDate: TaskType['date'],
         newExpectedTime: TaskType['expectedTime'],
         newTimeSlot: TimeSlot
@@ -217,6 +229,7 @@ function TaskList() {
                             timeSlot='Morning'
                             handleClickEdit={handleClickEdit}
                             tasks={tasks.filter(task => task.timeSlot === 'Morning' && task.date === dayjs().format('YYYY/MM/DD'))}
+                            projects={projects}
                             handleDoneTask={handleDoneTask}
                             handleStart={handleStart}
                             handleStop={handleStop} />
@@ -224,6 +237,7 @@ function TaskList() {
                             timeSlot='Evening'
                             handleClickEdit={handleClickEdit}
                             tasks={tasks.filter(task => task.timeSlot === 'Evening' && task.date === dayjs().format('YYYY/MM/DD'))}
+                            projects={projects}
                             handleDoneTask={handleDoneTask}
                             handleStart={handleStart}
                             handleStop={handleStop} />
@@ -231,6 +245,7 @@ function TaskList() {
                             timeSlot='Night'
                             handleClickEdit={handleClickEdit}
                             tasks={tasks.filter(task => task.timeSlot === 'Night' && task.date === dayjs().format('YYYY/MM/DD'))}
+                            projects={projects}
                             handleDoneTask={handleDoneTask}
                             handleStart={handleStart}
                             handleStop={handleStop} />
@@ -238,6 +253,7 @@ function TaskList() {
                             timeSlot='Nothing'
                             handleClickEdit={handleClickEdit}
                             tasks={tasks.filter(task => task.timeSlot === 'Nothing' && task.date === dayjs().format('YYYY/MM/DD'))}
+                            projects={projects}
                             handleDoneTask={handleDoneTask}
                             handleStart={handleStart}
                             handleStop={handleStop} />
@@ -248,6 +264,7 @@ function TaskList() {
                             timeSlot='Nothing'
                             handleClickEdit={handleClickEdit}
                             tasks={tasks.filter(task => task.date !== dayjs().format('YYYY/MM/DD'))}
+                            projects={projects}
                             handleDoneTask={handleDoneTask}
                             handleStart={handleStart}
                             handleStop={handleStop} />
@@ -257,6 +274,7 @@ function TaskList() {
                 open={open}
                 isEditing={isEditing}
                 editingTask={editingTask}
+                projects={projects}
                 handleClose={handleClose}
                 handleAddTask={handleAddTask}
                 handleDeleteTask={handleDeleteTask}

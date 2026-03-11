@@ -1,5 +1,5 @@
 import { Checkbox } from "@mui/material"
-import type { TaskType } from "../pages/TaskList";
+import type { ProjectType, TaskType } from "../pages/TaskList";
 import IconButton from '@mui/material/IconButton';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
@@ -9,12 +9,13 @@ import { green, red } from '@mui/material/colors';
 type Props = {
     id: TaskType['id']
     title: TaskType['title']
-    project: TaskType['project']
+    projectId: TaskType['projectId']
     done: TaskType['done']
     date: TaskType['date']
     expectedTime: TaskType['expectedTime']
     actualTime: TaskType['actualTime']
     isWorking: TaskType['isWorking']
+    projects: ProjectType[] | undefined
     handleClickEdit: () => void
     handleDoneTask: (id: TaskType['id']) => void
     handleStart: (id: TaskType['id']) => void
@@ -22,7 +23,7 @@ type Props = {
 }
 
 function Task(props: Props) {
-    const { id, title, project, done, date, expectedTime, actualTime, isWorking, handleClickEdit, handleDoneTask, handleStart, handleStop } = props;
+    const { id, title, projectId, done, date, expectedTime, actualTime, isWorking, projects, handleClickEdit, handleDoneTask, handleStart, handleStop } = props;
     return (
         <tr className="border-b" data-id={id.toString()}>
             <td className="py-3 px-4">
@@ -35,7 +36,7 @@ function Task(props: Props) {
                 />
             </td>
             <td className="py-3 px-4 title">{title}</td>
-            <td className="py-3 px-4 project">{project}</td>
+            <td className="py-3 px-4 project">{projects?.find(project => project.id === projectId)?.value}</td>
             <td className="py-3 px-4 date">{date}</td>
             <td className="py-3 px-4 text-right expectedTime">{expectedTime}min</td>
             <td className="py-3 px-4 text-right actualTime">{actualTime}min</td>

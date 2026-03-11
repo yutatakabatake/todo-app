@@ -9,17 +9,18 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import NumberField from './NumberField';
-import type { TaskType, TimeSlot } from '../pages/TaskList';
+import type { ProjectType, TaskType, TimeSlot } from '../pages/TaskList';
 import dayjs from 'dayjs'
 
 type Props = {
     open: boolean
     isEditing: boolean
     editingTask: TaskType | undefined
+    projects: ProjectType[] | undefined
     handleClose: () => void
     handleAddTask: (
         title: TaskType['title'],
-        project: TaskType['project'],
+        project: TaskType['projectId'],
         date: TaskType['date'],
         expectedTime: TaskType['expectedTime'],
         timeSlot: TimeSlot
@@ -28,7 +29,7 @@ type Props = {
     handleEditTask: (
         editingTask: TaskType | undefined,
         newTitle: TaskType['title'],
-        newProject: TaskType['project'],
+        newProject: TaskType['projectId'],
         newDate: TaskType['date'],
         newExpectedTime: TaskType['expectedTime'],
         newTimeSlot: TimeSlot
@@ -36,14 +37,14 @@ type Props = {
 }
 
 export default function FormDialog(props: Props) {
-    const { open, isEditing, editingTask, handleClose, handleAddTask, handleDeleteTask, handleEditTask } = props;
+    const { open, isEditing, editingTask, projects, handleClose, handleAddTask, handleDeleteTask, handleEditTask } = props;
 
     function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries((formData as any).entries());
         const title: TaskType['title'] = formJson.title;
-        const project: TaskType['project'] = formJson.project;
+        const project: TaskType['projectId'] = formJson.project;
         const timeSlot: TimeSlot = formJson.timeSlot;
         const expectedTime: TaskType['expectedTime'] = parseInt(formJson.expectedTime);
 
@@ -86,12 +87,10 @@ export default function FormDialog(props: Props) {
                                     labelId="project"
                                     id="name"
                                     name='project'
-                                    // value={age}
-                                    label="Project"
-                                // onChange={}
-                                >
-                                    <MenuItem value={'Life'}>Life</MenuItem>
-                                    <MenuItem value={'Research'}>Research</MenuItem>
+                                    label="Project">
+                                    {projects?.map(project => (
+                                        <MenuItem key={project.id} value={project.id}>{project.value}</MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </div>
