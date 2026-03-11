@@ -2,6 +2,8 @@ import Button from '@mui/material/Button';
 import Table from "../components/Table";
 import FormDialog from "../components/FormDialog";
 import { useState } from 'react';
+import dayjs from 'dayjs'
+
 
 export type TimeSlot = 'Morning' | 'Evening' | 'Night' | 'Nothing'
 export type Filter = 'today' | 'expired'
@@ -12,6 +14,7 @@ export type TaskType = {
     done: boolean
     date: string
     expectedTime: number
+    startTime: dayjs.Dayjs | null
     actualTime: number | null
     timeSlot: TimeSlot
     isWorking: boolean
@@ -25,6 +28,7 @@ const INIT_TASKS: TaskType[] = [
         done: false,
         date: '2026/03/06',
         expectedTime: 30,
+        startTime: null,
         actualTime: null,
         timeSlot: 'Morning',
         isWorking: false
@@ -36,6 +40,7 @@ const INIT_TASKS: TaskType[] = [
         done: false,
         date: '2026/03/06',
         expectedTime: 60,
+        startTime: null,
         actualTime: null,
         timeSlot: 'Evening',
         isWorking: false
@@ -47,6 +52,7 @@ const INIT_TASKS: TaskType[] = [
         done: false,
         date: '2026/03/06',
         expectedTime: 90,
+        startTime: null,
         actualTime: null,
         timeSlot: 'Night',
         isWorking: false
@@ -58,6 +64,7 @@ const INIT_TASKS: TaskType[] = [
         done: false,
         date: '2026/03/06',
         expectedTime: 20,
+        startTime: null,
         actualTime: null,
         timeSlot: 'Nothing',
         isWorking: false
@@ -111,6 +118,7 @@ function TaskList() {
             done: false,
             date: date,
             expectedTime: expectedTime,
+            startTime: null,
             actualTime: null,
             timeSlot: timeSlot,
             isWorking: false
@@ -150,12 +158,16 @@ function TaskList() {
     }
 
     function handleStart(id: TaskType['id']) {
-        const newTasks = tasks.map(task => (task.id === id ? { ...task, isWorking: true } : task));
+        const now = dayjs();
+        const newTasks = tasks.map(task => (task.id === id ? { ...task, startTime: now, isWorking: true } : task));
         setTasks(newTasks);
     }
 
     function handleStop(id: TaskType['id']) {
-        const newTasks = tasks.map(task => (task.id === id ? { ...task, done: true, isWorking: false } : task));
+        const now = dayjs();
+        const startTime = tasks.find(task => task.id === id)?.startTime;
+        const diff = now.diff(startTime, 'minutes');
+        const newTasks = tasks.map(task => (task.id === id ? { ...task, done: true, actualTime: diff, isWorking: false } : task));
         setTasks(newTasks);
     }
 
