@@ -1,7 +1,10 @@
 import { Checkbox } from "@mui/material"
-import Button from '@mui/material/Button';
 import type { TaskType } from "../pages/TaskList";
-import { Play, Pause } from 'lucide-react';
+import IconButton from '@mui/material/IconButton';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
+import StopCircleOutlinedIcon from '@mui/icons-material/StopCircleOutlined';
+import { green, red } from '@mui/material/colors';
 
 type Props = {
     id: TaskType['id']
@@ -37,24 +40,19 @@ function Task(props: Props) {
             <td className="py-3 px-4 text-right expectedTime">{expectedTime}min</td>
             <td className="py-3 px-4 text-right actualTime">{actualTime}min</td>
             <td className="py-3 px-4 w-3">
-                <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={handleClickEdit}>
-                    edit
-                </Button>
+                <IconButton aria-label="edit" onClick={handleClickEdit}>
+                    <EditOutlinedIcon />
+                </IconButton>
             </td>
             <td className="py-3 px-4 text-left w-3">
                 {isWorking ?
-                    <Button
-                        onClick={() => handleStop(id)}>
-                        <Pause color="#fb2c36" />
-                    </Button> :
-                    <Button
-                        onClick={() => handleStart(id)}
-                        className="border-green-500 text-green-500">
-                        <Play color="#36dd7f" />
-                    </Button>}
+                    <IconButton onClick={() => handleStop(id)}>
+                        <StopCircleOutlinedIcon sx={{ color: red[400] }} />
+                    </IconButton>
+                    :
+                    <IconButton onClick={() => handleStart(id)}>
+                        <PlayArrowRoundedIcon sx={{ color: green[400] }} />
+                    </IconButton>}
             </td>
         </tr>
     )
