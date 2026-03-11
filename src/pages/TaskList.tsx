@@ -24,13 +24,13 @@ export type TaskType = {
 
 export type ProjectType = {
     id: number
-    value: string
+    label: string
 }
 
 const INIT_PROJECTS: ProjectType[] = [
-    { id: 1, value: 'Life' },
-    { id: 2, value: 'Research' },
-    { id: 3, value: 'Work' },
+    { id: 1, label: 'Life' },
+    { id: 2, label: 'Research' },
+    { id: 3, label: 'Work' },
 ];
 
 const INIT_TASKS: TaskType[] = [
@@ -101,7 +101,7 @@ function TaskList() {
     const [editingTask, setEditingTask] = useState<TaskType | undefined>();
     const [filter, setFilter] = useState<Filter>('today');
     const [tasks, setTasks] = useState(INIT_TASKS);
-    const [projects, setProjects] = useState<ProjectType[] | undefined>(INIT_PROJECTS);
+    const [projects, setProjects] = useState(INIT_PROJECTS);
 
     function handleClickNew() {
         setIsEditing(false);
@@ -160,7 +160,7 @@ function TaskList() {
     function handleEditTask(
         editingTask: TaskType | undefined,
         newTitle: TaskType['title'],
-        newProject: TaskType['projectId'],
+        newProjectId: TaskType['projectId'],
         newDate: TaskType['date'],
         newExpectedTime: TaskType['expectedTime'],
         newTimeSlot: TimeSlot
@@ -169,7 +169,7 @@ function TaskList() {
             {
                 ...task,
                 title: newTitle,
-                project: newProject,
+                projectId: newProjectId,
                 date: newDate,
                 expectedTime: newExpectedTime,
                 timeSlot: newTimeSlot
@@ -278,7 +278,8 @@ function TaskList() {
                 handleClose={handleClose}
                 handleAddTask={handleAddTask}
                 handleDeleteTask={handleDeleteTask}
-                handleEditTask={handleEditTask} />
+                handleEditTask={handleEditTask}
+                handleAddProject={handleAddProject} />
         </>
     )
 }
