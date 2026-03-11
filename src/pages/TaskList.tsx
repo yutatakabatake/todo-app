@@ -177,7 +177,7 @@ function TaskList() {
                 <div className="flex justify-between items-center">
                     <div>
                         <h2 className="text-xl font-semibold">TaskList</h2>
-                        <p className="text-gray-600">X pending tasks</p>
+                        <p className="text-gray-600">{tasks.filter(task => !task.done).length} pending tasks</p>
                     </div>
                     <div className='flex gap-6'>
                         <div className='flex gap-2'>
