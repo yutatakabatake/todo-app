@@ -70,6 +70,7 @@ function Table(props: Props) {
                         <td className="py-3 px-4 text-right">{tasks.reduce((sum, task) => sum + task.expectedTime, 0)}min</td>
                         <td className="py-3 px-4 text-right">{tasks.reduce((sum, task) => sum + (task.actualTime ?? 0), 0)}min</td>
                         <td></td>
+                        <td></td>
                     </tr>
                 </tfoot>
             </table>
