@@ -208,28 +208,28 @@ function TaskList() {
                         <Table
                             timeSlot='Morning'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.timeSlot === 'Morning')}
+                            tasks={tasks.filter(task => task.timeSlot === 'Morning' && task.date === dayjs().format('YYYY/MM/DD'))}
                             handleDoneTask={handleDoneTask}
                             handleStart={handleStart}
                             handleStop={handleStop} />
                         <Table
                             timeSlot='Evening'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.timeSlot === 'Evening')}
+                            tasks={tasks.filter(task => task.timeSlot === 'Evening' && task.date === dayjs().format('YYYY/MM/DD'))}
                             handleDoneTask={handleDoneTask}
                             handleStart={handleStart}
                             handleStop={handleStop} />
                         <Table
                             timeSlot='Night'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.timeSlot === 'Night')}
+                            tasks={tasks.filter(task => task.timeSlot === 'Night' && task.date === dayjs().format('YYYY/MM/DD'))}
                             handleDoneTask={handleDoneTask}
                             handleStart={handleStart}
                             handleStop={handleStop} />
                         <Table
                             timeSlot='Nothing'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.timeSlot === 'Nothing')}
+                            tasks={tasks.filter(task => task.timeSlot === 'Nothing' && task.date === dayjs().format('YYYY/MM/DD'))}
                             handleDoneTask={handleDoneTask}
                             handleStart={handleStart}
                             handleStop={handleStop} />
@@ -239,7 +239,7 @@ function TaskList() {
                         <Table
                             timeSlot='Nothing'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks}
+                            tasks={tasks.filter(task => task.date !== dayjs().format('YYYY/MM/DD'))}
                             handleDoneTask={handleDoneTask}
                             handleStart={handleStart}
                             handleStop={handleStop} />
