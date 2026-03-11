@@ -3,6 +3,8 @@ import Table from "../components/Table";
 import FormDialog from "../components/FormDialog";
 import { useState } from 'react';
 import dayjs from 'dayjs'
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 
 export type TimeSlot = 'Morning' | 'Evening' | 'Night' | 'Nothing'
@@ -107,13 +109,9 @@ function TaskList() {
         setOpen(!open);
     }
 
-    function handleClilckToday() {
-        setFilter('today');
-    }
-
-    function handleClilckExpired() {
-        setFilter('expired');
-    }
+    function handleFilterChange(event: React.MouseEvent<HTMLElement>, filter: Filter) {
+        setFilter(filter);
+    };
 
     function handleAddTask(
         title: TaskType['title'],
@@ -191,18 +189,17 @@ function TaskList() {
                         <p className="text-gray-600">{tasks.filter(task => !task.done).length} pending tasks</p>
                     </div>
                     <div className='flex gap-6'>
-                        <div className='flex gap-2'>
-                            <Button
-                                variant={filter === 'today' ? 'contained' : 'outlined'}
-                                onClick={handleClilckToday}>
+                        <ToggleButtonGroup
+                            exclusive
+                            value={filter}
+                            onChange={handleFilterChange}>
+                            <ToggleButton value="today" aria-label="today">
                                 today
-                            </Button>
-                            <Button
-                                variant={filter === 'expired' ? 'contained' : 'outlined'}
-                                onClick={handleClilckExpired}>
+                            </ToggleButton>
+                            <ToggleButton value="expired" aria-label="expired">
                                 expired
-                            </Button>
-                        </div>
+                            </ToggleButton>
+                        </ToggleButtonGroup>
                         <Button
                             variant='contained'
                             color='success'
