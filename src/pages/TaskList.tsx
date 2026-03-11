@@ -149,6 +149,16 @@ function TaskList() {
         setTasks(newTasks);
     }
 
+    function handleStart(id: TaskType['id']) {
+        const newTasks = tasks.map(task => (task.id === id ? { ...task, isWorking: true } : task));
+        setTasks(newTasks);
+    }
+
+    function handleStop(id: TaskType['id']) {
+        const newTasks = tasks.map(task => (task.id === id ? { ...task, done: true, isWorking: false } : task));
+        setTasks(newTasks);
+    }
+
     return (
         <>
             <div className="border-b px-6 py-4">
@@ -187,22 +197,30 @@ function TaskList() {
                             timeSlot='Morning'
                             handleClickEdit={handleClickEdit}
                             tasks={tasks.filter(task => task.timeSlot === 'Morning')}
-                            handleDoneTask={handleDoneTask} />
+                            handleDoneTask={handleDoneTask}
+                            handleStart={handleStart}
+                            handleStop={handleStop} />
                         <Table
                             timeSlot='Evening'
                             handleClickEdit={handleClickEdit}
                             tasks={tasks.filter(task => task.timeSlot === 'Evening')}
-                            handleDoneTask={handleDoneTask} />
+                            handleDoneTask={handleDoneTask}
+                            handleStart={handleStart}
+                            handleStop={handleStop} />
                         <Table
                             timeSlot='Night'
                             handleClickEdit={handleClickEdit}
                             tasks={tasks.filter(task => task.timeSlot === 'Night')}
-                            handleDoneTask={handleDoneTask} />
+                            handleDoneTask={handleDoneTask}
+                            handleStart={handleStart}
+                            handleStop={handleStop} />
                         <Table
                             timeSlot='Nothing'
                             handleClickEdit={handleClickEdit}
                             tasks={tasks.filter(task => task.timeSlot === 'Nothing')}
-                            handleDoneTask={handleDoneTask} />
+                            handleDoneTask={handleDoneTask}
+                            handleStart={handleStart}
+                            handleStop={handleStop} />
                     </div>}
                 {filter === 'expired' &&
                     <div className="max-w-6xl mx-auto space-y-6">
@@ -210,7 +228,9 @@ function TaskList() {
                             timeSlot='Nothing'
                             handleClickEdit={handleClickEdit}
                             tasks={tasks}
-                            handleDoneTask={handleDoneTask} />
+                            handleDoneTask={handleDoneTask}
+                            handleStart={handleStart}
+                            handleStop={handleStop} />
                     </div>}
             </div>
             <FormDialog

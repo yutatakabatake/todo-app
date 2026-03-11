@@ -6,10 +6,12 @@ type Props = {
     handleClickEdit: any
     tasks: TaskType[]
     handleDoneTask: (id: TaskType['id']) => void
+    handleStart: (id: TaskType['id']) => void
+    handleStop: (id: TaskType['id']) => void
 }
 
 function Table(props: Props) {
-    const { timeSlot, handleClickEdit, tasks, handleDoneTask } = props;
+    const { timeSlot, handleClickEdit, tasks, handleDoneTask, handleStart, handleStop } = props;
     return (
         <div className="bg-white rounded-lg border overflow-hidden">
             <div className="bg-gray-50 border-b px-6 py-3">
@@ -55,6 +57,8 @@ function Table(props: Props) {
                             actualTime={task.actualTime ?? 0}
                             isWorking={task.isWorking}
                             handleClickEdit={handleClickEdit}
+                            handleStart={handleStart}
+                            handleStop={handleStop}
                             handleDoneTask={handleDoneTask} />
                     ))}
                 </tbody>

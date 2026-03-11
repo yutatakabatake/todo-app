@@ -1,6 +1,7 @@
 import { Checkbox } from "@mui/material"
 import Button from '@mui/material/Button';
 import type { TaskType } from "../pages/TaskList";
+import { Play, Pause } from 'lucide-react';
 
 type Props = {
     id: TaskType['id']
@@ -13,10 +14,12 @@ type Props = {
     isWorking: TaskType['isWorking']
     handleClickEdit: () => void
     handleDoneTask: (id: TaskType['id']) => void
+    handleStart: (id: TaskType['id']) => void
+    handleStop: (id: TaskType['id']) => void
 }
 
 function Task(props: Props) {
-    const { id, title, project, done, date, expectedTime, actualTime, isWorking, handleClickEdit, handleDoneTask } = props;
+    const { id, title, project, done, date, expectedTime, actualTime, isWorking, handleClickEdit, handleDoneTask, handleStart, handleStop } = props;
     return (
         <tr className="border-b" data-id={id.toString()}>
             <td className="py-3 px-4">
@@ -33,7 +36,7 @@ function Task(props: Props) {
             <td className="py-3 px-4 date">{date}</td>
             <td className="py-3 px-4 text-right expectedTime">{expectedTime}min</td>
             <td className="py-3 px-4 text-right actualTime">{actualTime}min</td>
-            <td className="py-3 px-4">
+            <td className="py-3 px-4 w-3">
                 <Button
                     color="primary"
                     variant="contained"
@@ -41,14 +44,16 @@ function Task(props: Props) {
                     edit
                 </Button>
             </td>
-            <td>
+            <td className="py-3 px-4 text-left w-3">
                 {isWorking ?
-                    <Button>
-                        Stop
+                    <Button
+                        onClick={() => handleStop(id)}>
+                        <Pause color="#fb2c36" />
                     </Button> :
                     <Button
-                        variant="outlined">
-                        Start
+                        onClick={() => handleStart(id)}
+                        className="border-green-500 text-green-500">
+                        <Play color="#36dd7f" />
                     </Button>}
             </td>
         </tr>
