@@ -192,6 +192,15 @@ function TaskList() {
         setTasks(newTasks);
     }
 
+    function handleAddProject(projectLabel: ProjectType['label']) {
+        const newProject: ProjectType = {
+            id: projects.length + 1,
+            label: projectLabel
+        };
+        const newProjects: ProjectType[] = [...projects, newProject];
+        setProjects(newProjects);
+    }
+
     return (
         <>
             <div className="border-b px-6 py-4">
