@@ -68,6 +68,17 @@ const INIT_TASKS: TaskType[] = [
         actualTime: null,
         timeSlot: 'Nothing',
         isWorking: false
+    }, {
+        id: 5,
+        title: 'Sleep',
+        project: null,
+        done: false,
+        date: dayjs('2026/03/03').format('YYYY/MM/DD'),
+        expectedTime: 15,
+        startTime: null,
+        actualTime: null,
+        timeSlot: 'Morning',
+        isWorking: false
     },
 ];
 
