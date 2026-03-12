@@ -34,11 +34,10 @@ type Props = {
         newExpectedTime: TaskType['expectedTime'],
         newTimeSlot: TimeSlot
     ) => void
-    handleAddProject: (projectLabel: ProjectType['label']) => void
 }
 
 export default function FormDialog(props: Props) {
-    const { open, isEditing, editingTask, projects, handleClose, handleAddTask, handleDeleteTask, handleEditTask, handleAddProject } = props;
+    const { open, isEditing, editingTask, projects, handleClose, handleAddTask, handleDeleteTask, handleEditTask } = props;
 
     function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
         event.preventDefault();

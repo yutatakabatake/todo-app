@@ -121,7 +121,7 @@ function TaskList() {
         setOpen(!open);
     }
 
-    function handleFilterChange(event: React.MouseEvent<HTMLElement>, filter: Filter) {
+    function handleFilterChange(_: any, filter: Filter) {
         setFilter(filter);
     };
 
@@ -287,8 +287,7 @@ function TaskList() {
                 handleClose={handleClose}
                 handleAddTask={handleAddTask}
                 handleDeleteTask={handleDeleteTask}
-                handleEditTask={handleEditTask}
-                handleAddProject={handleAddProject} />
+                handleEditTask={handleEditTask} />
         </>
     )
 }
