@@ -114,7 +114,14 @@ export default function FormDialog(props: Props) {
                         </div>
 
                         <div className='space-y-2'>
-                            <NumberField id='name' name='expectedTime' label='Expected time' required />
+                            <NumberField
+                                id='name'
+                                name='expectedTime'
+                                label='Expected time'
+                                required
+                                min={1}
+                                max={480}
+                                defaultValue={isEditing ? editingTask?.expectedTime : 0} />
                         </div>
                     </div>
                 </form>
