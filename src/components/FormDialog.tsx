@@ -88,7 +88,8 @@ export default function FormDialog(props: Props) {
                                     labelId="project"
                                     id="name"
                                     name='project'
-                                    label="Project">
+                                    label="Project"
+                                    defaultValue={isEditing ? editingTask?.projectId : ''}>
                                     {projects?.map(project => (
                                         <MenuItem key={project.id} value={project.id}>{project.label}</MenuItem>
                                     ))}
