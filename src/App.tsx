@@ -4,19 +4,22 @@ import Navigation from './components/Navigation'
 import TaskList from './pages/TaskList';
 import Calender from './pages/Calender';
 import Project from './pages/Project';
+import AppContextProvider from './context/AppContextProvider';
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="h-screen flex flex-col bg-gray-50">
-        <Navigation />
-        <Routes>
-          <Route path='/' element={<TaskList />} />
-          <Route path='/calender' element={<Calender />} />
-          <Route path='/project' element={<Project />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <AppContextProvider>
+      <BrowserRouter>
+        <div className="h-screen flex flex-col bg-gray-50">
+          <Navigation />
+          <Routes>
+            <Route path='/' element={<TaskList />} />
+            <Route path='/calender' element={<Calender />} />
+            <Route path='/project' element={<Project />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </AppContextProvider>
   )
 }
 

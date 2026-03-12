@@ -6,82 +6,19 @@ import dayjs from 'dayjs'
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import type { Filter, ProjectType, TaskType, TimeSlot } from '../types/task';
-
-const INIT_PROJECTS: ProjectType[] = [
-    { id: 1, label: 'Life' },
-    { id: 2, label: 'Research' },
-    { id: 3, label: 'Work' },
-];
-
-const INIT_TASKS: TaskType[] = [
-    {
-        id: 1,
-        title: 'Eat',
-        projectId: 1,
-        done: false,
-        date: dayjs().format('YYYY/MM/DD'),
-        expectedTime: 30,
-        startTime: null,
-        actualTime: null,
-        timeSlot: 'Morning',
-        isWorking: false
-    },
-    {
-        id: 2,
-        title: 'Run',
-        projectId: 1,
-        done: false,
-        date: dayjs().format('YYYY/MM/DD'),
-        expectedTime: 60,
-        startTime: null,
-        actualTime: null,
-        timeSlot: 'Evening',
-        isWorking: false
-    },
-    {
-        id: 3,
-        title: 'Coding',
-        projectId: 2,
-        done: false,
-        date: dayjs().format('YYYY/MM/DD'),
-        expectedTime: 90,
-        startTime: null,
-        actualTime: null,
-        timeSlot: 'Night',
-        isWorking: false
-    },
-    {
-        id: 4,
-        title: 'Code reading',
-        projectId: 2,
-        done: false,
-        date: dayjs().format('YYYY/MM/DD'),
-        expectedTime: 20,
-        startTime: null,
-        actualTime: null,
-        timeSlot: 'Nothing',
-        isWorking: false
-    }, {
-        id: 5,
-        title: 'Sleep',
-        projectId: 3,
-        done: false,
-        date: dayjs('2026/03/03').format('YYYY/MM/DD'),
-        expectedTime: 15,
-        startTime: null,
-        actualTime: null,
-        timeSlot: 'Morning',
-        isWorking: false
-    },
-];
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContextProvider';
 
 function TaskList() {
+    const context = useContext(AppContext);
+    if (!context) {
+        return null;
+    }
+    const { tasks, projects, setTasks, setProjects } = context;
     const [open, setOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editingTask, setEditingTask] = useState<TaskType | undefined>();
     const [filter, setFilter] = useState<Filter>('today');
-    const [tasks, setTasks] = useState(INIT_TASKS);
-    const [projects, setProjects] = useState(INIT_PROJECTS);
 
     function handleClickNew() {
         setIsEditing(false);
