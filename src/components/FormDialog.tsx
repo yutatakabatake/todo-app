@@ -34,26 +34,27 @@ type Props = {
         newExpectedTime: TaskType['expectedTime'],
         newTimeSlot: TimeSlot
     ) => void
+    handleAddProject: (projectLabel: ProjectType['label']) => void
 }
 
 export default function FormDialog(props: Props) {
-    const { open, isEditing, editingTask, projects, handleClose, handleAddTask, handleDeleteTask, handleEditTask } = props;
+    const { open, isEditing, editingTask, projects, handleClose, handleAddTask, handleDeleteTask, handleEditTask, handleAddProject } = props;
 
     function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries((formData as any).entries());
         const title: TaskType['title'] = formJson.title;
-        const project: TaskType['projectId'] = formJson.project;
+        const projectId: TaskType['projectId'] = parseInt(formJson.project);
         const timeSlot: TimeSlot = formJson.timeSlot;
         const expectedTime: TaskType['expectedTime'] = parseInt(formJson.expectedTime);
 
         const date: TaskType['date'] = dayjs().format('YYYY/MM/DD');
 
         if (isEditing) {
-            handleEditTask(editingTask, title, project, date, expectedTime, timeSlot);
+            handleEditTask(editingTask, title, projectId, date, expectedTime, timeSlot);
         } else {
-            handleAddTask(title, project, date, expectedTime, timeSlot);
+            handleAddTask(title, projectId, date, expectedTime, timeSlot);
         }
         handleClose();
     }
@@ -89,7 +90,7 @@ export default function FormDialog(props: Props) {
                                     name='project'
                                     label="Project">
                                     {projects?.map(project => (
-                                        <MenuItem key={project.id} value={project.id}>{project.value}</MenuItem>
+                                        <MenuItem key={project.id} value={project.id}>{project.label}</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
