@@ -1,5 +1,5 @@
 import Task from "./Task"
-import type { ProjectType, TaskType, TimeSlot } from "../pages/TaskList"
+import type { ProjectType, TaskType, TimeSlot } from '../types/task';
 
 type Props = {
     timeSlot: TimeSlot

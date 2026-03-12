@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import NumberField from './NumberField';
-import type { ProjectType, TaskType, TimeSlot } from '../pages/TaskList';
+import type { ProjectType, TaskType, TimeSlot } from '../types/task';
 import dayjs from 'dayjs'
 
 type Props = {

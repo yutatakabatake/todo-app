@@ -1,5 +1,5 @@
 import { Checkbox } from "@mui/material"
-import type { ProjectType, TaskType } from "../pages/TaskList";
+import type { ProjectType, TaskType } from '../types/task';
 import IconButton from '@mui/material/IconButton';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
