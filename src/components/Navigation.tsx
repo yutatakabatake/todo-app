@@ -9,7 +9,7 @@ const NAV_ITEMS = [
 
 function Navigation() {
     return (
-        <header className='border-b px-6 py-4 sticky top-0 z-0'>
+        <header className='bg-white border-b px-6 py-4 sticky top-0 z-0'>
             <nav>
                 <h1 className='font-bold text-2xl mb-4'>TODO APP</h1>
                 <div className='flex gap-6'>
