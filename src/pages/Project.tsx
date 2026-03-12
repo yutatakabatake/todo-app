@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
 import { Button } from '@mui/material';
+import { FolderKanban } from 'lucide-react';
 
 function Project() {
     const context = useContext(AppContext);
@@ -36,10 +37,21 @@ function Project() {
                     <div className="max-w-4xl mx-auto">
 
                         <div className="mb-6">
-                            <h2 className="text-xl font-semibold mb-2">すべてのタスク</h2>
+                            <h2 className="text-xl font-semibold mb-2">All tasks</h2>
                             <p className="text-sm text-gray-500">
-                                プロジェクト別にタスクを管理
+                                Management tasks by project
                             </p>
+                        </div>
+
+                        <div className="bg-white rounded-lg p-12 text-center">
+                            <FolderKanban className="w-12 h-12 mx-auto text-gray-300 mb-4" />
+                            <p className="text-gray-400 mb-4">Create a project and organize your tasks</p>
+                            <Button
+                                variant='contained'
+                                color='success'
+                                onClick={() => alert('add project')}>
+                                Create first project
+                            </Button>
                         </div>
 
                     </div>
