@@ -104,7 +104,7 @@ export default function FormDialog(props: Props) {
                                     id="name"
                                     name='timeSlot'
                                     label="timeSlot"
-                                    defaultValue={'Nothing'} >
+                                    defaultValue={isEditing ? editingTask?.timeSlot : ''} >
                                     <MenuItem value={'Morning'}>Morning</MenuItem>
                                     <MenuItem value={'Evening'}>Evening</MenuItem>
                                     <MenuItem value={'Night'}>Night</MenuItem>
