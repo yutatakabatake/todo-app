@@ -9,35 +9,25 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import NumberField from './NumberField';
-import type { ProjectType, TaskType, TimeSlot } from '../types/task';
+import type { TaskType, TimeSlot } from '../types/task';
 import dayjs from 'dayjs'
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContextProvider';
 
 type Props = {
     open: boolean
     isEditing: boolean
     editingTask: TaskType | undefined
-    projects: ProjectType[] | undefined
     handleClose: () => void
-    handleAddTask: (
-        title: TaskType['title'],
-        project: TaskType['projectId'],
-        date: TaskType['date'],
-        expectedTime: TaskType['expectedTime'],
-        timeSlot: TimeSlot
-    ) => void
-    handleDeleteTask: (id: TaskType['id']) => void
-    handleEditTask: (
-        editingTask: TaskType | undefined,
-        newTitle: TaskType['title'],
-        newProject: TaskType['projectId'],
-        newDate: TaskType['date'],
-        newExpectedTime: TaskType['expectedTime'],
-        newTimeSlot: TimeSlot
-    ) => void
 }
 
 export default function FormDialog(props: Props) {
-    const { open, isEditing, editingTask, projects, handleClose, handleAddTask, handleDeleteTask, handleEditTask } = props;
+    const { open, isEditing, editingTask, handleClose } = props;
+    const context = useContext(AppContext);
+    if (!context) {
+        return null;
+    }
+    const { projects, handleAddTask, handleDeleteTask, handleEditTask } = context;
 
     function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
         event.preventDefault();

@@ -1,23 +1,27 @@
 import { Checkbox } from "@mui/material"
-import type { ProjectType, TaskType } from '../types/task';
+import type { TaskType } from '../types/task';
 import IconButton from '@mui/material/IconButton';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import StopCircleOutlinedIcon from '@mui/icons-material/StopCircleOutlined';
 import { green, red } from '@mui/material/colors';
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContextProvider';
 
 type Props = {
     task: TaskType
-    projects: ProjectType[] | undefined
     isInTable: boolean
     handleClickEdit: () => void
-    handleDoneTask: (id: TaskType['id']) => void
-    handleStart: (id: TaskType['id']) => void
-    handleStop: (id: TaskType['id']) => void
 }
 
 function Task(props: Props) {
-    const { task, projects, isInTable, handleClickEdit, handleDoneTask, handleStart, handleStop } = props;
+    const { task, isInTable, handleClickEdit } = props;
+    const context = useContext(AppContext);
+    if (!context) {
+        return null;
+    }
+    const { projects, handleDoneTask, handleStart, handleStop } = context;
+
     if (isInTable) {
         return (
             <tr className="border-b" data-id={task.id.toString()}>

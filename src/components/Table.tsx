@@ -1,18 +1,15 @@
 import Task from "./Task"
-import type { ProjectType, TaskType, TimeSlot } from '../types/task';
+import type { TaskType, TimeSlot } from '../types/task';
 
 type Props = {
     timeSlot: TimeSlot
-    handleClickEdit: any
     tasks: TaskType[]
-    projects: ProjectType[] | undefined
-    handleDoneTask: (id: TaskType['id']) => void
-    handleStart: (id: TaskType['id']) => void
-    handleStop: (id: TaskType['id']) => void
+    handleClickEdit: any
 }
 
 function Table(props: Props) {
-    const { timeSlot, handleClickEdit, tasks, projects, handleDoneTask, handleStart, handleStop } = props;
+    const { timeSlot, tasks, handleClickEdit } = props;
+
     return (
         <div className="bg-white rounded-lg border overflow-hidden">
             <div className="bg-gray-50 border-b px-6 py-3">
@@ -50,12 +47,8 @@ function Table(props: Props) {
                         <Task
                             key={task.id}
                             task={task}
-                            projects={projects}
                             isInTable={true}
-                            handleClickEdit={handleClickEdit}
-                            handleStart={handleStart}
-                            handleStop={handleStop}
-                            handleDoneTask={handleDoneTask} />
+                            handleClickEdit={handleClickEdit} />
                     ))}
                 </tbody>
                 <tfoot>

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import dayjs from 'dayjs'
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import type { Filter, ProjectType, TaskType, TimeSlot } from '../types/task';
+import type { Filter, TaskType } from '../types/task';
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
 
@@ -14,7 +14,7 @@ function TaskList() {
     if (!context) {
         return null;
     }
-    const { tasks, projects, setTasks, setProjects } = context;
+    const { tasks } = context;
     const [open, setOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editingTask, setEditingTask] = useState<TaskType | undefined>();
@@ -41,82 +41,6 @@ function TaskList() {
     function handleFilterChange(_: any, filter: Filter) {
         setFilter(filter);
     };
-
-    function handleAddTask(
-        title: TaskType['title'],
-        projectId: TaskType['projectId'],
-        date: TaskType['date'],
-        expectedTime: TaskType['expectedTime'],
-        timeSlot: TimeSlot
-    ) {
-        const newTask: TaskType = {
-            id: tasks.length + 1,
-            title: title,
-            projectId: projectId,
-            done: false,
-            date: date,
-            expectedTime: expectedTime,
-            startTime: null,
-            actualTime: null,
-            timeSlot: timeSlot,
-            isWorking: false
-        };
-        setTasks([...tasks, newTask]);
-    }
-
-    function handleDeleteTask(id: TaskType['id']) {
-        const newTasks = tasks.filter(task => task.id !== id);
-        setTasks(newTasks);
-    }
-
-    function handleDoneTask(id: TaskType['id']) {
-        const newTasks = tasks.map(task => (task.id === id ? { ...task, done: !task.done } : task));
-        setTasks(newTasks);
-    }
-
-    function handleEditTask(
-        editingTask: TaskType | undefined,
-        newTitle: TaskType['title'],
-        newProjectId: TaskType['projectId'],
-        newDate: TaskType['date'],
-        newExpectedTime: TaskType['expectedTime'],
-        newTimeSlot: TimeSlot
-    ) {
-        const newTasks = tasks.map(task => (task.id === editingTask?.id ?
-            {
-                ...task,
-                title: newTitle,
-                projectId: newProjectId,
-                date: newDate,
-                expectedTime: newExpectedTime,
-                timeSlot: newTimeSlot
-            } :
-            task));
-        setTasks(newTasks);
-    }
-
-    function handleStart(id: TaskType['id']) {
-        const now = dayjs();
-        const newTasks = tasks.map(task => (task.id === id ? { ...task, startTime: now, isWorking: true } : task));
-        setTasks(newTasks);
-    }
-
-    function handleStop(id: TaskType['id']) {
-        const now = dayjs();
-        const startTime = tasks.find(task => task.id === id)?.startTime;
-        const diff = now.diff(startTime, 'minutes');
-        const newTasks = tasks.map(task => (task.id === id ? { ...task, done: true, actualTime: diff, isWorking: false } : task));
-        setTasks(newTasks);
-    }
-
-    function handleAddProject(projectLabel: ProjectType['label']) {
-        const newProject: ProjectType = {
-            id: projects.length + 1,
-            label: projectLabel
-        };
-        const newProjects: ProjectType[] = [...projects, newProject];
-        setProjects(newProjects);
-    }
 
     return (
         <>
@@ -154,57 +78,33 @@ function TaskList() {
                         <Table
                             timeSlot='Morning'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.timeSlot === 'Morning' && task.date === dayjs().format('YYYY/MM/DD'))}
-                            projects={projects}
-                            handleDoneTask={handleDoneTask}
-                            handleStart={handleStart}
-                            handleStop={handleStop} />
+                            tasks={tasks.filter(task => task.timeSlot === 'Morning' && task.date === dayjs().format('YYYY/MM/DD'))} />
                         <Table
                             timeSlot='Evening'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.timeSlot === 'Evening' && task.date === dayjs().format('YYYY/MM/DD'))}
-                            projects={projects}
-                            handleDoneTask={handleDoneTask}
-                            handleStart={handleStart}
-                            handleStop={handleStop} />
+                            tasks={tasks.filter(task => task.timeSlot === 'Evening' && task.date === dayjs().format('YYYY/MM/DD'))} />
                         <Table
                             timeSlot='Night'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.timeSlot === 'Night' && task.date === dayjs().format('YYYY/MM/DD'))}
-                            projects={projects}
-                            handleDoneTask={handleDoneTask}
-                            handleStart={handleStart}
-                            handleStop={handleStop} />
+                            tasks={tasks.filter(task => task.timeSlot === 'Night' && task.date === dayjs().format('YYYY/MM/DD'))} />
                         <Table
                             timeSlot='Nothing'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.timeSlot === 'Nothing' && task.date === dayjs().format('YYYY/MM/DD'))}
-                            projects={projects}
-                            handleDoneTask={handleDoneTask}
-                            handleStart={handleStart}
-                            handleStop={handleStop} />
+                            tasks={tasks.filter(task => task.timeSlot === 'Nothing' && task.date === dayjs().format('YYYY/MM/DD'))} />
                     </div>}
                 {filter === 'expired' &&
                     <div className="max-w-6xl mx-auto space-y-6">
                         <Table
                             timeSlot='Nothing'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.date !== dayjs().format('YYYY/MM/DD'))}
-                            projects={projects}
-                            handleDoneTask={handleDoneTask}
-                            handleStart={handleStart}
-                            handleStop={handleStop} />
+                            tasks={tasks.filter(task => task.date !== dayjs().format('YYYY/MM/DD'))} />
                     </div>}
             </div>
             <FormDialog
                 open={open}
                 isEditing={isEditing}
                 editingTask={editingTask}
-                projects={projects}
-                handleClose={handleClose}
-                handleAddTask={handleAddTask}
-                handleDeleteTask={handleDeleteTask}
-                handleEditTask={handleEditTask} />
+                handleClose={handleClose} />
         </>
     )
 }
