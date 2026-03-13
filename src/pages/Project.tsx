@@ -5,13 +5,14 @@ import { FolderKanban } from 'lucide-react';
 import IconButton from '@mui/material/IconButton';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddIcon from '@mui/icons-material/Add';
+import Task from "../components/Task"
 
 function Project() {
     const context = useContext(AppContext);
     if (!context) {
         return null;
     }
-    const { tasks, projects, setTasks, setProjects } = context;
+    const { tasks, projects } = context;
 
     return (
         <div className="flex-1 overflow-hidden flex">
@@ -98,10 +99,22 @@ function Project() {
                                             </span>
                                         </div>
 
-                                        {incompleteTasks.length === 0 &&
+                                        {projectTasks.length === 0 ?
                                             <div className="text-center py-8 text-gray-400 text-sm">
                                                 <p>No pending tasks</p>
+                                            </div>
+                                            :
+                                            <div>
+                                                {projectTasks.map(task => (
+                                                    <Task
+                                                        key={task.id}
+                                                        task={task}
+                                                        isInTable={false}
+                                                        handleClickEdit={() => alert('edit')} />
+                                                ))}
                                             </div>}
+
+
                                     </div>
                                 );
                             })}

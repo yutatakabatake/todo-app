@@ -7,6 +7,7 @@ import StopCircleOutlinedIcon from '@mui/icons-material/StopCircleOutlined';
 import { green, red } from '@mui/material/colors';
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
+import { Calendar, Clock } from "lucide-react";
 
 type Props = {
     task: TaskType
@@ -58,7 +59,7 @@ function Task(props: Props) {
         )
     } else {
         return (
-            <div className="rounded-lg p-4 mb-3 border-l-4 bg-white transition-all">
+            <div className="rounded-lg p-4 mb-3 border bg-white transition-all">
                 <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-2">
@@ -69,7 +70,35 @@ function Task(props: Props) {
                                 }}
                                 checked={task.done}
                             />
+                            <h4 className="cursor-pointer hover:text-gray-600" onClick={handleClickEdit}>{task.title}</h4>
                         </div>
+                        <div className="flex items-center gap-4 text-xs text-gray-500 flex-wrap">
+                            <span className="px-2 py-0.5 rounded-full bg-gray-100">{task.timeSlot}</span>
+                            <div className="flex items-center gap-1">
+                                <Calendar className="w-3 h-3" />
+                                <span>{task.date}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                <span>{task.expectedTime}min</span>
+                            </div>
+                            {task.done &&
+                                <div className='flex items-center gap-1 text-green-600 font-medium'>
+                                    <Clock className="w-3 h-3" />
+                                    <span>{task.actualTime ?? 0}min</span>
+                                </div>}
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        {task.isWorking ?
+                            <IconButton onClick={() => handleStop(task.id)}>
+                                <StopCircleOutlinedIcon sx={{ color: red[400] }} />
+                            </IconButton>
+                            :
+                            <IconButton onClick={() => handleStart(task.id)}>
+                                <PlayArrowRoundedIcon sx={{ color: green[400] }} />
+                            </IconButton>}
                     </div>
                 </div>
             </div>
