@@ -49,14 +49,7 @@ function Table(props: Props) {
                     {tasks.map(task => (
                         <Task
                             key={task.id}
-                            id={task.id}
-                            title={task.title}
-                            projectId={task.projectId}
-                            done={task.done}
-                            date={task.date}
-                            expectedTime={task.expectedTime}
-                            actualTime={task.actualTime ?? 0}
-                            isWorking={task.isWorking}
+                            task={task}
                             projects={projects}
                             isInTable={true}
                             handleClickEdit={handleClickEdit}
