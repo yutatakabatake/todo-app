@@ -39,7 +39,7 @@ function Task(props: Props) {
                 <td className="py-3 px-4 project">{projects?.find(project => project.id === task.projectId)?.label}</td>
                 <td className="py-3 px-4 date">{task.date}</td>
                 <td className="py-3 px-4 text-right expectedTime">{task.expectedTime}min</td>
-                <td className="py-3 px-4 text-right actualTime">{task.actualTime}min</td>
+                <td className="py-3 px-4 text-right actualTime">{task.actualTime !== null ? `${task.actualTime}min` : ''}</td>
                 <td className="py-3 px-4 w-3">
                     <IconButton aria-label="edit" onClick={handleClickEdit}>
                         <EditOutlinedIcon />
