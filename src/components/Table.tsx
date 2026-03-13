@@ -58,6 +58,7 @@ function Table(props: Props) {
                             actualTime={task.actualTime ?? 0}
                             isWorking={task.isWorking}
                             projects={projects}
+                            isInTable={true}
                             handleClickEdit={handleClickEdit}
                             handleStart={handleStart}
                             handleStop={handleStop}
