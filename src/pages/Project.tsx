@@ -36,7 +36,7 @@ function Project() {
 
                     <div className="space-y-3">
                         {projects.map(project => (
-                            <div className="border rounded-lg p-3 hover:shadow-md transition-shadow bg-white">
+                            <div key={project.id} className="border rounded-lg p-3 hover:shadow-md transition-shadow bg-white">
                                 <div className="flex items-center justify-between mb-1">
                                     <div className="min-w-0">
                                         <h3 className="font-medium text-lg">{project.label}</h3>
@@ -72,15 +72,39 @@ function Project() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-lg p-12 text-center">
-                            <FolderKanban className="w-12 h-12 mx-auto text-gray-300 mb-4" />
-                            <p className="text-gray-400 mb-4">Create a project and organize your tasks</p>
-                            <Button
-                                variant='contained'
-                                color='success'
-                                onClick={() => alert('add project')}>
-                                Create first project
-                            </Button>
+                        {projects.length === 0 &&
+                            <div className="bg-white rounded-lg p-12 text-center">
+                                <FolderKanban className="w-12 h-12 mx-auto text-gray-300 mb-4" />
+                                <p className="text-gray-400 mb-4">Create a project and organize your tasks</p>
+                                <Button
+                                    variant='contained'
+                                    color='success'
+                                    onClick={() => alert('add project')}>
+                                    Create first project
+                                </Button>
+                            </div>}
+
+                        <div className="space-y-8">
+                            {projects.map(project => {
+                                const projectTasks = tasks.filter(task => task.projectId === project.id);
+                                const incompleteTasks = projectTasks.filter(task => !task.done);
+
+                                return (
+                                    <div key={project.id} className="bg-white rounded-lg p-6">
+                                        <div className="flex items-center gap-3 mb-4">
+                                            <h3 className="text-lg font-semibold">{project.label}</h3>
+                                            <span className="text-sm text-gray-500">
+                                                ({incompleteTasks.length} tasks)
+                                            </span>
+                                        </div>
+
+                                        {incompleteTasks.length === 0 &&
+                                            <div className="text-center py-8 text-gray-400 text-sm">
+                                                <p>No pending tasks</p>
+                                            </div>}
+                                    </div>
+                                );
+                            })}
                         </div>
 
                     </div>
