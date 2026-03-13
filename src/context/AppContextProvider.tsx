@@ -134,7 +134,7 @@ export default function AppContextProvider(props: Props) {
     }
 
     function handleDoneTask(id: TaskType['id']) {
-        const newTasks = tasks.map(task => (task.id === id ? { ...task, done: !task.done } : task));
+        const newTasks = tasks.map(task => (task.id === id ? { ...task, done: !task.done, actualTime: task.actualTime ?? 0 } : task));
         setTasks(newTasks);
     }
 
