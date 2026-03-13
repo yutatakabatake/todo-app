@@ -2,6 +2,9 @@ import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
 import { Button } from '@mui/material';
 import { FolderKanban } from 'lucide-react';
+import IconButton from '@mui/material/IconButton';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import AddIcon from '@mui/icons-material/Add';
 
 function Project() {
     const context = useContext(AppContext);
@@ -26,9 +29,35 @@ function Project() {
                 </div>
 
                 <div className="p-4">
-                    <div className="text-center py-8 text-gray-400 text-sm">
-                        <p>No projects</p>
+                    {projects.length === 0 &&
+                        <div className="text-center py-8 text-gray-400 text-sm">
+                            <p>No projects</p>
+                        </div>}
+
+                    <div className="space-y-3">
+                        {projects.map(project => (
+                            <div className="border rounded-lg p-3 hover:shadow-md transition-shadow bg-white">
+                                <div className="flex items-center justify-between mb-1">
+                                    <div className="min-w-0">
+                                        <h3 className="font-medium text-lg">{project.label}</h3>
+                                    </div>
+                                    <IconButton onClick={() => alert('edit')}>
+                                        <EditOutlinedIcon />
+                                    </IconButton>
+                                </div>
+
+                                <div className="flex items-center justify-between text-sm">
+                                    <div className="text-gray-500">
+                                        2 pending tasks
+                                    </div>
+                                    <IconButton aria-label='add task' onClick={() => alert('add task on project')}>
+                                        <AddIcon />
+                                    </IconButton>
+                                </div>
+                            </div>
+                        ))}
                     </div>
+
                 </div>
             </div>
 
