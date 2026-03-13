@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import Table from "../components/Table";
-import FormDialog from "../components/TaskFormDialog";
+import TaskFormDialog from "../components/TaskFormDialog";
 import { useState } from 'react';
 import dayjs from 'dayjs'
 import ToggleButton from '@mui/material/ToggleButton';
@@ -100,7 +100,7 @@ function TaskList() {
                             tasks={tasks.filter(task => task.date !== dayjs().format('YYYY/MM/DD'))} />
                     </div>}
             </div>
-            <FormDialog
+            <TaskFormDialog
                 open={open}
                 isEditing={isEditing}
                 editingTask={editingTask}

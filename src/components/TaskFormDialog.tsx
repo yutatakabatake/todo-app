@@ -21,7 +21,7 @@ type Props = {
     handleClose: () => void
 }
 
-export default function FormDialog(props: Props) {
+export default function TaskFormDialog(props: Props) {
     const { open, isEditing, editingTask, handleClose } = props;
     const context = useContext(AppContext);
     if (!context) {
