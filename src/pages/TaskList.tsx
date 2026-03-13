@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import Table from "../components/Table";
-import FormDialog from "../components/FormDialog";
+import FormDialog from "../components/TaskFormDialog";
 import { useState } from 'react';
 import dayjs from 'dayjs'
 import ToggleButton from '@mui/material/ToggleButton';
