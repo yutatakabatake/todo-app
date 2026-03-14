@@ -74,7 +74,7 @@ function Project() {
 
                                     <div className="flex items-center justify-between text-sm">
                                         <div className="text-gray-500">
-                                            2 pending tasks
+                                            {tasks.filter(task => task.projectId === project.id && !task.done).length} pending tasks
                                         </div>
                                         <IconButton aria-label='add task' onClick={() => alert('add task on project')}>
                                             <AddIcon />
