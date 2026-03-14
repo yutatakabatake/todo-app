@@ -10,21 +10,34 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import TaskFormDialog from '../components/TaskFormDialog';
 
 function Project() {
-    const [open, setOpen] = useState(false);
+    const [projectFormOpen, setProjectFormOpen] = useState<boolean>(false);
+    const [taskFormOpen, setTaskFormOpen] = useState<boolean>(false);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [editingTask, setEditingTask] = useState(undefined);
     const context = useContext(AppContext);
     if (!context) {
         return null;
     }
     const { tasks, projects, handleAddProject } = context;
 
-    function handleOpen() {
-        setOpen(!open);
+    function handleOpenProjectForm() {
+        setProjectFormOpen(true);
     }
 
-    function handleClose() {
-        setOpen(!open);
+    function handleCloseProjectForm() {
+        setProjectFormOpen(false);
+    }
+
+    function handleOpenTaskForm() {
+        setIsEditing(false);
+        setTaskFormOpen(true);
+    }
+
+    function handleCloseTaskForm() {
+        setTaskFormOpen(false);
     }
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -35,7 +48,7 @@ function Project() {
 
         handleAddProject(project);
 
-        handleClose();
+        handleCloseProjectForm();
     };
 
     return (
@@ -48,7 +61,7 @@ function Project() {
                             <Button
                                 variant='contained'
                                 color='success'
-                                onClick={handleOpen}>
+                                onClick={handleOpenProjectForm}>
                                 New
                             </Button>
                         </div>
@@ -76,7 +89,7 @@ function Project() {
                                         <div className="text-gray-500">
                                             {tasks.filter(task => task.projectId === project.id && !task.done).length} pending tasks
                                         </div>
-                                        <IconButton aria-label='add task' onClick={() => alert('add task on project')}>
+                                        <IconButton aria-label='add task' onClick={handleOpenTaskForm}>
                                             <AddIcon />
                                         </IconButton>
                                     </div>
@@ -150,7 +163,7 @@ function Project() {
 
             </div>
 
-            <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth={true}>
+            <Dialog open={projectFormOpen} onClose={handleCloseProjectForm} scroll='paper' maxWidth='sm' fullWidth={true}>
                 <DialogTitle>Add new project</DialogTitle>
                 <DialogContent>
                     <form onSubmit={handleSubmit} id="subscription-form">
@@ -167,12 +180,19 @@ function Project() {
                     </form>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleCloseProjectForm}>Cancel</Button>
                     <Button type="submit" form="subscription-form">
                         Add
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            <TaskFormDialog
+                open={taskFormOpen}
+                isEditing={isEditing}
+                editingTask={editingTask}
+                handleClose={handleCloseTaskForm}
+            />
         </>
     )
 }
