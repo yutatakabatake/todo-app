@@ -116,7 +116,7 @@ function Project() {
                                     <Button
                                         variant='contained'
                                         color='success'
-                                        onClick={() => alert('add project')}>
+                                        onClick={handleOpenProjectForm}>
                                         Create first project
                                     </Button>
                                 </div>}
