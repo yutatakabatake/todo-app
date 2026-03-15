@@ -58,6 +58,7 @@ function ProjectFormDialog(props: Props) {
                         label="Project"
                         fullWidth
                         variant="outlined"
+                        defaultValue={isEditing ? editingProject?.label : ''}
                     />
                 </form>
             </DialogContent>
