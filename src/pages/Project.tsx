@@ -30,6 +30,7 @@ function Project() {
 
     function handleCloseProjectForm() {
         setProjectFormOpen(false);
+        setIsEditingProject(false);
     }
 
     function handleOpenTaskForm() {
