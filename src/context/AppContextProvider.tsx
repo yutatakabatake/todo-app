@@ -93,6 +93,7 @@ type AppContextType = {
     handleStart: (id: TaskType['id']) => void
     handleStop: (id: TaskType['id']) => void
     handleAddProject: (projectLabel: ProjectType['label']) => void
+    handleDeleteProject: (id: ProjectType['id']) => void
 }
 
 type Props = {
@@ -182,8 +183,17 @@ export default function AppContextProvider(props: Props) {
         setProjects(newProjects);
     }
 
+    function handleDeleteProject(id: ProjectType['id']) {
+        const newProjects = projects.filter(project => project.id !== id);
+        setProjects(newProjects);
+
+        // delete tasks in deleted project
+        const newTasks = tasks.filter(task => task.projectId !== id);
+        setTasks(newTasks);
+    }
+
     return (
-        <AppContext value={{ tasks, projects, handleAddTask, handleDeleteTask, handleDoneTask, handleEditTask, handleStart, handleStop, handleAddProject }}>
+        <AppContext value={{ tasks, projects, handleAddTask, handleDeleteTask, handleDoneTask, handleEditTask, handleStart, handleStop, handleAddProject, handleDeleteProject }}>
             {children}
         </ AppContext>
     );

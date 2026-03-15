@@ -8,11 +8,13 @@ import AddIcon from '@mui/icons-material/Add';
 import Task from "../components/Task"
 import TaskFormDialog from '../components/TaskFormDialog';
 import ProjectFormDialog from '../components/ProjectFormDialog';
+import type { ProjectType } from '../types/task';
 
 
 function Project() {
     const [projectFormOpen, setProjectFormOpen] = useState<boolean>(false);
     const [isEditingProject, setIsEditingProject] = useState(false);
+    const [editingProject, setEditingProject] = useState<ProjectType | undefined>(undefined);
     const [taskFormOpen, setTaskFormOpen] = useState<boolean>(false);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [editingTask, setEditingTask] = useState(undefined);
@@ -20,7 +22,7 @@ function Project() {
     if (!context) {
         return null;
     }
-    const { tasks, projects, handleAddProject } = context;
+    const { tasks, projects } = context;
 
     function handleOpenProjectForm() {
         setProjectFormOpen(true);
@@ -37,6 +39,13 @@ function Project() {
 
     function handleCloseTaskForm() {
         setTaskFormOpen(false);
+    }
+
+    function handleClickEditProject(id: ProjectType['id']) {
+        setIsEditingProject(true);
+        const nowEditingProject = projects.find(project => project.id === id);
+        setEditingProject(nowEditingProject);
+        setProjectFormOpen(true);
     }
 
     return (
@@ -68,7 +77,7 @@ function Project() {
                                         <div className="min-w-0">
                                             <h3 className="font-medium text-lg">{project.label}</h3>
                                         </div>
-                                        <IconButton onClick={() => alert('edit')}>
+                                        <IconButton onClick={() => handleClickEditProject(project.id)}>
                                             <EditOutlinedIcon />
                                         </IconButton>
                                     </div>
@@ -154,6 +163,7 @@ function Project() {
             <ProjectFormDialog
                 open={projectFormOpen}
                 isEditing={isEditingProject}
+                editingProject={editingProject}
                 handleClose={handleCloseProjectForm}
             />
 

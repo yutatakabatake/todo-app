@@ -5,20 +5,22 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Button, TextField } from '@mui/material';
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
+import type { ProjectType } from '../types/task';
 
 type Props = {
     open: boolean
     isEditing: boolean
+    editingProject: ProjectType | undefined
     handleClose: () => void
 }
 
 function ProjectFormDialog(props: Props) {
-    const { open, isEditing, handleClose } = props;
+    const { open, isEditing, editingProject, handleClose } = props;
     const context = useContext(AppContext);
     if (!context) {
         return null;
     }
-    const { tasks, projects, handleAddProject } = context;
+    const { handleAddProject, handleDeleteProject } = context;
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -31,9 +33,14 @@ function ProjectFormDialog(props: Props) {
         handleClose();
     };
 
+    function handleDelete(id: ProjectType['id']) {
+        handleDeleteProject(id);
+        handleClose();
+    }
+
     return (
         <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth>
-            <DialogTitle>Add new project</DialogTitle>
+            <DialogTitle>{isEditing ? 'Edit project' : 'Add new project'}</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit} id="subscription-form">
                     <TextField
@@ -49,6 +56,14 @@ function ProjectFormDialog(props: Props) {
                 </form>
             </DialogContent>
             <DialogActions>
+                {isEditing &&
+                    <div className='mr-auto'>
+                        <Button
+                            color='error'
+                            onClick={() => editingProject !== undefined && handleDelete(editingProject.id)}>
+                            Delete
+                        </Button>
+                    </div>}
                 <Button onClick={handleClose}>Cancel</Button>
                 <Button type="submit" form="subscription-form">
                     Add
