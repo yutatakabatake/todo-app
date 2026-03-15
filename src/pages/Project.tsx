@@ -1,19 +1,18 @@
 import { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContextProvider';
-import { Button, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 import { FolderKanban } from 'lucide-react';
 import IconButton from '@mui/material/IconButton';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import Task from "../components/Task"
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import TaskFormDialog from '../components/TaskFormDialog';
+import ProjectFormDialog from '../components/ProjectFormDialog';
+
 
 function Project() {
     const [projectFormOpen, setProjectFormOpen] = useState<boolean>(false);
+    const [isEditingProject, setIsEditingProject] = useState(false);
     const [taskFormOpen, setTaskFormOpen] = useState<boolean>(false);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [editingTask, setEditingTask] = useState(undefined);
@@ -39,17 +38,6 @@ function Project() {
     function handleCloseTaskForm() {
         setTaskFormOpen(false);
     }
-
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const formJson = Object.fromEntries((formData as any).entries());
-        const project = formJson.project;
-
-        handleAddProject(project);
-
-        handleCloseProjectForm();
-    };
 
     return (
         <>
@@ -163,29 +151,11 @@ function Project() {
 
             </div>
 
-            <Dialog open={projectFormOpen} onClose={handleCloseProjectForm} scroll='paper' maxWidth='sm' fullWidth={true}>
-                <DialogTitle>Add new project</DialogTitle>
-                <DialogContent>
-                    <form onSubmit={handleSubmit} id="subscription-form">
-                        <TextField
-                            autoFocus
-                            required
-                            margin="dense"
-                            id="name"
-                            name="project"
-                            label="Project"
-                            fullWidth
-                            variant="standard"
-                        />
-                    </form>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseProjectForm}>Cancel</Button>
-                    <Button type="submit" form="subscription-form">
-                        Add
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <ProjectFormDialog
+                open={projectFormOpen}
+                isEditing={isEditingProject}
+                handleClose={handleCloseProjectForm}
+            />
 
             <TaskFormDialog
                 open={taskFormOpen}
