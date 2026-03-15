@@ -94,6 +94,10 @@ type AppContextType = {
     handleStop: (id: TaskType['id']) => void
     handleAddProject: (projectLabel: ProjectType['label']) => void
     handleDeleteProject: (id: ProjectType['id']) => void
+    handleEditProject: (
+        editingProject: ProjectType,
+        label: ProjectType['label']
+    ) => void
 }
 
 type Props = {
@@ -192,8 +196,19 @@ export default function AppContextProvider(props: Props) {
         setTasks(newTasks);
     }
 
+    function handleEditProject(
+        editingProject: ProjectType,
+        label: ProjectType['label']
+    ) {
+        const newProjects = projects.map(project =>
+        (project.id === editingProject.id ?
+            { ...project, label: label } : project));
+
+        setProjects(newProjects);
+    }
+
     return (
-        <AppContext value={{ tasks, projects, handleAddTask, handleDeleteTask, handleDoneTask, handleEditTask, handleStart, handleStop, handleAddProject, handleDeleteProject }}>
+        <AppContext value={{ tasks, projects, handleAddTask, handleDeleteTask, handleDoneTask, handleEditTask, handleStart, handleStop, handleAddProject, handleDeleteProject, handleEditProject }}>
             {children}
         </ AppContext>
     );

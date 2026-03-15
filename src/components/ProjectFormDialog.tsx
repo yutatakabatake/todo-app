@@ -20,15 +20,21 @@ function ProjectFormDialog(props: Props) {
     if (!context) {
         return null;
     }
-    const { handleAddProject, handleDeleteProject } = context;
+    const { handleAddProject, handleDeleteProject, handleEditProject } = context;
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries((formData as any).entries());
-        const project = formJson.project;
+        const projectLabel = formJson.project;
 
-        handleAddProject(project);
+        if (isEditing) {
+            if (editingProject !== undefined) {
+                handleEditProject(editingProject, projectLabel);
+            }
+        } else {
+            handleAddProject(projectLabel);
+        }
 
         handleClose();
     };
