@@ -51,7 +51,7 @@ function ProjectFormDialog(props: Props) {
                         name="project"
                         label="Project"
                         fullWidth
-                        variant="standard"
+                        variant="outlined"
                     />
                 </form>
             </DialogContent>
@@ -66,7 +66,7 @@ function ProjectFormDialog(props: Props) {
                     </div>}
                 <Button onClick={handleClose}>Cancel</Button>
                 <Button type="submit" form="subscription-form">
-                    Add
+                    {isEditing ? 'Edit' : 'Add'}
                 </Button>
             </DialogActions>
         </Dialog>
