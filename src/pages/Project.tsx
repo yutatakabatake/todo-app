@@ -8,7 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Task from "../components/Task"
 import TaskFormDialog from '../components/TaskFormDialog';
 import ProjectFormDialog from '../components/ProjectFormDialog';
-import type { ProjectType } from '../types/task';
+import type { ProjectType, TaskType } from '../types/task';
 
 
 function Project() {
@@ -17,7 +17,7 @@ function Project() {
     const [editingProject, setEditingProject] = useState<ProjectType | undefined>(undefined);
     const [taskFormOpen, setTaskFormOpen] = useState<boolean>(false);
     const [isEditing, setIsEditing] = useState<boolean>(false);
-    const [editingTask, setEditingTask] = useState(undefined);
+    const [editingTask, setEditingTask] = useState<TaskType | undefined>(undefined);
     const context = useContext(AppContext);
     if (!context) {
         return null;
@@ -47,6 +47,15 @@ function Project() {
         const nowEditingProject = projects.find(project => project.id === id);
         setEditingProject(nowEditingProject);
         setProjectFormOpen(true);
+    }
+
+    function handleClickEditTask(
+        taskId: TaskType['id'],
+    ) {
+        const nowEditingTask = tasks.find(task => task.id === taskId);
+        setEditingTask(nowEditingTask);
+        setIsEditing(true);
+        setTaskFormOpen(true);
     }
 
     return (
@@ -146,7 +155,7 @@ function Project() {
                                                             key={task.id}
                                                             task={task}
                                                             isInTable={false}
-                                                            handleClickEdit={() => alert('edit')} />
+                                                            handleClickEdit={() => handleClickEditTask(task.id)} />
                                                     ))}
                                                 </div>}
 
