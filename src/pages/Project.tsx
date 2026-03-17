@@ -14,7 +14,7 @@ import type { ProjectType, TaskType } from '../types/task';
 function Project() {
     const [projectFormOpen, setProjectFormOpen] = useState<boolean>(false);
     const [isEditingProject, setIsEditingProject] = useState(false);
-    const [editingProject, setEditingProject] = useState<ProjectType | undefined>(undefined);
+    const [onProject, setOnProject] = useState<ProjectType | undefined>(undefined);
     const [taskFormOpen, setTaskFormOpen] = useState<boolean>(false);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [editingTask, setEditingTask] = useState<TaskType | undefined>(undefined);
@@ -38,6 +38,11 @@ function Project() {
         setTaskFormOpen(true);
     }
 
+    function handleOpenAddTask(project: ProjectType) {
+        setOnProject(project);
+        handleOpenTaskForm();
+    }
+
     function handleCloseTaskForm() {
         setTaskFormOpen(false);
     }
@@ -45,7 +50,7 @@ function Project() {
     function handleClickEditProject(id: ProjectType['id']) {
         setIsEditingProject(true);
         const nowEditingProject = projects.find(project => project.id === id);
-        setEditingProject(nowEditingProject);
+        setOnProject(nowEditingProject);
         setProjectFormOpen(true);
     }
 
@@ -96,7 +101,7 @@ function Project() {
                                         <div className="text-gray-500">
                                             {tasks.filter(task => task.projectId === project.id && !task.done).length} pending tasks
                                         </div>
-                                        <IconButton aria-label='add task' onClick={handleOpenTaskForm}>
+                                        <IconButton aria-label='add task' onClick={() => handleOpenAddTask(project)}>
                                             <AddIcon />
                                         </IconButton>
                                     </div>
@@ -173,7 +178,7 @@ function Project() {
             <ProjectFormDialog
                 open={projectFormOpen}
                 isEditing={isEditingProject}
-                editingProject={editingProject}
+                editingProject={onProject}
                 handleClose={handleCloseProjectForm}
             />
 
@@ -181,6 +186,7 @@ function Project() {
                 open={taskFormOpen}
                 isEditing={isEditing}
                 editingTask={editingTask}
+                defaultProject={onProject}
                 handleClose={handleCloseTaskForm}
             />
         </>

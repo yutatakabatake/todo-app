@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import NumberField from './NumberField';
-import type { TaskType, TimeSlot } from '../types/task';
+import type { ProjectType, TaskType, TimeSlot } from '../types/task';
 import dayjs from 'dayjs'
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
@@ -18,11 +18,12 @@ type Props = {
     open: boolean
     isEditing: boolean
     editingTask: TaskType | undefined
+    defaultProject?: ProjectType
     handleClose: () => void
 }
 
 export default function TaskFormDialog(props: Props) {
-    const { open, isEditing, editingTask, handleClose } = props;
+    const { open, isEditing, editingTask, defaultProject, handleClose } = props;
     const context = useContext(AppContext);
     if (!context) {
         return null;
@@ -53,6 +54,14 @@ export default function TaskFormDialog(props: Props) {
         handleClose();
     }
 
+    let defaultValueProject: any = '';
+
+    if (isEditing) {
+        defaultValueProject = editingTask?.projectId;
+    } else {
+        defaultValueProject = defaultProject?.id;
+    }
+
     return (
         <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth={true}>
             <DialogTitle>{isEditing ? 'Edit task' : 'Add new task'}</DialogTitle>
@@ -78,7 +87,7 @@ export default function TaskFormDialog(props: Props) {
                                     id="name"
                                     name='project'
                                     label="Project"
-                                    defaultValue={isEditing ? editingTask?.projectId : ''}>
+                                    defaultValue={defaultValueProject}>
                                     {projects?.map(project => (
                                         <MenuItem key={project.id} value={project.id}>{project.label}</MenuItem>
                                     ))}
