@@ -16,7 +16,7 @@ function Project() {
     const [isEditingProject, setIsEditingProject] = useState(false);
     const [onProject, setOnProject] = useState<ProjectType | undefined>(undefined);
     const [taskFormOpen, setTaskFormOpen] = useState<boolean>(false);
-    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [isEditingTask, setIsEditingTask] = useState<boolean>(false);
     const [editingTask, setEditingTask] = useState<TaskType | undefined>(undefined);
     const context = useContext(AppContext);
     if (!context) {
@@ -25,17 +25,17 @@ function Project() {
     const { tasks, projects } = context;
 
     function handleOpenProjectForm() {
-        setProjectFormOpen(true);
+        setProjectFormOpen(!projectFormOpen);
     }
 
     function handleCloseProjectForm() {
-        setProjectFormOpen(false);
-        setIsEditingProject(false);
+        setProjectFormOpen(!projectFormOpen);
+        setIsEditingProject(!isEditingProject);
     }
 
     function handleOpenTaskForm() {
-        setIsEditing(false);
-        setTaskFormOpen(true);
+        setIsEditingTask(false);
+        setTaskFormOpen(!taskFormOpen);
     }
 
     function handleOpenAddTask(project: ProjectType) {
@@ -44,14 +44,14 @@ function Project() {
     }
 
     function handleCloseTaskForm() {
-        setTaskFormOpen(false);
+        setTaskFormOpen(!taskFormOpen);
     }
 
     function handleClickEditProject(id: ProjectType['id']) {
-        setIsEditingProject(true);
+        setIsEditingProject(!isEditingProject);
         const nowEditingProject = projects.find(project => project.id === id);
         setOnProject(nowEditingProject);
-        setProjectFormOpen(true);
+        setProjectFormOpen(!projectFormOpen);
     }
 
     function handleClickEditTask(
@@ -59,8 +59,8 @@ function Project() {
     ) {
         const nowEditingTask = tasks.find(task => task.id === taskId);
         setEditingTask(nowEditingTask);
-        setIsEditing(true);
-        setTaskFormOpen(true);
+        setIsEditingTask(true);
+        setTaskFormOpen(!taskFormOpen);
     }
 
     return (
@@ -184,7 +184,7 @@ function Project() {
 
             <TaskFormDialog
                 open={taskFormOpen}
-                isEditing={isEditing}
+                isEditing={isEditingTask}
                 editingTask={editingTask}
                 defaultProject={onProject}
                 handleClose={handleCloseTaskForm}
