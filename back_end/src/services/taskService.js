@@ -47,3 +47,8 @@ export async function createTask(taskData) {
 
     return rows[0];
 }
+
+export async function deleteTask(task_id) {
+    const { rowCount } = await query('DELETE FROM tasks_tb WHERE id = $1', [task_id]);
+    return rowCount > 0;
+}

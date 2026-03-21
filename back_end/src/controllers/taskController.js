@@ -23,3 +23,17 @@ export async function createTask(req, res) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
+export async function deleteTask(req, res) {
+    try {
+        const task_id = req.params.id;
+        const deleted = await taskService.deleteTask(task_id);
+        if (!deleted) {
+            return res.status(404).json({ message: 'Task not found' });
+        }
+        res.status(200).send();
+    } catch (error) {
+        console.error('Error deleting task:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
