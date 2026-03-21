@@ -107,23 +107,26 @@ export default function AppContextProvider(props: Props) {
         }
     }
 
-    function handleEditTask(
+    async function handleEditTask(
         editingTask: TaskType | undefined,
         newTitle: TaskType['title'],
         newProjectId: TaskType['project_id'],
         newExpectedTime: TaskType['expected_time'],
         newTimeSlot: TimeSlot
     ) {
-        const newTasks = tasks.map(task => (task.id === editingTask?.id ?
-            {
-                ...task,
+        try {
+            const newTaskData = {
                 title: newTitle,
-                projectId: newProjectId,
-                expectedTime: newExpectedTime,
-                timeSlot: newTimeSlot
-            } :
-            task));
-        setTasks(newTasks);
+                project_id: newProjectId,
+                expected_time: newExpectedTime,
+                time_slot: newTimeSlot
+            }
+            const response = await axios.put(`http://localhost:3000/api/tasks/${editingTask?.id}`, newTaskData);
+            const newTasks = tasks.map(task => (task.id === editingTask?.id ? response.data : task));
+            setTasks(newTasks);
+        } catch (error) {
+            console.error('Error editing item', error);
+        }
     }
 
     function handleStart(id: TaskType['id']) {
