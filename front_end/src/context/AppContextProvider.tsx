@@ -154,7 +154,6 @@ export default function AppContextProvider(props: Props) {
                 // 文字列を dayjs オブジェクトに変換
                 start_time: dayjs(updatedTaskFromServer.start_time)
             };
-            console.log('Stop', formattedTask);
             const newTasks = tasks.map(task => (task.id === id ? formattedTask : task));
             setTasks(newTasks);
         } catch (error) {
