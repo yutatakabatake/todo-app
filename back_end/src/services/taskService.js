@@ -14,7 +14,7 @@ export async function getAllTasks() {
             time_slot, 
             is_working
         FROM tasks_tb 
-        ORDER BY task_date ASC`);
+        ORDER BY id ASC`);
     return rows;
 }
 
