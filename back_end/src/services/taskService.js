@@ -48,6 +48,29 @@ export async function createTask(taskData) {
     return rows[0];
 }
 
+export async function doneTask(taskId) {
+    const { rows } = await query(`
+        UPDATE tasks_tb
+        SET done = NOT done,
+            actual_time = COALESCE(actual_time, 0)
+        WHERE id = $1
+        RETURNING
+            id, 
+            title, 
+            project_id, 
+            done, 
+            TO_CHAR(task_date, 'YYYY/MM/DD') AS "task_date",
+            expected_time, 
+            start_time, 
+            actual_time, 
+            time_slot, 
+            is_working`,
+        [taskId]
+    );
+
+    return rows[0];
+}
+
 export async function deleteTask(task_id) {
     const { rowCount } = await query('DELETE FROM tasks_tb WHERE id = $1', [task_id]);
     return rowCount > 0;
