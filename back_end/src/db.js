@@ -9,4 +9,9 @@ const pool = new Pool({
     port: process.env.DB_PORT
 });
 
-export default pool;
+pool.on('error', (err) => {
+    console.error('Unexpected error on idle client', err);
+});
+
+const query = async (text, params) => await pool.query(text, params);
+export default query;
