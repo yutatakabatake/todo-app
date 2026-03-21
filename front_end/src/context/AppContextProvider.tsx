@@ -129,10 +129,20 @@ export default function AppContextProvider(props: Props) {
         }
     }
 
-    function handleStart(id: TaskType['id']) {
-        const now = dayjs();
-        const newTasks = tasks.map(task => (task.id === id ? { ...task, startTime: now, isWorking: true } : task));
-        setTasks(newTasks);
+    async function handleStart(id: TaskType['id']) {
+        try {
+            const response = await axios.put(`http://localhost:3000/api/tasks/start/${id}`);
+            const updatedTaskFromServer = response.data;
+            const formattedTask: TaskType = {
+                ...updatedTaskFromServer,
+                // 文字列を dayjs オブジェクトに変換。null の場合は null のままにする
+                start_time: updatedTaskFromServer.start_time ? dayjs(updatedTaskFromServer.start_time) : null
+            };
+            const newTasks = tasks.map(task => (task.id === id ? formattedTask : task));
+            setTasks(newTasks);
+        } catch (error) {
+            console.error('Error editing item', error);
+        }
     }
 
     function handleStop(id: TaskType['id']) {
