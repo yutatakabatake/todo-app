@@ -98,9 +98,14 @@ export default function AppContextProvider(props: Props) {
         }
     }
 
-    function handleDoneTask(id: TaskType['id']) {
-        const newTasks = tasks.map(task => (task.id === id ? { ...task, done: !task.done, actualTime: task.actual_time ?? 0 } : task));
-        setTasks(newTasks);
+    async function handleDoneTask(id: TaskType['id']) {
+        try {
+            const response = await axios.put(`http://localhost:3000/api/tasks/done/${id}`);
+            const newTasks = tasks.map(task => (task.id === id ? response.data : task));
+            setTasks(newTasks);
+        } catch (error) {
+            console.error('Error checking item', error);
+        }
     }
 
     function handleEditTask(
