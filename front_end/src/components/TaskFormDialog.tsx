@@ -44,7 +44,7 @@ export default function TaskFormDialog(props: Props) {
         if (isEditing) {
             handleEditTask(editingTask, title, projectId, date, expectedTime, timeSlot);
         } else {
-            handleAddTask(title, projectId, date, expectedTime, timeSlot);
+            handleAddTask(title, projectId, expectedTime, timeSlot);
         }
         handleClose();
     }

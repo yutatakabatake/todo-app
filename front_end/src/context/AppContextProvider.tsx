@@ -15,7 +15,6 @@ type AppContextType = {
     handleAddTask: (
         title: TaskType['title'],
         projectId: TaskType['projectId'],
-        date: TaskType['date'],
         expectedTime: TaskType['expectedTime'],
         timeSlot: TimeSlot
     ) => void
@@ -70,26 +69,24 @@ export default function AppContextProvider(props: Props) {
         };
     }, []);
 
-    function handleAddTask(
+    async function handleAddTask(
         title: TaskType['title'],
         projectId: TaskType['projectId'],
-        date: TaskType['date'],
         expectedTime: TaskType['expectedTime'],
         timeSlot: TimeSlot
     ) {
-        const newTask: TaskType = {
-            id: tasks.length + 1,
-            title: title,
-            projectId: projectId,
-            done: false,
-            date: date,
-            expectedTime: expectedTime,
-            startTime: null,
-            actualTime: null,
-            timeSlot: timeSlot,
-            isWorking: false
-        };
-        setTasks([...tasks, newTask]);
+        try {
+            const response = await axios.post('http://localhost:3000/api/tasks', {
+                title: title,
+                project_id: projectId,
+                expected_time: expectedTime,
+                time_slot: timeSlot
+            });
+            console.log('Item added successfully', response.data);
+            // setTasks([...tasks, response.data]);
+        } catch (error) {
+            console.error('Error adding item', error);
+        }
     }
 
     function handleDeleteTask(id: TaskType['id']) {
