@@ -24,7 +24,6 @@ type AppContextType = {
         editingTask: TaskType | undefined,
         newTitle: TaskType['title'],
         newProjectId: TaskType['project_id'],
-        newDate: TaskType['task_date'],
         newExpectedTime: TaskType['expected_time'],
         newTimeSlot: TimeSlot
     ) => void
@@ -112,7 +111,6 @@ export default function AppContextProvider(props: Props) {
         editingTask: TaskType | undefined,
         newTitle: TaskType['title'],
         newProjectId: TaskType['project_id'],
-        newDate: TaskType['task_date'],
         newExpectedTime: TaskType['expected_time'],
         newTimeSlot: TimeSlot
     ) {
@@ -121,7 +119,6 @@ export default function AppContextProvider(props: Props) {
                 ...task,
                 title: newTitle,
                 projectId: newProjectId,
-                date: newDate,
                 expectedTime: newExpectedTime,
                 timeSlot: newTimeSlot
             } :

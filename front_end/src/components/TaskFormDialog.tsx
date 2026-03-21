@@ -10,7 +10,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import NumberField from './NumberField';
 import type { ProjectType, TaskType, TimeSlot } from '../types/task';
-import dayjs from 'dayjs'
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
 
@@ -39,10 +38,8 @@ export default function TaskFormDialog(props: Props) {
         const timeSlot: TimeSlot = formJson.timeSlot;
         const expectedTime: TaskType['expected_time'] = parseInt(formJson.expectedTime);
 
-        const date: TaskType['task_date'] = dayjs().format('YYYY/MM/DD');
-
         if (isEditing) {
-            handleEditTask(editingTask, title, projectId, date, expectedTime, timeSlot);
+            handleEditTask(editingTask, title, projectId, expectedTime, timeSlot);
         } else {
             handleAddTask(title, projectId, expectedTime, timeSlot);
         }
