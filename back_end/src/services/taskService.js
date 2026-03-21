@@ -17,3 +17,23 @@ export async function getAllTasks() {
         ORDER BY task_date ASC`);
     return rows;
 }
+
+export async function createTask(taskData) {
+    const { title, project_id, expected_time, time_slot } = taskData;
+    const { rows } = await query(`
+        INSERT INTO tasks_tb (
+            title, 
+            project_id, 
+            done, 
+            task_date, 
+            expected_time, 
+            start_time, 
+            actual_time, 
+            time_slot, 
+            is_working)
+        VALUES ($1, $2, false, CURRENT_DATE, $3, NULL, NULL, $4, false)
+        RETURNING *`,
+        [title, project_id, expected_time, time_slot]);
+
+    return rows[0];
+}
