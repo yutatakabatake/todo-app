@@ -48,6 +48,33 @@ export async function createTask(taskData) {
     return rows[0];
 }
 
+export async function editTask(taskId, taskData) {
+    const { title, project_id, expected_time, time_slot } = taskData;
+    const { rows } = await query(`
+        UPDATE tasks_tb
+        SET title = $2,
+            project_id = $3,
+            task_date = CURRENT_DATE,
+            expected_time = $4,
+            time_slot = $5
+        WHERE id = $1
+        RETURNING
+            id,
+            title,
+            project_id,
+            done,
+            TO_CHAR(task_date, 'YYYY/MM/DD') AS "task_date",
+            expected_time,
+            start_time,
+            actual_time,
+            time_slot,
+            is_working`,
+        [taskId, title, project_id, expected_time, time_slot]
+    );
+
+    return rows[0];
+}
+
 export async function doneTask(taskId) {
     const { rows } = await query(`
         UPDATE tasks_tb

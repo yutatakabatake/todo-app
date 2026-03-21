@@ -24,6 +24,21 @@ export async function createTask(req, res) {
     }
 }
 
+export async function editTask(req, res) {
+    try {
+        const taskId = req.params.id;
+        const taskData = req.body;
+        const updatedTask = await taskService.editTask(taskId, taskData);
+        if (!updatedTask) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
+        res.status(200).json(updatedTask);
+    } catch (error) {
+        console.error('Error updating done task', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 export async function doneTask(req, res) {
     try {
         const taskId = req.params.id;
