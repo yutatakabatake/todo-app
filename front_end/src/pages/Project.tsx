@@ -99,7 +99,7 @@ function Project() {
 
                                     <div className="flex items-center justify-between text-sm">
                                         <div className="text-gray-500">
-                                            {tasks.filter(task => task.projectId === project.id && !task.done).length} pending tasks
+                                            {tasks.filter(task => task.project_id === project.id && !task.done).length} pending tasks
                                         </div>
                                         <IconButton aria-label='add task' onClick={() => handleOpenAddTask(project)}>
                                             <AddIcon />
@@ -137,7 +137,7 @@ function Project() {
 
                             <div className="space-y-8">
                                 {projects.map(project => {
-                                    const projectTasks = tasks.filter(task => task.projectId === project.id);
+                                    const projectTasks = tasks.filter(task => task.project_id === project.id);
                                     const incompleteTasks = projectTasks.filter(task => !task.done);
 
                                     return (

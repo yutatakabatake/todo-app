@@ -36,17 +36,17 @@ function Task(props: Props) {
                     />
                 </td>
                 <td className="py-3 px-4 title">{task.title}</td>
-                <td className="py-3 px-4 project">{projects?.find(project => project.id === task.projectId)?.label}</td>
-                <td className="py-3 px-4 date">{task.date}</td>
-                <td className="py-3 px-4 text-right expectedTime">{task.expectedTime}min</td>
-                <td className="py-3 px-4 text-right actualTime">{task.actualTime !== null ? `${task.actualTime}min` : ''}</td>
+                <td className="py-3 px-4 project">{projects?.find(project => project.id === task.project_id)?.label}</td>
+                <td className="py-3 px-4 date">{task.task_date}</td>
+                <td className="py-3 px-4 text-right expected_time">{task.expected_time}min</td>
+                <td className="py-3 px-4 text-right actual_time">{task.actual_time !== null ? `${task.actual_time}min` : ''}</td>
                 <td className="py-3 px-4 w-3">
                     <IconButton aria-label="edit" onClick={handleClickEdit}>
                         <EditOutlinedIcon />
                     </IconButton>
                 </td>
                 <td className="py-3 px-4 text-left w-3">
-                    {task.isWorking ?
+                    {task.is_working ?
                         <IconButton onClick={() => handleStop(task.id)}>
                             <StopCircleOutlinedIcon sx={{ color: red[400] }} />
                         </IconButton>
@@ -73,25 +73,25 @@ function Task(props: Props) {
                             <h4 className="cursor-pointer hover:text-gray-600" onClick={handleClickEdit}>{task.title}</h4>
                         </div>
                         <div className="flex items-center gap-4 text-xs text-gray-500 flex-wrap">
-                            <span className="px-2 py-0.5 rounded-full bg-gray-100">{task.timeSlot}</span>
+                            <span className="px-2 py-0.5 rounded-full bg-gray-100">{task.time_slot}</span>
                             <div className="flex items-center gap-1">
                                 <Calendar className="w-3 h-3" />
-                                <span>{task.date}</span>
+                                <span>{task.task_date}</span>
                             </div>
                             <div className="flex items-center gap-1">
                                 <Clock className="w-3 h-3" />
-                                <span>{task.expectedTime}min</span>
+                                <span>{task.expected_time}min</span>
                             </div>
                             {task.done &&
                                 <div className='flex items-center gap-1 text-green-600 font-medium'>
                                     <Clock className="w-3 h-3" />
-                                    <span>{task.actualTime ?? 0}min</span>
+                                    <span>{task.actual_time ?? 0}min</span>
                                 </div>}
                         </div>
                     </div>
 
                     <div className="flex items-center gap-2">
-                        {task.isWorking ?
+                        {task.is_working ?
                             <IconButton onClick={() => handleStop(task.id)}>
                                 <StopCircleOutlinedIcon sx={{ color: red[400] }} />
                             </IconButton>

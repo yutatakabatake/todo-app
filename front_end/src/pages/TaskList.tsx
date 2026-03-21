@@ -78,26 +78,26 @@ function TaskList() {
                         <Table
                             timeSlot='Morning'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.timeSlot === 'Morning' && task.date === dayjs().format('YYYY/MM/DD'))} />
+                            tasks={tasks.filter(task => task.time_slot === 'Morning' && task.task_date === dayjs().format('YYYY/MM/DD'))} />
                         <Table
                             timeSlot='Evening'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.timeSlot === 'Evening' && task.date === dayjs().format('YYYY/MM/DD'))} />
+                            tasks={tasks.filter(task => task.time_slot === 'Evening' && task.task_date === dayjs().format('YYYY/MM/DD'))} />
                         <Table
                             timeSlot='Night'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.timeSlot === 'Night' && task.date === dayjs().format('YYYY/MM/DD'))} />
+                            tasks={tasks.filter(task => task.time_slot === 'Night' && task.task_date === dayjs().format('YYYY/MM/DD'))} />
                         <Table
                             timeSlot='Nothing'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.timeSlot === 'Nothing' && task.date === dayjs().format('YYYY/MM/DD'))} />
+                            tasks={tasks.filter(task => task.time_slot === 'Nothing' && task.task_date === dayjs().format('YYYY/MM/DD'))} />
                     </div>}
                 {filter === 'expired' &&
                     <div className="max-w-6xl mx-auto space-y-6">
                         <Table
                             timeSlot='Nothing'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.date !== dayjs().format('YYYY/MM/DD'))} />
+                            tasks={tasks.filter(task => task.task_date !== dayjs().format('YYYY/MM/DD'))} />
                     </div>}
             </div>
             <TaskFormDialog

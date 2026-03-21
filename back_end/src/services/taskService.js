@@ -5,14 +5,14 @@ export async function getAllTasks() {
         SELECT 
             id, 
             title, 
-            project_id AS "projectId", 
+            project_id, 
             done, 
-            TO_CHAR(task_date, 'YYYY/MM/DD') AS "date",
-            expected_time AS "expectedTime", 
-            start_time AS "startTime", 
-            actual_time AS "actualTime", 
-            time_slot AS "timeSlot", 
-            is_working AS "isWorking"
+            TO_CHAR(task_date, 'YYYY/MM/DD') AS "task_date",
+            expected_time, 
+            start_time, 
+            actual_time, 
+            time_slot, 
+            is_working
         FROM tasks_tb 
         ORDER BY task_date ASC`);
     return rows;

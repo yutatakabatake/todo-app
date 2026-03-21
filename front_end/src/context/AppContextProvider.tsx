@@ -14,8 +14,8 @@ type AppContextType = {
     projects: ProjectType[]
     handleAddTask: (
         title: TaskType['title'],
-        projectId: TaskType['projectId'],
-        expectedTime: TaskType['expectedTime'],
+        projectId: TaskType['project_id'],
+        expectedTime: TaskType['expected_time'],
         timeSlot: TimeSlot
     ) => void
     handleDeleteTask: (id: TaskType['id']) => void
@@ -23,9 +23,9 @@ type AppContextType = {
     handleEditTask: (
         editingTask: TaskType | undefined,
         newTitle: TaskType['title'],
-        newProjectId: TaskType['projectId'],
-        newDate: TaskType['date'],
-        newExpectedTime: TaskType['expectedTime'],
+        newProjectId: TaskType['project_id'],
+        newDate: TaskType['task_date'],
+        newExpectedTime: TaskType['expected_time'],
         newTimeSlot: TimeSlot
     ) => void
     handleStart: (id: TaskType['id']) => void
@@ -71,16 +71,16 @@ export default function AppContextProvider(props: Props) {
 
     async function handleAddTask(
         title: TaskType['title'],
-        projectId: TaskType['projectId'],
-        expectedTime: TaskType['expectedTime'],
-        timeSlot: TimeSlot
+        project_id: TaskType['project_id'],
+        expected_time: TaskType['expected_time'],
+        time_slot: TimeSlot
     ) {
         try {
             const response = await axios.post('http://localhost:3000/api/tasks', {
                 title: title,
-                project_id: projectId,
-                expected_time: expectedTime,
-                time_slot: timeSlot
+                project_id: project_id,
+                expected_time: expected_time,
+                time_slot: time_slot
             });
             console.log('Item added successfully', response.data);
             // setTasks([...tasks, response.data]);
@@ -95,16 +95,16 @@ export default function AppContextProvider(props: Props) {
     }
 
     function handleDoneTask(id: TaskType['id']) {
-        const newTasks = tasks.map(task => (task.id === id ? { ...task, done: !task.done, actualTime: task.actualTime ?? 0 } : task));
+        const newTasks = tasks.map(task => (task.id === id ? { ...task, done: !task.done, actualTime: task.actual_time ?? 0 } : task));
         setTasks(newTasks);
     }
 
     function handleEditTask(
         editingTask: TaskType | undefined,
         newTitle: TaskType['title'],
-        newProjectId: TaskType['projectId'],
-        newDate: TaskType['date'],
-        newExpectedTime: TaskType['expectedTime'],
+        newProjectId: TaskType['project_id'],
+        newDate: TaskType['task_date'],
+        newExpectedTime: TaskType['expected_time'],
         newTimeSlot: TimeSlot
     ) {
         const newTasks = tasks.map(task => (task.id === editingTask?.id ?
@@ -128,7 +128,7 @@ export default function AppContextProvider(props: Props) {
 
     function handleStop(id: TaskType['id']) {
         const now = dayjs();
-        const startTime = tasks.find(task => task.id === id)?.startTime;
+        const startTime = tasks.find(task => task.id === id)?.start_time;
         const diff = now.diff(startTime, 'minutes');
         const newTasks = tasks.map(task => (task.id === id ? { ...task, done: true, actualTime: diff, isWorking: false } : task));
         setTasks(newTasks);
@@ -148,7 +148,7 @@ export default function AppContextProvider(props: Props) {
         setProjects(newProjects);
 
         // delete tasks in deleted project
-        const newTasks = tasks.filter(task => task.projectId !== id);
+        const newTasks = tasks.filter(task => task.project_id !== id);
         setTasks(newTasks);
     }
 
