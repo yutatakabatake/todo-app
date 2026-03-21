@@ -88,9 +88,14 @@ export default function AppContextProvider(props: Props) {
         }
     }
 
-    function handleDeleteTask(id: TaskType['id']) {
-        const newTasks = tasks.filter(task => task.id !== id);
-        setTasks(newTasks);
+    async function handleDeleteTask(id: TaskType['id']) {
+        try {
+            await axios.delete(`http://localhost:3000/api/tasks/${id}`);
+            const newTasks = tasks.filter(task => task.id !== id);
+            setTasks(newTasks);
+        } catch (error) {
+            console.error('Error deleting item', error);
+        }
     }
 
     function handleDoneTask(id: TaskType['id']) {
