@@ -32,7 +32,17 @@ export async function createTask(taskData) {
             time_slot, 
             is_working)
         VALUES ($1, $2, false, CURRENT_DATE, $3, NULL, NULL, $4, false)
-        RETURNING *`,
+        RETURNING 
+            id, 
+            title, 
+            project_id, 
+            done, 
+            TO_CHAR(task_date, 'YYYY/MM/DD') AS "task_date",
+            expected_time, 
+            start_time, 
+            actual_time, 
+            time_slot, 
+            is_working`,
         [title, project_id, expected_time, time_slot]);
 
     return rows[0];

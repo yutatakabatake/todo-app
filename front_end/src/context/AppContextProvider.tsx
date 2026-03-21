@@ -82,8 +82,7 @@ export default function AppContextProvider(props: Props) {
                 expected_time: expected_time,
                 time_slot: time_slot
             });
-            console.log('Item added successfully', response.data);
-            // setTasks([...tasks, response.data]);
+            setTasks([...tasks, response.data]);
         } catch (error) {
             console.error('Error adding item', error);
         }
