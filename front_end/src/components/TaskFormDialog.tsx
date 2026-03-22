@@ -10,7 +10,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import NumberField from './NumberField';
 import type { ProjectType, TaskType, TimeSlot } from '../types/task';
-import dayjs from 'dayjs'
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
 
@@ -35,16 +34,14 @@ export default function TaskFormDialog(props: Props) {
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries((formData as any).entries());
         const title: TaskType['title'] = formJson.title;
-        const projectId: TaskType['projectId'] = parseInt(formJson.project);
+        const projectId: TaskType['project_id'] = parseInt(formJson.project);
         const timeSlot: TimeSlot = formJson.timeSlot;
-        const expectedTime: TaskType['expectedTime'] = parseInt(formJson.expectedTime);
-
-        const date: TaskType['date'] = dayjs().format('YYYY/MM/DD');
+        const expectedTime: TaskType['expected_time'] = parseInt(formJson.expectedTime);
 
         if (isEditing) {
-            handleEditTask(editingTask, title, projectId, date, expectedTime, timeSlot);
+            handleEditTask(editingTask, title, projectId, expectedTime, timeSlot);
         } else {
-            handleAddTask(title, projectId, date, expectedTime, timeSlot);
+            handleAddTask(title, projectId, expectedTime, timeSlot);
         }
         handleClose();
     }
@@ -57,7 +54,7 @@ export default function TaskFormDialog(props: Props) {
     let defaultValueProject: any = '';
 
     if (isEditing) {
-        defaultValueProject = editingTask?.projectId;
+        defaultValueProject = editingTask?.project_id;
     } else {
         defaultValueProject = defaultProject?.id;
     }
@@ -103,7 +100,7 @@ export default function TaskFormDialog(props: Props) {
                                     id="name"
                                     name='timeSlot'
                                     label="timeSlot"
-                                    defaultValue={isEditing ? editingTask?.timeSlot : ''} >
+                                    defaultValue={isEditing ? editingTask?.time_slot : ''} >
                                     <MenuItem value={'Morning'}>Morning</MenuItem>
                                     <MenuItem value={'Evening'}>Evening</MenuItem>
                                     <MenuItem value={'Night'}>Night</MenuItem>
@@ -120,7 +117,7 @@ export default function TaskFormDialog(props: Props) {
                                 required
                                 min={1}
                                 max={480}
-                                defaultValue={isEditing ? editingTask?.expectedTime : 0} />
+                                defaultValue={isEditing ? editingTask?.expected_time : 0} />
                         </div>
                     </div>
                 </form>

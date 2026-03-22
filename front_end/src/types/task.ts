@@ -5,14 +5,14 @@ export type Filter = 'today' | 'expired'
 export type TaskType = {
     id: number
     title: string
-    projectId: number | null
+    project_id: number | null
     done: boolean
-    date: string
-    expectedTime: number
-    startTime: dayjs.Dayjs | null
-    actualTime: number | null
-    timeSlot: TimeSlot
-    isWorking: boolean
+    task_date: string
+    expected_time: number
+    start_time: dayjs.Dayjs | null
+    actual_time: number | null
+    time_slot: TimeSlot
+    is_working: boolean
 }
 
 export type ProjectType = {

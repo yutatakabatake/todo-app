@@ -1,83 +1,15 @@
-import { createContext, useState } from 'react'
+import axios from 'axios';
+import { createContext, useState, useEffect } from 'react'
 import dayjs from 'dayjs'
 import type { ProjectType, TaskType, TimeSlot } from '../types/task';
-
-const INIT_PROJECTS: ProjectType[] = [
-    { id: 1, label: 'Life' },
-    { id: 2, label: 'Research' },
-    { id: 3, label: 'Work' },
-];
-
-const INIT_TASKS: TaskType[] = [
-    {
-        id: 1,
-        title: 'Eat',
-        projectId: 1,
-        done: false,
-        date: dayjs().format('YYYY/MM/DD'),
-        expectedTime: 30,
-        startTime: null,
-        actualTime: null,
-        timeSlot: 'Morning',
-        isWorking: false
-    },
-    {
-        id: 2,
-        title: 'Run',
-        projectId: 1,
-        done: false,
-        date: dayjs().format('YYYY/MM/DD'),
-        expectedTime: 60,
-        startTime: null,
-        actualTime: null,
-        timeSlot: 'Evening',
-        isWorking: false
-    },
-    {
-        id: 3,
-        title: 'Coding',
-        projectId: 2,
-        done: false,
-        date: dayjs().format('YYYY/MM/DD'),
-        expectedTime: 90,
-        startTime: null,
-        actualTime: null,
-        timeSlot: 'Night',
-        isWorking: false
-    },
-    {
-        id: 4,
-        title: 'Code reading',
-        projectId: 2,
-        done: false,
-        date: dayjs().format('YYYY/MM/DD'),
-        expectedTime: 20,
-        startTime: null,
-        actualTime: null,
-        timeSlot: 'Nothing',
-        isWorking: false
-    }, {
-        id: 5,
-        title: 'Sleep',
-        projectId: 3,
-        done: false,
-        date: dayjs('2026/03/03').format('YYYY/MM/DD'),
-        expectedTime: 15,
-        startTime: null,
-        actualTime: null,
-        timeSlot: 'Morning',
-        isWorking: false
-    },
-];
 
 type AppContextType = {
     tasks: TaskType[]
     projects: ProjectType[]
     handleAddTask: (
         title: TaskType['title'],
-        projectId: TaskType['projectId'],
-        date: TaskType['date'],
-        expectedTime: TaskType['expectedTime'],
+        projectId: TaskType['project_id'],
+        expectedTime: TaskType['expected_time'],
         timeSlot: TimeSlot
     ) => void
     handleDeleteTask: (id: TaskType['id']) => void
@@ -85,9 +17,8 @@ type AppContextType = {
     handleEditTask: (
         editingTask: TaskType | undefined,
         newTitle: TaskType['title'],
-        newProjectId: TaskType['projectId'],
-        newDate: TaskType['date'],
-        newExpectedTime: TaskType['expectedTime'],
+        newProjectId: TaskType['project_id'],
+        newExpectedTime: TaskType['expected_time'],
         newTimeSlot: TimeSlot
     ) => void
     handleStart: (id: TaskType['id']) => void
@@ -108,103 +39,180 @@ export const AppContext = createContext<AppContextType | null>(null);
 
 export default function AppContextProvider(props: Props) {
     const { children } = props;
-    const [tasks, setTasks] = useState<TaskType[]>(INIT_TASKS);
-    const [projects, setProjects] = useState<ProjectType[]>(INIT_PROJECTS);
+    const [tasks, setTasks] = useState<TaskType[]>([]);
+    const [projects, setProjects] = useState<ProjectType[]>([]);
 
-    function handleAddTask(
-        title: TaskType['title'],
-        projectId: TaskType['projectId'],
-        date: TaskType['date'],
-        expectedTime: TaskType['expectedTime'],
-        timeSlot: TimeSlot
-    ) {
-        const newTask: TaskType = {
-            id: tasks.length + 1,
-            title: title,
-            projectId: projectId,
-            done: false,
-            date: date,
-            expectedTime: expectedTime,
-            startTime: null,
-            actualTime: null,
-            timeSlot: timeSlot,
-            isWorking: false
+    useEffect(() => {
+        let ignore = false;
+        async function fetchTasks() {
+            try {
+                const response = await axios.get('http://localhost:3000/api/tasks');
+                if (!ignore) {
+                    setTasks(response.data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchTasks();
+
+        return () => {
+            ignore = true;
         };
-        setTasks([...tasks, newTask]);
+    }, []);
+
+    useEffect(() => {
+        let ignore = false;
+        async function fetchProjects() {
+            try {
+                const response = await axios.get('http://localhost:3000/api/projects');
+                if (!ignore) {
+                    setProjects(response.data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchProjects();
+
+        return () => {
+            ignore = true;
+        };
+    }, []);
+
+    async function handleAddTask(
+        title: TaskType['title'],
+        project_id: TaskType['project_id'],
+        expected_time: TaskType['expected_time'],
+        time_slot: TimeSlot
+    ) {
+        try {
+            const response = await axios.post('http://localhost:3000/api/tasks', {
+                title: title,
+                project_id: project_id,
+                expected_time: expected_time,
+                time_slot: time_slot
+            });
+            setTasks([...tasks, response.data]);
+        } catch (error) {
+            console.error('Error adding item', error);
+        }
     }
 
-    function handleDeleteTask(id: TaskType['id']) {
-        const newTasks = tasks.filter(task => task.id !== id);
-        setTasks(newTasks);
+    async function handleDeleteTask(id: TaskType['id']) {
+        try {
+            await axios.delete(`http://localhost:3000/api/tasks/${id}`);
+            const newTasks = tasks.filter(task => task.id !== id);
+            setTasks(newTasks);
+        } catch (error) {
+            console.error('Error deleting item', error);
+        }
     }
 
-    function handleDoneTask(id: TaskType['id']) {
-        const newTasks = tasks.map(task => (task.id === id ? { ...task, done: !task.done, actualTime: task.actualTime ?? 0 } : task));
-        setTasks(newTasks);
+    async function handleDoneTask(id: TaskType['id']) {
+        try {
+            const response = await axios.put(`http://localhost:3000/api/tasks/done/${id}`);
+            const newTasks = tasks.map(task => (task.id === id ? response.data : task));
+            setTasks(newTasks);
+        } catch (error) {
+            console.error('Error checking item', error);
+        }
     }
 
-    function handleEditTask(
+    async function handleEditTask(
         editingTask: TaskType | undefined,
         newTitle: TaskType['title'],
-        newProjectId: TaskType['projectId'],
-        newDate: TaskType['date'],
-        newExpectedTime: TaskType['expectedTime'],
+        newProjectId: TaskType['project_id'],
+        newExpectedTime: TaskType['expected_time'],
         newTimeSlot: TimeSlot
     ) {
-        const newTasks = tasks.map(task => (task.id === editingTask?.id ?
-            {
-                ...task,
+        try {
+            const newTaskData = {
                 title: newTitle,
-                projectId: newProjectId,
-                date: newDate,
-                expectedTime: newExpectedTime,
-                timeSlot: newTimeSlot
-            } :
-            task));
-        setTasks(newTasks);
+                project_id: newProjectId,
+                expected_time: newExpectedTime,
+                time_slot: newTimeSlot
+            }
+            const response = await axios.put(`http://localhost:3000/api/tasks/${editingTask?.id}`, newTaskData);
+            const newTasks = tasks.map(task => (task.id === editingTask?.id ? response.data : task));
+            setTasks(newTasks);
+        } catch (error) {
+            console.error('Error editing item', error);
+        }
     }
 
-    function handleStart(id: TaskType['id']) {
-        const now = dayjs();
-        const newTasks = tasks.map(task => (task.id === id ? { ...task, startTime: now, isWorking: true } : task));
-        setTasks(newTasks);
+    async function handleStart(id: TaskType['id']) {
+        try {
+            const response = await axios.put(`http://localhost:3000/api/tasks/start/${id}`);
+            const updatedTaskFromServer = response.data;
+            const formattedTask: TaskType = {
+                ...updatedTaskFromServer,
+                // 文字列を dayjs オブジェクトに変換。null の場合は null のままにする
+                start_time: updatedTaskFromServer.start_time ? dayjs(updatedTaskFromServer.start_time) : null
+            };
+            const newTasks = tasks.map(task => (task.id === id ? formattedTask : task));
+            setTasks(newTasks);
+        } catch (error) {
+            console.error('Error editing item', error);
+        }
     }
 
-    function handleStop(id: TaskType['id']) {
-        const now = dayjs();
-        const startTime = tasks.find(task => task.id === id)?.startTime;
-        const diff = now.diff(startTime, 'minutes');
-        const newTasks = tasks.map(task => (task.id === id ? { ...task, done: true, actualTime: diff, isWorking: false } : task));
-        setTasks(newTasks);
+    async function handleStop(id: TaskType['id']) {
+        try {
+            const response = await axios.put(`http://localhost:3000/api/tasks/stop/${id}`);
+            const updatedTaskFromServer = response.data;
+            const formattedTask: TaskType = {
+                ...updatedTaskFromServer,
+                // 文字列を dayjs オブジェクトに変換
+                start_time: dayjs(updatedTaskFromServer.start_time)
+            };
+            const newTasks = tasks.map(task => (task.id === id ? formattedTask : task));
+            setTasks(newTasks);
+        } catch (error) {
+            console.error('Error editing item', error);
+        }
     }
 
-    function handleAddProject(projectLabel: ProjectType['label']) {
-        const newProject: ProjectType = {
-            id: projects.length + 1,
-            label: projectLabel
-        };
-        const newProjects: ProjectType[] = [...projects, newProject];
-        setProjects(newProjects);
+    async function handleAddProject(projectLabel: ProjectType['label']) {
+        try {
+            const response = await axios.post('http://localhost:3000/api/projects', {
+                label: projectLabel
+            });
+            setProjects([...projects, response.data]);
+        } catch (error) {
+            console.error('Error adding project', error);
+        }
     }
 
-    function handleDeleteProject(id: ProjectType['id']) {
-        const newProjects = projects.filter(project => project.id !== id);
-        setProjects(newProjects);
+    async function handleDeleteProject(id: ProjectType['id']) {
+        try {
+            await axios.delete(`http://localhost:3000/api/projects/${id}`);
+            const newProjects = projects.filter(project => project.id !== id);
+            setProjects(newProjects);
 
-        // delete tasks in deleted project
-        const newTasks = tasks.filter(task => task.projectId !== id);
-        setTasks(newTasks);
+            // delete tasks in deleted project
+            const newTasks = tasks.filter(task => task.project_id !== id);
+            setTasks(newTasks);
+        } catch (error) {
+            console.error('Error deleting project', error);
+        }
     }
 
-    function handleEditProject(
+    async function handleEditProject(
         editingProject: ProjectType,
         label: ProjectType['label']
     ) {
-        const newProjects = projects.map(project =>
-        (project.id === editingProject.id ?
-            { ...project, label: label } : project));
-
-        setProjects(newProjects);
+        try {
+            const response = await axios.put(`http://localhost:3000/api/projects/${editingProject.id}`, {
+                label: label
+            });
+            const newProjects = projects.map(project => (project.id === editingProject.id ? response.data : project));
+            setProjects(newProjects);
+        } catch (error) {
+            console.error('Error editing project', error);
+        }
     }
 
     return (

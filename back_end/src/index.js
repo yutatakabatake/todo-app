@@ -1,20 +1,15 @@
 import express from 'express';
+import cors from 'cors';
 import pool from './db.js';
+import taskRouter from './routes/taskRoute.js';
+import projectRouter from './routes/projectRoute.js';
 const app = express();
 const port = 3000;
 
 app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
-
-app.get('/api/tasks', (req, res) => {
-    pool.query('SELECT task_id, task_name, done FROM tasks', (error, results) => {
-        if (error) throw error;
-        return res.status(200).json(results.rows);
-    });
-})
+app.use(cors());
+app.use('/api', taskRouter);
+app.use('/api', projectRouter)
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

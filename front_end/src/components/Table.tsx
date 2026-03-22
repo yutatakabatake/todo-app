@@ -54,8 +54,8 @@ function Table(props: Props) {
                 <tfoot>
                     <tr className="bg-gray-50">
                         <td colSpan={4} className="text-center">Total</td>
-                        <td className="py-3 px-4 text-right">{tasks.reduce((sum, task) => sum + task.expectedTime, 0)}min</td>
-                        <td className="py-3 px-4 text-right">{tasks.reduce((sum, task) => sum + (task.actualTime ?? 0), 0)}min</td>
+                        <td className="py-3 px-4 text-right">{tasks.reduce((sum, task) => sum + task.expected_time, 0)}min</td>
+                        <td className="py-3 px-4 text-right">{tasks.reduce((sum, task) => sum + (task.actual_time ?? 0), 0)}min</td>
                         <td></td>
                         <td></td>
                     </tr>
