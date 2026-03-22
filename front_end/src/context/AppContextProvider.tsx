@@ -175,13 +175,15 @@ export default function AppContextProvider(props: Props) {
         }
     }
 
-    function handleAddProject(projectLabel: ProjectType['label']) {
-        const newProject: ProjectType = {
-            id: projects.length + 1,
-            label: projectLabel
-        };
-        const newProjects: ProjectType[] = [...projects, newProject];
-        setProjects(newProjects);
+    async function handleAddProject(projectLabel: ProjectType['label']) {
+        try {
+            const response = await axios.post('http://localhost:3000/api/projects', {
+                label: projectLabel
+            });
+            setProjects([...projects, response.data]);
+        } catch (error) {
+            console.error('Error adding project', error);
+        }
     }
 
     function handleDeleteProject(id: ProjectType['id']) {
