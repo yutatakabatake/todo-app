@@ -3,12 +3,6 @@ import { createContext, useState, useEffect } from 'react'
 import dayjs from 'dayjs'
 import type { ProjectType, TaskType, TimeSlot } from '../types/task';
 
-const INIT_PROJECTS: ProjectType[] = [
-    { id: 1, label: 'Life' },
-    { id: 2, label: 'Research' },
-    { id: 3, label: 'Work' },
-];
-
 type AppContextType = {
     tasks: TaskType[]
     projects: ProjectType[]
@@ -46,11 +40,11 @@ export const AppContext = createContext<AppContextType | null>(null);
 export default function AppContextProvider(props: Props) {
     const { children } = props;
     const [tasks, setTasks] = useState<TaskType[]>([]);
-    const [projects, setProjects] = useState<ProjectType[]>(INIT_PROJECTS);
+    const [projects, setProjects] = useState<ProjectType[]>([]);
 
     useEffect(() => {
         let ignore = false;
-        async function fetchData() {
+        async function fetchTasks() {
             try {
                 const response = await axios.get('http://localhost:3000/api/tasks');
                 if (!ignore) {
@@ -61,7 +55,27 @@ export default function AppContextProvider(props: Props) {
             }
         }
 
-        fetchData();
+        fetchTasks();
+
+        return () => {
+            ignore = true;
+        };
+    }, []);
+
+    useEffect(() => {
+        let ignore = false;
+        async function fetchProjects() {
+            try {
+                const response = await axios.get('http://localhost:3000/api/projects');
+                if (!ignore) {
+                    setProjects(response.data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchProjects();
 
         return () => {
             ignore = true;
