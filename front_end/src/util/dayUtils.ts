@@ -1,4 +1,5 @@
 import { Dayjs } from 'dayjs'
+import type { TaskType } from '../types/task';
 
 export function getCalendarDays(date: Dayjs): Dayjs[] {
     // 1. その月の「最初の日（1日）」と「最後の日」を取得
@@ -25,3 +26,7 @@ export function getCalendarDays(date: Dayjs): Dayjs[] {
 
     return calendarDays;
 };
+
+export function getCompletedTasksForDate(tasks: TaskType[], date: Dayjs) {
+    return tasks.filter(task => task.done && task.done_date === date.format('YYYY/MM/DD'));
+}
