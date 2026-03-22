@@ -186,13 +186,18 @@ export default function AppContextProvider(props: Props) {
         }
     }
 
-    function handleDeleteProject(id: ProjectType['id']) {
-        const newProjects = projects.filter(project => project.id !== id);
-        setProjects(newProjects);
+    async function handleDeleteProject(id: ProjectType['id']) {
+        try {
+            await axios.delete(`http://localhost:3000/api/projects/${id}`);
+            const newProjects = projects.filter(project => project.id !== id);
+            setProjects(newProjects);
 
-        // delete tasks in deleted project
-        const newTasks = tasks.filter(task => task.project_id !== id);
-        setTasks(newTasks);
+            // delete tasks in deleted project
+            const newTasks = tasks.filter(task => task.project_id !== id);
+            setTasks(newTasks);
+        } catch (error) {
+            console.error('Error deleting project', error);
+        }
     }
 
     async function handleEditProject(
