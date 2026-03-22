@@ -34,7 +34,7 @@ export async function editTask(req, res) {
         }
         res.status(200).json(updatedTask);
     } catch (error) {
-        console.error('Error updating done task', error);
+        console.error('Error editing task', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
