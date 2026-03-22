@@ -167,7 +167,7 @@ export default function AppContextProvider(props: Props) {
                 ...updatedTaskFromServer,
                 // 文字列を dayjs オブジェクトに変換
                 start_time: dayjs(updatedTaskFromServer.start_time),
-                actual_time: dayjs(updatedTaskFromServer.actual_time),
+                done_date: dayjs(updatedTaskFromServer.done_date).format('YYYY/MM/DD')
             };
             const newTasks = tasks.map(task => (task.id === id ? formattedTask : task));
             setTasks(newTasks);
