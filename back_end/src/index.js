@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import pool from './db.js';
 import taskRouter from './routes/taskRoute.js';
 import projectRouter from './routes/projectRoute.js';
 const app = express();
