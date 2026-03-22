@@ -87,26 +87,26 @@ function TaskList() {
                         <Table
                             timeSlot='Morning'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.time_slot === 'Morning' && task.task_date === dayjs().format('YYYY/MM/DD'))} />
+                            tasks={filterdTasks.filter(task => task.time_slot === 'Morning')} />
                         <Table
                             timeSlot='Evening'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.time_slot === 'Evening' && task.task_date === dayjs().format('YYYY/MM/DD'))} />
+                            tasks={filterdTasks.filter(task => task.time_slot === 'Evening')} />
                         <Table
                             timeSlot='Night'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.time_slot === 'Night' && task.task_date === dayjs().format('YYYY/MM/DD'))} />
+                            tasks={filterdTasks.filter(task => task.time_slot === 'Night')} />
                         <Table
                             timeSlot='Nothing'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.time_slot === 'Nothing' && task.task_date === dayjs().format('YYYY/MM/DD'))} />
+                            tasks={filterdTasks.filter(task => task.time_slot === 'Nothing')} />
                     </div>}
                 {filter === 'expired' &&
                     <div className="max-w-6xl mx-auto space-y-6">
                         <Table
                             timeSlot='Nothing'
                             handleClickEdit={handleClickEdit}
-                            tasks={tasks.filter(task => task.task_date !== dayjs().format('YYYY/MM/DD'))} />
+                            tasks={filterdTasks} />
                     </div>}
             </div>
             <TaskFormDialog
