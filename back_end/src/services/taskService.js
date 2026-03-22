@@ -3,15 +3,16 @@ import query from "../db.js";
 export async function getAllTasks() {
     const { rows } = await query(`
         SELECT 
-            id, 
-            title, 
-            project_id, 
-            done, 
+            id,
+            title,
+            project_id,
+            done,
             TO_CHAR(task_date, 'YYYY/MM/DD') AS "task_date",
-            expected_time, 
-            start_time, 
-            actual_time, 
-            time_slot, 
+            TO_CHAR(done_date, 'YYYY/MM/DD') AS "done_date",
+            expected_time,
+            start_time,
+            actual_time,
+            time_slot,
             is_working
         FROM tasks_tb 
         ORDER BY id ASC`);
@@ -22,26 +23,27 @@ export async function createTask(taskData) {
     const { title, project_id, expected_time, time_slot } = taskData;
     const { rows } = await query(`
         INSERT INTO tasks_tb (
-            title, 
-            project_id, 
-            done, 
-            task_date, 
-            expected_time, 
-            start_time, 
-            actual_time, 
-            time_slot, 
+            title,
+            project_id,
+            done,
+            task_date,
+            expected_time,
+            start_time,
+            actual_time,
+            time_slot,
             is_working)
         VALUES ($1, $2, false, CURRENT_DATE, $3, NULL, NULL, $4, false)
-        RETURNING 
-            id, 
-            title, 
-            project_id, 
-            done, 
+        RETURNING
+            id,
+            title,
+            project_id,
+            done,
             TO_CHAR(task_date, 'YYYY/MM/DD') AS "task_date",
-            expected_time, 
-            start_time, 
-            actual_time, 
-            time_slot, 
+            TO_CHAR(done_date, 'YYYY/MM/DD') AS "done_date",
+            expected_time,
+            start_time,
+            actual_time,
+            time_slot,
             is_working`,
         [title, project_id, expected_time, time_slot]);
 
@@ -64,6 +66,7 @@ export async function editTask(taskId, taskData) {
             project_id,
             done,
             TO_CHAR(task_date, 'YYYY/MM/DD') AS "task_date",
+            TO_CHAR(done_date, 'YYYY/MM/DD') AS "done_date",
             expected_time,
             start_time,
             actual_time,
@@ -79,18 +82,20 @@ export async function doneTask(taskId) {
     const { rows } = await query(`
         UPDATE tasks_tb
         SET done = NOT done,
-            actual_time = COALESCE(actual_time, 0)
+            actual_time = COALESCE(actual_time, 0),
+            done_date = CURRENT_DATE
         WHERE id = $1
         RETURNING
-            id, 
-            title, 
-            project_id, 
-            done, 
+            id,
+            title,
+            project_id,
+            done,
             TO_CHAR(task_date, 'YYYY/MM/DD') AS "task_date",
-            expected_time, 
-            start_time, 
-            actual_time, 
-            time_slot, 
+            TO_CHAR(done_date, 'YYYY/MM/DD') AS "done_date",
+            expected_time,
+            start_time,
+            actual_time,
+            time_slot,
             is_working`,
         [taskId]
     );
@@ -110,6 +115,7 @@ export async function startTask(taskId) {
             project_id,
             done,
             TO_CHAR(task_date, 'YYYY/MM/DD') AS "task_date",
+            TO_CHAR(done_date, 'YYYY/MM/DD') AS "done_date",
             expected_time,
             start_time,
             actual_time,
@@ -126,7 +132,8 @@ export async function stopTask(taskId) {
         UPDATE tasks_tb
         SET done = true,
             actual_time = ROUND(EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - start_time)) / 60),
-            is_working = false
+            is_working = false,
+            done_date = CURRENT_DATE
         WHERE id = $1
         RETURNING
             id,
@@ -134,6 +141,7 @@ export async function stopTask(taskId) {
             project_id,
             done,
             TO_CHAR(task_date, 'YYYY/MM/DD') AS "task_date",
+            TO_CHAR(done_date, 'YYYY/MM/DD') AS "done_date",
             expected_time,
             start_time,
             actual_time,
