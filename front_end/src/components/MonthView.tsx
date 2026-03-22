@@ -1,9 +1,18 @@
 import dayjs from "dayjs";
-import { getCalendarDays } from "../util/dayUtils";
+import { getCalendarDays, getCompletedTasksForDate } from "../util/dayUtils";
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContextProvider';
+import { Check } from "lucide-react";
 
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 function MonthView() {
+    const context = useContext(AppContext);
+    if (!context) {
+        return null;
+    }
+    const { tasks } = context;
+
     const today = dayjs();
     const currentMonth = today.month() + 1;
     const calenderDays = getCalendarDays(today);
@@ -35,6 +44,7 @@ function MonthView() {
                             const isToday = today.isSame(day, 'day');
                             const isSunday = index % 7 === 0;
                             const isSaturday = index % 7 === 6;
+                            const completedTasks = getCompletedTasksForDate(tasks, day);
 
                             return (
                                 <div
@@ -55,7 +65,32 @@ function MonthView() {
                                                 }`}>
                                             {day.format('DD')}
                                         </span>
+                                        {completedTasks.length > 0 && (
+                                            <div className="text-xs text-gray-500 flex items-center gap-1">
+                                                <Check className="w-3 h-3 text-green-600" />
+                                                {completedTasks.length}
+                                            </div>
+                                        )}
+                                    </div>
 
+                                    <div className="space-y-1">
+                                        {completedTasks.map(task => {
+                                            return (
+                                                <div
+                                                    key={task.id}
+                                                    className="text-xs rounded px-2 py-1 truncate flex items-center gap-1 bg-gray-50">
+                                                    <Check className="w-3 h-3 shrink-0 text-green-600" />
+                                                    <span className="text-gray-600">
+                                                        {task.title}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
+                                        {completedTasks.length > 3 && (
+                                            <div className="text-xs text-gray-500 text-center">
+                                                +{completedTasks.length - 3}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             );
