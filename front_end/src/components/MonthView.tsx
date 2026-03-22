@@ -1,6 +1,12 @@
+import dayjs from "dayjs";
+import { getCalendarDays } from "../util/dayUtils";
+
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 function MonthView() {
+    const today = dayjs();
+    const currentMonth = today.month() + 1;
+    const calenderDays = getCalendarDays(today);
     return (
         <div className="flex flex-col h-full">
             <div className="bg-white z-10 border-b px-6 py-2 sticky top-0">
@@ -23,6 +29,38 @@ function MonthView() {
                         ))}
                     </div>
 
+                    <div className="grid grid-cols-7 gap-2">
+                        {calenderDays.map((day, index) => {
+                            const isCurrentMonth = day.month() + 1 === currentMonth;
+                            const isToday = today.isSame(day, 'day');
+                            const isSunday = index % 7 === 0;
+                            const isSaturday = index % 7 === 6;
+
+                            return (
+                                <div
+                                    key={day.format('YYYY/MM/DD')}
+                                    className={`min-h-30 border rounded-lg p-2 cursor-pointer transition-all hover:shadow-md
+                                        ${isToday ? 'bg-blue-50 border-blue-500 border-2' : 'bg-white'}
+                                        ${!isCurrentMonth ? 'opacity-40' : ''}`}
+                                    onClick={() => alert('click')}>
+                                    <div className="flex items-center justify-between mb-2">
+                                        <span
+                                            className={`text-sm font-medium ${isToday
+                                                ? 'bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center'
+                                                : isSunday
+                                                    ? 'text-red-600'
+                                                    : isSaturday
+                                                        ? 'text-blue-600'
+                                                        : 'text-gray-700'
+                                                }`}>
+                                            {day.format('DD')}
+                                        </span>
+
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </div>
