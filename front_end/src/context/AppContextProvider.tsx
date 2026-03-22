@@ -195,15 +195,19 @@ export default function AppContextProvider(props: Props) {
         setTasks(newTasks);
     }
 
-    function handleEditProject(
+    async function handleEditProject(
         editingProject: ProjectType,
         label: ProjectType['label']
     ) {
-        const newProjects = projects.map(project =>
-        (project.id === editingProject.id ?
-            { ...project, label: label } : project));
-
-        setProjects(newProjects);
+        try {
+            const response = await axios.put(`http://localhost:3000/api/projects/${editingProject.id}`, {
+                label: label
+            });
+            const newProjects = projects.map(project => (project.id === editingProject.id ? response.data : project));
+            setProjects(newProjects);
+        } catch (error) {
+            console.error('Error editing project', error);
+        }
     }
 
     return (
