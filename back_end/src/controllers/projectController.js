@@ -38,3 +38,17 @@ export async function editProject(req, res) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
+export async function deleteProject(req, res) {
+    try {
+        const project_id = req.params.id;
+        const deleted = await projectService.deleteProject(project_id);
+        if (!deleted) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+        res.status(200).send();
+    } catch (error) {
+        console.error('Error deleting project:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}

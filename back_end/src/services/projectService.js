@@ -36,3 +36,8 @@ export async function editProject(projectId, projectData) {
 
     return rows[0];
 }
+
+export async function deleteProject(projectId) {
+    const { rowCount } = await query('DELETE FROM projects_tb WHERE id = $1', [projectId]);
+    return rowCount > 0;
+}
