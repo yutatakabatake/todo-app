@@ -21,3 +21,18 @@ export async function createProject(projectData) {
 
     return rows[0];
 }
+
+export async function editProject(projectId, projectData) {
+    const { label } = projectData;
+    const { rows } = await query(`
+        UPDATE projects_tb
+        SET label = $2
+        WHERE id = $1
+        RETURNING
+            id,
+            label`,
+        [projectId, label]
+    );
+
+    return rows[0];
+}
