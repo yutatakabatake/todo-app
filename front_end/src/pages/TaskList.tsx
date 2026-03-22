@@ -42,14 +42,14 @@ function TaskList() {
         setFilter(filter);
     };
 
-    const pendingTasks = tasks.filter(task => !task.done);
-    const filterdTasks = pendingTasks.filter(task => {
+    const filterdTasks = tasks.filter(task => {
         if (filter === 'today') {
             return task.task_date === dayjs().format('YYYY/MM/DD');
         } else {
             return task.task_date !== dayjs().format('YYYY/MM/DD');
         }
     });
+    const pendingTasks = filterdTasks.filter(task => !task.done);
 
     return (
         <>
@@ -57,7 +57,7 @@ function TaskList() {
                 <div className="flex justify-between items-center">
                     <div>
                         <h2 className="text-xl font-semibold">TaskList</h2>
-                        <p className="text-gray-600">{filterdTasks.length} pending tasks</p>
+                        <p className="text-gray-600">{pendingTasks.length} pending tasks</p>
                     </div>
                     <div className='flex gap-6'>
                         <ToggleButtonGroup
