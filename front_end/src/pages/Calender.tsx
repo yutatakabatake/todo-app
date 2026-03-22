@@ -19,7 +19,7 @@ function Calender() {
                                     minWidth: 0,
                                     padding: 0,
                                     lineHeight: 1,
-                                    borderColor: '#000000',
+                                    borderColor: '#0000001f',
                                     color: '#000000'
                                 }}>
                                 <ChevronLeftIcon />
@@ -29,7 +29,7 @@ function Calender() {
                                 sx={{
                                     minWidth: 0,
                                     lineHeight: 1,
-                                    borderColor: '#000000',
+                                    borderColor: '#0000001f',
                                     color: '#000000'
                                 }}>
                                 TODAY
@@ -40,7 +40,7 @@ function Calender() {
                                     minWidth: 0,
                                     padding: 0,
                                     lineHeight: 1,
-                                    borderColor: '#000000',
+                                    borderColor: '#0000001f',
                                     color: '#000000'
                                 }}>
                                 <ChevronRightIcon />
