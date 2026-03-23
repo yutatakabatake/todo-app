@@ -1,20 +1,9 @@
 import { Button } from "@mui/material"
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MonthView from "../components/MonthView";
-import { useState } from "react";
-import WeekView from "../components/WeekView";
-
-type Toggle = 'month' | 'week'
 
 function Calender() {
-    const [toggle, setToggle] = useState<Toggle>('month');
-
-    function handleToggleChange(_: any, toggle: Toggle) {
-        setToggle(toggle);
-    }
 
     return (
         <div className="flex-1 overflow-hidden flex flex-col">
@@ -57,24 +46,11 @@ function Calender() {
                             </Button>
                         </div>
                     </div>
-
-                    <ToggleButtonGroup
-                        exclusive
-                        value={toggle}
-                        size="small"
-                        onChange={handleToggleChange}>
-                        <ToggleButton value="month" aria-label="month">
-                            Month
-                        </ToggleButton>
-                        <ToggleButton value="week" aria-label="week">
-                            week
-                        </ToggleButton>
-                    </ToggleButtonGroup>
                 </div>
             </div>
 
             <div className="flex-1 overflow-auto">
-                {toggle === 'month' ? <MonthView /> : <WeekView />}
+                <MonthView />
             </div>
         </div>
     )

@@ -20,7 +20,7 @@ function MonthView() {
         <div className="flex flex-col h-full">
             <div className="bg-white z-10 border-b px-6 py-2 sticky top-0">
                 <h3 className="text-xl font-semibold">
-                    2026 March
+                    {`${today.format('YYYY')} ${today.format('MMMM')}`}
                 </h3>
                 <p className="text-sm text-gray-500 mt-1">Done tasks</p>
             </div>
@@ -63,7 +63,7 @@ function MonthView() {
                                                         ? 'text-blue-600'
                                                         : 'text-gray-700'
                                                 }`}>
-                                            {day.format('DD')}
+                                            {day.format('D')}
                                         </span>
                                         {completedTasks.length > 0 && (
                                             <div className="text-xs text-gray-500 flex items-center gap-1">
