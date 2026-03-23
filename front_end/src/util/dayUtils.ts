@@ -27,6 +27,20 @@ export function getCalendarDays(date: Dayjs): Dayjs[] {
     return calendarDays;
 };
 
+export function getWeekDays(date: Dayjs): Dayjs[] {
+    const startDate = date.startOf('week');
+    const endDate = date.endOf('week');
+    const calendarDays = [];
+    let currentDate = startDate;
+
+    while (currentDate.isBefore(endDate) || currentDate.isSame(endDate, 'day')) {
+        calendarDays.push(currentDate);
+        currentDate = currentDate.add(1, 'day');
+    }
+
+    return calendarDays;
+}
+
 export function getCompletedTasksForDate(tasks: TaskType[], date: Dayjs) {
     return tasks.filter(task => task.done && task.done_date === date.format('YYYY/MM/DD'));
 }
