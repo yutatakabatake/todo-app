@@ -22,7 +22,7 @@ function WeekView() {
                 <p className="text-sm text-gray-500 mt-1">Done tasks</p>
             </div>
 
-            <div className="grid grid-cols-7 divide-x">
+            <div className="grid grid-cols-7 divide-x flex-1 min-h-0">
                 {calenderDays.map(day => {
                     const completedTasks = getCompletedTasksForDate(tasks, day);
                     const isToday = day.isSame(today, 'day');
@@ -30,28 +30,32 @@ function WeekView() {
                     return (
                         <div
                             key={day.format('YYYY/MM/DD')}
-                            className={`min-h-screen cursor-pointer ${isToday ? 'bg-blue-50 border-blue-500 border-2' : ''}`}
+                            className="flex flex-col min-h-0 cursor-pointer"
                             onClick={() => alert('click')}>
-                            <div className="sticky top-18.25 bg-white border-b p-3 z-10">
+                            <div className="sticky top-14 bg-white border-b p-3 z-20">
                                 <div className="text-center">
                                     <div className="text-xs text-gray-500 mb-1">
                                         {day.format('ddd')}
                                     </div>
-                                    <div className={`text-lg font-semibold 
-                                            ${isToday
-                                            ? 'bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center mx-auto'
-                                            : ''}`}>
-                                        {day.format('DD')}
-                                    </div>
-                                    {completedTasks.length > 0 && (
-                                        <div className="text-xs text-gray-400 mt-1 flex items-center justify-center gap-1">
-                                            <Check className="w-3 h-3 text-green-600" />
-                                            {completedTasks.length}
+                                    <div className="flex flex-col items-center justify-center h-9">
+                                        <div className={`text-lg font-semibold w-8 h-8 flex items-center justify-center rounded-full
+                                            ${isToday ? 'bg-blue-600 text-white' : 'text-gray-700 bg-white'}`}>
+                                            {day.format('DD')}
                                         </div>
-                                    )}
+                                    </div>
+                                    <div className="h-4 text-xs text-gray-400 mt-1 flex items-center justify-center gap-1">
+                                        {completedTasks.length > 0 ? (
+                                            <>
+                                                <Check className="w-3 h-3 text-green-600" />
+                                                {completedTasks.length}
+                                            </>
+                                        ) : (
+                                            <span className="invisible">0</span>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
-                            <div className="p-2">
+                            <div className="flex-1 overflow-y-auto p-2 min-h-0 bg-gray-50">
                                 <div className="space-y-2">
                                     {completedTasks.map(task => {
                                         return (
@@ -76,5 +80,5 @@ function WeekView() {
         </div>
     )
 }
-// week　viewで今日の日付のボーダーを
+
 export default WeekView
