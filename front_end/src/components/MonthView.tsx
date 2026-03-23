@@ -25,7 +25,7 @@ function MonthView() {
                 <p className="text-sm text-gray-500 mt-1">Done tasks</p>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
                 <div className="overflow-hidden">
                     <div className="grid grid-cols-7 gap-2 mb-2">
                         {weekDays.map((day, index) => (
