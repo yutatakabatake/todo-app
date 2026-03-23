@@ -3,15 +3,10 @@ import { getCalendarDays, getCompletedTasksForDate } from "../util/dayUtils";
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
 import { Check } from "lucide-react";
-import CalenderInfo from "./CalenderInfo";
 
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-type Props = {
-    toggle: boolean
-}
 
-function MonthView(props: Props) {
-    const { toggle } = props;
+function MonthView() {
     const context = useContext(AppContext);
     if (!context) {
         return null;
@@ -23,9 +18,12 @@ function MonthView(props: Props) {
     const calenderDays = getCalendarDays(today);
     return (
         <div className="flex flex-col h-full">
-            <CalenderInfo
-                date={today}
-                toggle={toggle} />
+            <div className="bg-white z-10 border-b px-6 py-2 sticky top-0">
+                <h3 className="text-xl font-semibold">
+                    {`${today.format('YYYY')} ${today.format('MMMM')}`}
+                </h3>
+                <p className="text-sm text-gray-500 mt-1">Done tasks</p>
+            </div>
 
             <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
                 <div className="overflow-hidden">
