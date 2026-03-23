@@ -63,7 +63,7 @@ function MonthView() {
                                                         ? 'text-blue-600'
                                                         : 'text-gray-700'
                                                 }`}>
-                                            {day.format('DD')}
+                                            {day.format('D')}
                                         </span>
                                         {completedTasks.length > 0 && (
                                             <div className="text-xs text-gray-500 flex items-center gap-1">
