@@ -54,8 +54,7 @@ function MonthView(props: Props) {
                                     key={day.format('YYYY/MM/DD')}
                                     className={`min-h-30 border rounded-lg p-2 cursor-pointer transition-all hover:shadow-md
                                         ${isToday ? 'bg-blue-50 border-blue-500 border-2' : 'bg-white'}
-                                        ${!isCurrentMonth ? 'opacity-40' : ''}`}
-                                    onClick={() => alert('click')}>
+                                        ${!isCurrentMonth ? 'opacity-40' : ''}`}>
                                     <div className="flex items-center justify-between mb-2">
                                         <span
                                             className={`text-sm font-medium ${isToday
