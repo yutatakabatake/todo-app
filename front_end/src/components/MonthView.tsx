@@ -5,22 +5,25 @@ import { AppContext } from '../context/AppContextProvider';
 import { Check } from "lucide-react";
 
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-function MonthView() {
+type Props = {
+    today: dayjs.Dayjs
+    monthStartDate: dayjs.Dayjs
+}
+function MonthView(props: Props) {
+    const { today, monthStartDate } = props;
     const context = useContext(AppContext);
     if (!context) {
         return null;
     }
     const { tasks } = context;
 
-    const today = dayjs();
-    const currentMonth = today.month() + 1;
-    const calenderDays = getCalendarDays(today);
+    const currentMonth = monthStartDate.month() + 1;
+    const calenderDays = getCalendarDays(monthStartDate);
     return (
         <div className="flex flex-col h-full">
             <div className="bg-white z-10 border-b px-6 py-2 sticky top-0">
                 <h3 className="text-xl font-semibold">
-                    {`${today.format('YYYY')} ${today.format('MMMM')}`}
+                    {`${monthStartDate.format('YYYY')} ${monthStartDate.format('MMMM')}`}
                 </h3>
                 <p className="text-sm text-gray-500 mt-1">Done tasks</p>
             </div>

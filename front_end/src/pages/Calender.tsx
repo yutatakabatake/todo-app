@@ -2,8 +2,24 @@ import { Button } from "@mui/material"
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MonthView from "../components/MonthView";
+import dayjs from "dayjs";
+import { useState } from "react";
 
 function Calender() {
+    const today = dayjs();
+    const [currentMonthStartDate, setCurrentMonthStartDate] = useState(today.startOf('month'));
+
+    function handleClickToday() {
+        setCurrentMonthStartDate(today.startOf('month'));
+    }
+
+    function handleClickNext() {
+        setCurrentMonthStartDate(currentMonthStartDate.add(1, 'month'));
+    }
+
+    function handleClickPrev() {
+        setCurrentMonthStartDate(currentMonthStartDate.subtract(1, 'month'));
+    }
 
     return (
         <div className="flex-1 overflow-hidden flex flex-col">
@@ -20,7 +36,8 @@ function Calender() {
                                     lineHeight: 1,
                                     borderColor: '#0000001f',
                                     color: '#000000'
-                                }}>
+                                }}
+                                onClick={handleClickPrev}>
                                 <ChevronLeftIcon />
                             </Button>
                             <Button
@@ -30,7 +47,8 @@ function Calender() {
                                     lineHeight: 1,
                                     borderColor: '#0000001f',
                                     color: '#000000'
-                                }}>
+                                }}
+                                onClick={handleClickToday}>
                                 TODAY
                             </Button>
                             <Button
@@ -41,7 +59,8 @@ function Calender() {
                                     lineHeight: 1,
                                     borderColor: '#0000001f',
                                     color: '#000000'
-                                }}>
+                                }}
+                                onClick={handleClickNext}>
                                 <ChevronRightIcon />
                             </Button>
                         </div>
@@ -50,7 +69,7 @@ function Calender() {
             </div>
 
             <div className="flex-1 overflow-auto">
-                <MonthView />
+                <MonthView today={today} monthStartDate={currentMonthStartDate} />
             </div>
         </div>
     )
