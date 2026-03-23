@@ -76,7 +76,7 @@ function MonthView(props: Props) {
                                     </div>
 
                                     <div className="space-y-1">
-                                        {completedTasks.map(task => {
+                                        {completedTasks.slice(0, 2).map(task => {
                                             return (
                                                 <div
                                                     key={task.id}
@@ -90,7 +90,7 @@ function MonthView(props: Props) {
                                         })}
                                         {completedTasks.length > 3 && (
                                             <div className="text-xs text-gray-500 text-center">
-                                                +{completedTasks.length - 3}
+                                                +{completedTasks.length - 2}
                                             </div>
                                         )}
                                     </div>
