@@ -7,12 +7,11 @@ import MonthView from "../components/MonthView";
 import { useState } from "react";
 import WeekView from "../components/WeekView";
 
-type Toggle = 'month' | 'week'
-
 function Calender() {
-    const [toggle, setToggle] = useState<Toggle>('month');
+    // true -> month, false -> week
+    const [toggle, setToggle] = useState<boolean>(true);
 
-    function handleToggleChange(_: any, toggle: Toggle) {
+    function handleToggleChange(_: any, toggle: boolean) {
         setToggle(toggle);
     }
 
@@ -63,10 +62,10 @@ function Calender() {
                         value={toggle}
                         size="small"
                         onChange={handleToggleChange}>
-                        <ToggleButton value="month" aria-label="month">
+                        <ToggleButton value={true} aria-label="month">
                             Month
                         </ToggleButton>
-                        <ToggleButton value="week" aria-label="week">
+                        <ToggleButton value={false} aria-label="week">
                             week
                         </ToggleButton>
                     </ToggleButtonGroup>
@@ -74,7 +73,7 @@ function Calender() {
             </div>
 
             <div className="flex-1 overflow-auto">
-                {toggle === 'month' ? <MonthView /> : <WeekView />}
+                {toggle ? <MonthView toggle={toggle} /> : <WeekView />}
             </div>
         </div>
     )

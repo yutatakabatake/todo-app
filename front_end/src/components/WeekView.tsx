@@ -3,8 +3,14 @@ import { getCompletedTasksForDate, getWeekDays } from "../util/dayUtils";
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
 import { Check } from "lucide-react";
+import CalenderInfo from "./CalenderInfo";
 
-function WeekView() {
+type Props = {
+    toggle: boolean
+}
+
+function WeekView(props: Props) {
+    const { toggle } = props;
     const context = useContext(AppContext);
     if (!context) {
         return null;
@@ -15,12 +21,9 @@ function WeekView() {
     const calenderDays = getWeekDays(today);
     return (
         <div className="flex flex-col h-full">
-            <div className="bg-white z-10 border-b px-6 py-2 sticky top-0">
-                <h3 className="text-xl font-semibold">
-                    {`${today.startOf('week').format('YYYY/MM/DD')} - ${today.endOf('week').format('YYYY/MM/DD')}`}
-                </h3>
-                <p className="text-sm text-gray-500 mt-1">Done tasks</p>
-            </div>
+            <CalenderInfo
+                date={today}
+                toggle={toggle} />
 
             <div className="grid grid-cols-7 divide-x flex-1 min-h-0">
                 {calenderDays.map(day => {
