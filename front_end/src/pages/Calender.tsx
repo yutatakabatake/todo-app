@@ -73,7 +73,7 @@ function Calender() {
             </div>
 
             <div className="flex-1 overflow-auto">
-                {toggle ? <MonthView toggle={toggle} /> : <WeekView />}
+                {toggle ? <MonthView toggle={toggle} /> : <WeekView toggle={toggle} />}
             </div>
         </div>
     )
