@@ -71,8 +71,9 @@ function Task(props: Props) {
                             <StopCircleOutlinedIcon sx={{ color: red[400] }} />
                         </IconButton>
                         :
-                        <IconButton onClick={() => handleStart(task.id)}>
-                            <PlayArrowRoundedIcon sx={{ color: green[400] }} />
+                        <IconButton onClick={() => handleStart(task.id)} disabled={task.done}
+                            sx={{ color: green[400] }} >
+                            <PlayArrowRoundedIcon />
                         </IconButton>}
                 </td>
             </tr>
@@ -120,8 +121,9 @@ function Task(props: Props) {
                                     <StopCircleOutlinedIcon sx={{ color: red[400] }} />
                                 </IconButton>
                                 :
-                                <IconButton onClick={() => handleStart(task.id)}>
-                                    <PlayArrowRoundedIcon sx={{ color: green[400] }} />
+                                <IconButton onClick={() => handleStart(task.id)} disabled={task.done}
+                                    sx={{ color: green[400] }} >
+                                    <PlayArrowRoundedIcon />
                                 </IconButton>}
                         </div>
                     </div>
