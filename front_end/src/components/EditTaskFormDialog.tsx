@@ -15,19 +15,18 @@ import { AppContext } from '../context/AppContextProvider';
 
 type Props = {
     open: boolean
-    isEditing: boolean
     editingTask: TaskType | undefined
     defaultProject?: ProjectType
     handleClose: () => void
 }
 
 export default function TaskFormDialog(props: Props) {
-    const { open, isEditing, editingTask, defaultProject, handleClose } = props;
+    const { open, editingTask, handleClose } = props;
     const context = useContext(AppContext);
     if (!context) {
         return null;
     }
-    const { projects, handleAddTask, handleDeleteTask, handleEditTask } = context;
+    const { projects, handleDeleteTask, handleEditTask } = context;
 
     function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -38,11 +37,7 @@ export default function TaskFormDialog(props: Props) {
         const timeSlot: TimeSlot = formJson.timeSlot;
         const expectedTime: TaskType['expected_time'] = parseInt(formJson.expectedTime);
 
-        if (isEditing) {
-            handleEditTask(editingTask, title, projectId, expectedTime, timeSlot);
-        } else {
-            handleAddTask(title, projectId, expectedTime, timeSlot);
-        }
+        handleEditTask(editingTask, title, projectId, expectedTime, timeSlot);
         handleClose();
     }
 
@@ -53,15 +48,11 @@ export default function TaskFormDialog(props: Props) {
 
     let defaultValueProject: any = '';
 
-    if (isEditing) {
-        defaultValueProject = editingTask?.project_id;
-    } else {
-        defaultValueProject = defaultProject?.id;
-    }
+    defaultValueProject = editingTask?.project_id;
 
     return (
         <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth={true}>
-            <DialogTitle>{isEditing ? 'Edit task' : 'Add new task'}</DialogTitle>
+            <DialogTitle>Edit task</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit} id="subscription-form">
                     <div className='space-y-4'>
@@ -73,7 +64,7 @@ export default function TaskFormDialog(props: Props) {
                                 name='title'
                                 label="Title"
                                 sx={{ mt: 1 }}
-                                defaultValue={isEditing ? editingTask?.title : ''} />
+                                defaultValue={editingTask?.title} />
                         </div>
 
                         <div className='space-y-2'>
@@ -100,7 +91,7 @@ export default function TaskFormDialog(props: Props) {
                                     id="name"
                                     name='timeSlot'
                                     label="timeSlot"
-                                    defaultValue={isEditing ? editingTask?.time_slot : ''} >
+                                    defaultValue={editingTask?.time_slot} >
                                     <MenuItem value={'Morning'}>Morning</MenuItem>
                                     <MenuItem value={'Evening'}>Evening</MenuItem>
                                     <MenuItem value={'Night'}>Night</MenuItem>
@@ -117,23 +108,22 @@ export default function TaskFormDialog(props: Props) {
                                 required
                                 min={1}
                                 max={480}
-                                defaultValue={isEditing ? editingTask?.expected_time : 0} />
+                                defaultValue={editingTask?.expected_time} />
                         </div>
                     </div>
                 </form>
             </DialogContent >
             <DialogActions>
-                {isEditing &&
-                    <div className='mr-auto'>
-                        <Button
-                            color='error'
-                            onClick={() => editingTask?.id !== undefined && handleDelete(editingTask.id)}>
-                            Delete
-                        </Button>
-                    </div>}
+                <div className='mr-auto'>
+                    <Button
+                        color='error'
+                        onClick={() => editingTask?.id !== undefined && handleDelete(editingTask.id)}>
+                        Delete
+                    </Button>
+                </div>
                 <Button onClick={handleClose}>Cancel</Button>
                 <Button type="submit" form="subscription-form">
-                    {isEditing ? 'Edit' : 'Add'}
+                    Edit
                 </Button>
             </DialogActions>
         </Dialog >

@@ -8,7 +8,7 @@ import { green, red } from '@mui/material/colors';
 import { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContextProvider';
 import { Calendar, Clock } from "lucide-react";
-import TaskFormDialog from "./TaskFormDialog";
+import EditTaskFormDialog from "./EditTaskFormDialog";
 
 type Props = {
     task: TaskType
@@ -23,7 +23,6 @@ function Task(props: Props) {
     }
     const { projects, handleDoneTask, handleStart, handleStop } = context;
     const [open, setOpen] = useState(false);
-    const [isEditing, setIsEditing] = useState<boolean>(false);
     const [editingTask, setEditingTask] = useState<TaskType | undefined>(undefined);
 
 
@@ -33,14 +32,9 @@ function Task(props: Props) {
 
     function handleClose() {
         setOpen(false);
-        // Dialog のクローズアニメーション完了後にリセット
-        setTimeout(() => {
-            setIsEditing(false);
-        }, 300);
     }
 
     function handleClickEdit(task: TaskType) {
-        setIsEditing(true);
         setEditingTask(task);
         handleOpen();
     }
@@ -66,9 +60,8 @@ function Task(props: Props) {
                     <IconButton aria-label="edit" onClick={() => handleClickEdit(task)}>
                         <EditOutlinedIcon />
                     </IconButton>
-                    <TaskFormDialog
+                    <EditTaskFormDialog
                         open={open}
-                        isEditing={isEditing}
                         editingTask={editingTask}
                         handleClose={handleClose} />
                 </td>
@@ -134,9 +127,8 @@ function Task(props: Props) {
                     </div>
                 </div>
 
-                <TaskFormDialog
+                <EditTaskFormDialog
                     open={open}
-                    isEditing={isEditing}
                     editingTask={editingTask}
                     handleClose={handleClose} />
             </>
