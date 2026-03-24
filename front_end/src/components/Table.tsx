@@ -36,9 +36,7 @@ function Table(props: Props) {
                             Actual time
                         </th>
                         <th className="font-medium text-sm text-gray-600 py-3 px-4 text-left">
-                            Edit
                         </th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,7 +52,6 @@ function Table(props: Props) {
                         <td colSpan={4} className="text-center">Total</td>
                         <td className="py-3 px-4 text-right">{tasks.reduce((sum, task) => sum + task.expected_time, 0)}min</td>
                         <td className="py-3 px-4 text-right">{tasks.reduce((sum, task) => sum + (task.actual_time ?? 0), 0)}min</td>
-                        <td></td>
                         <td></td>
                     </tr>
                 </tfoot>

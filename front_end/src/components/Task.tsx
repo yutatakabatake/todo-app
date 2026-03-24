@@ -1,7 +1,6 @@
 import { Checkbox } from "@mui/material"
 import type { TaskType } from '../types/task';
 import IconButton from '@mui/material/IconButton';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import StopCircleOutlinedIcon from '@mui/icons-material/StopCircleOutlined';
 import { green, red } from '@mui/material/colors';
@@ -41,42 +40,39 @@ function Task(props: Props) {
 
     if (isInTable) {
         return (
-            <tr className="border-b" data-id={task.id.toString()}>
-                <td className="py-3 px-4">
-                    <Checkbox
-                        onChange={() => handleDoneTask(task.id)}
-                        slotProps={{
-                            input: { 'aria-label': 'controlled' },
-                        }}
-                        checked={task.done}
-                    />
-                </td>
-                <td className="py-3 px-4 title">{task.title}</td>
-                <td className="py-3 px-4 project">{projects?.find(project => project.id === task.project_id)?.label}</td>
-                <td className="py-3 px-4 date">{task.task_date}</td>
-                <td className="py-3 px-4 text-right expected_time">{task.expected_time}min</td>
-                <td className="py-3 px-4 text-right actual_time">{task.actual_time !== null ? `${task.actual_time}min` : ''}</td>
-                <td className="py-3 px-4 w-3">
-                    <IconButton aria-label="edit" onClick={() => handleClickEdit(task)}>
-                        <EditOutlinedIcon />
-                    </IconButton>
-                    <EditTaskFormDialog
-                        open={open}
-                        editingTask={editingTask}
-                        handleClose={handleClose} />
-                </td>
-                <td className="py-3 px-4 text-left w-3">
-                    {task.is_working ?
-                        <IconButton onClick={() => handleStop(task.id)}>
-                            <StopCircleOutlinedIcon sx={{ color: red[400] }} />
-                        </IconButton>
-                        :
-                        <IconButton onClick={() => handleStart(task.id)} disabled={task.done}
-                            sx={{ color: green[400] }} >
-                            <PlayArrowRoundedIcon />
-                        </IconButton>}
-                </td>
-            </tr>
+            <>
+                <tr className="border-b" data-id={task.id.toString()}>
+                    <td className="py-3 px-4">
+                        <Checkbox
+                            onChange={() => handleDoneTask(task.id)}
+                            slotProps={{
+                                input: { 'aria-label': 'controlled' },
+                            }}
+                            checked={task.done}
+                        />
+                    </td>
+                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 title" onClick={() => handleClickEdit(task)}>{task.title}</td>
+                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 project" onClick={() => handleClickEdit(task)}>{projects?.find(project => project.id === task.project_id)?.label}</td>
+                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 date" onClick={() => handleClickEdit(task)}>{task.task_date}</td>
+                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 text-right expected_time">{task.expected_time}min</td>
+                    <td className="py-3 px-4 text-right actual_time">{task.actual_time !== null ? `${task.actual_time}min` : ''}</td>
+                    <td className="py-3 px-4 text-left w-3">
+                        {task.is_working ?
+                            <IconButton onClick={() => handleStop(task.id)}>
+                                <StopCircleOutlinedIcon sx={{ color: red[400] }} />
+                            </IconButton>
+                            :
+                            <IconButton onClick={() => handleStart(task.id)} disabled={task.done}
+                                sx={{ color: green[400] }} >
+                                <PlayArrowRoundedIcon />
+                            </IconButton>}
+                    </td>
+                </tr>
+                <EditTaskFormDialog
+                    open={open}
+                    editingTask={editingTask}
+                    handleClose={handleClose} />
+            </>
         )
     } else {
         return (
