@@ -4,11 +4,10 @@ import type { TaskType, TimeSlot } from '../types/task';
 type Props = {
     timeSlot: TimeSlot
     tasks: TaskType[]
-    handleClickEdit: any
 }
 
 function Table(props: Props) {
-    const { timeSlot, tasks, handleClickEdit } = props;
+    const { timeSlot, tasks } = props;
 
     return (
         <div className="bg-white rounded-lg border overflow-hidden">
@@ -47,8 +46,7 @@ function Table(props: Props) {
                         <Task
                             key={task.id}
                             task={task}
-                            isInTable={true}
-                            handleClickEdit={handleClickEdit} />
+                            isInTable={true} />
                     ))}
                 </tbody>
                 <tfoot>

@@ -6,18 +6,14 @@ import IconButton from '@mui/material/IconButton';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import Task from "../components/Task"
-import TaskFormDialog from '../components/TaskFormDialog';
 import ProjectFormDialog from '../components/ProjectFormDialog';
-import type { ProjectType, TaskType } from '../types/task';
+import type { ProjectType } from '../types/task';
 
 
 function Project() {
     const [projectFormOpen, setProjectFormOpen] = useState<boolean>(false);
     const [isEditingProject, setIsEditingProject] = useState(false);
     const [onProject, setOnProject] = useState<ProjectType | undefined>(undefined);
-    const [taskFormOpen, setTaskFormOpen] = useState<boolean>(false);
-    const [isEditingTask, setIsEditingTask] = useState<boolean>(false);
-    const [editingTask, setEditingTask] = useState<TaskType | undefined>(undefined);
     const context = useContext(AppContext);
     if (!context) {
         return null;
@@ -25,42 +21,23 @@ function Project() {
     const { tasks, projects } = context;
 
     function handleOpenProjectForm() {
-        setProjectFormOpen(!projectFormOpen);
+        setProjectFormOpen(true);
     }
 
     function handleCloseProjectForm() {
-        setProjectFormOpen(!projectFormOpen);
-        setIsEditingProject(!isEditingProject);
+        setProjectFormOpen(false);
+        // Dialog のクローズアニメーション完了後にリセット
+        setTimeout(() => {
+            setIsEditingProject(false);
+        }, 300);
     }
 
-    function handleOpenTaskForm() {
-        setIsEditingTask(false);
-        setTaskFormOpen(!taskFormOpen);
-    }
-
-    function handleOpenAddTask(project: ProjectType) {
-        setOnProject(project);
-        handleOpenTaskForm();
-    }
-
-    function handleCloseTaskForm() {
-        setTaskFormOpen(!taskFormOpen);
-    }
 
     function handleClickEditProject(id: ProjectType['id']) {
         setIsEditingProject(!isEditingProject);
         const nowEditingProject = projects.find(project => project.id === id);
         setOnProject(nowEditingProject);
         setProjectFormOpen(!projectFormOpen);
-    }
-
-    function handleClickEditTask(
-        taskId: TaskType['id'],
-    ) {
-        const nowEditingTask = tasks.find(task => task.id === taskId);
-        setEditingTask(nowEditingTask);
-        setIsEditingTask(true);
-        setTaskFormOpen(!taskFormOpen);
     }
 
     return (
@@ -101,7 +78,7 @@ function Project() {
                                         <div className="text-gray-500">
                                             {tasks.filter(task => task.project_id === project.id && !task.done).length} pending tasks
                                         </div>
-                                        <IconButton aria-label='add task' onClick={() => handleOpenAddTask(project)}>
+                                        <IconButton aria-label='add task' onClick={() => alert('add task')}>
                                             <AddIcon />
                                         </IconButton>
                                     </div>
@@ -159,8 +136,7 @@ function Project() {
                                                         <Task
                                                             key={task.id}
                                                             task={task}
-                                                            isInTable={false}
-                                                            handleClickEdit={() => handleClickEditTask(task.id)} />
+                                                            isInTable={false} />
                                                     ))}
                                                 </div>}
 
@@ -180,14 +156,6 @@ function Project() {
                 isEditing={isEditingProject}
                 editingProject={onProject}
                 handleClose={handleCloseProjectForm}
-            />
-
-            <TaskFormDialog
-                open={taskFormOpen}
-                isEditing={isEditingTask}
-                editingTask={editingTask}
-                defaultProject={onProject}
-                handleClose={handleCloseTaskForm}
             />
         </>
     )

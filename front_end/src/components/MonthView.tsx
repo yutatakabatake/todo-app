@@ -47,8 +47,7 @@ function MonthView(props: Props) {
                                 <Task
                                     key={task.id}
                                     task={task}
-                                    isInTable={false}
-                                    handleClickEdit={() => console.log(task.id)} />
+                                    isInTable={false} />
                             </ListItem>
                         );
                     })}
