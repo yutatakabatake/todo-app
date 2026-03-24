@@ -7,13 +7,8 @@ import { Check } from "lucide-react";
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import Task from "./Task";
 
 
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -29,39 +24,34 @@ function MonthView(props: Props) {
     }
     const { tasks } = context;
     const [open, setOpen] = useState(false);
+    const [date, setDate] = useState(today);
 
     const currentMonth = monthStartDate.month() + 1;
     const calenderDays = getCalendarDays(monthStartDate);
 
-    const toggleDrawer = (newOpen: boolean) => () => {
+    const toggleDrawer = (newOpen: boolean, day: dayjs.Dayjs) => () => {
+        setDate(day);
         setOpen(newOpen);
     };
+
     const DrawerList = (
-        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+        <Box sx={{ width: 300 }} role="presentation" onClick={toggleDrawer(false, date)}>
+            <div className="text-2xl font-semibold ps-4 py-2">
+                {date.format('YYYY/MM/DD')}
+            </div>
             <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
+                {tasks.filter(task => task.done_date === date.format('YYYY/MM/DD') || task.task_date === date.format('YYYY/MM/DD'))
+                    .map(task => {
+                        return (
+                            <ListItem key={task.id}>
+                                <Task
+                                    key={task.id}
+                                    task={task}
+                                    isInTable={false}
+                                    handleClickEdit={() => console.log(task.id)} />
+                            </ListItem>
+                        );
+                    })}
             </List>
         </Box>
     );
@@ -103,7 +93,7 @@ function MonthView(props: Props) {
                                         className={`min-h-30 border rounded-lg p-2 cursor-pointer transition-all hover:shadow-md
                                         ${isToday ? 'bg-blue-50 border-blue-500 border-2' : 'bg-white'}
                                         ${!isCurrentMonth ? 'opacity-40' : ''}`}
-                                        onClick={toggleDrawer(true)}>
+                                        onClick={toggleDrawer(true, day)}>
                                         <div className="flex items-center justify-between mb-2">
                                             <span
                                                 className={`text-sm font-medium ${isToday
@@ -151,7 +141,7 @@ function MonthView(props: Props) {
                 </div>
             </div>
 
-            <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+            <Drawer anchor="right" open={open} onClose={toggleDrawer(false, date)}>
                 {DrawerList}
             </Drawer>
         </>
