@@ -8,9 +8,11 @@ import AddIcon from '@mui/icons-material/Add';
 import Task from "../components/Task"
 import ProjectFormDialog from '../components/ProjectFormDialog';
 import type { ProjectType } from '../types/task';
+import AddTaskFormDialog from '../components/AddTaskFormDialog';
 
 
 function Project() {
+    const [addTaskFormOpen, setAddTaskFormOpen] = useState(false);
     const [projectFormOpen, setProjectFormOpen] = useState<boolean>(false);
     const [isEditingProject, setIsEditingProject] = useState(false);
     const [onProject, setOnProject] = useState<ProjectType | undefined>(undefined);
@@ -19,6 +21,15 @@ function Project() {
         return null;
     }
     const { tasks, projects } = context;
+
+    function handleOpenAddTaskForm(project: ProjectType) {
+        setOnProject(project);
+        setAddTaskFormOpen(true);
+    }
+
+    function handleCloseAddTaskForm() {
+        setAddTaskFormOpen(false);
+    }
 
     function handleOpenProjectForm() {
         setProjectFormOpen(true);
@@ -78,7 +89,7 @@ function Project() {
                                         <div className="text-gray-500">
                                             {tasks.filter(task => task.project_id === project.id && !task.done).length} pending tasks
                                         </div>
-                                        <IconButton aria-label='add task' onClick={() => alert('add task')}>
+                                        <IconButton aria-label='add task' onClick={() => handleOpenAddTaskForm(project)}>
                                             <AddIcon />
                                         </IconButton>
                                     </div>
@@ -157,6 +168,10 @@ function Project() {
                 editingProject={onProject}
                 handleClose={handleCloseProjectForm}
             />
+            <AddTaskFormDialog
+                open={addTaskFormOpen}
+                defaultProject={onProject}
+                handleClose={handleCloseAddTaskForm} />
         </>
     )
 }

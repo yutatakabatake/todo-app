@@ -7,6 +7,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import type { Filter } from '../types/task';
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
+import AddTaskFormDialog from '../components/AddTaskFormDialog'
 
 function TaskList() {
     const context = useContext(AppContext);
@@ -14,7 +15,16 @@ function TaskList() {
         return null;
     }
     const { tasks } = context;
+    const [open, setOpen] = useState(false);
     const [filter, setFilter] = useState<Filter>('today');
+
+    function handleOpen() {
+        setOpen(true);
+    }
+
+    function handleClose() {
+        setOpen(false);
+    }
 
     function handleFilterChange(_: any, filter: Filter) {
         setFilter(filter);
@@ -52,7 +62,7 @@ function TaskList() {
                         <Button
                             variant='contained'
                             color='success'
-                            onClick={() => alert('new task')}>
+                            onClick={handleOpen}>
                             new
                         </Button>
                     </div>
@@ -82,6 +92,10 @@ function TaskList() {
                             tasks={filterdTasks} />
                     </div>}
             </div>
+
+            <AddTaskFormDialog
+                open={open}
+                handleClose={handleClose} />
         </>
     )
 }
