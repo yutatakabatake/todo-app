@@ -44,7 +44,7 @@ export default function AddTaskFormDialog(props: Props) {
     defaultValueProject = defaultProject?.id;
 
     return (
-        <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth={true}>
+        <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth={true} onClick={(e) => e.stopPropagation()}>
             <DialogTitle>Add new task</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit} id="subscription-form">

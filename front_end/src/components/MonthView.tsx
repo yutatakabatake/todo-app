@@ -3,13 +3,15 @@ import { getCalendarDays, getCompletedTasksForDate } from "../util/dayUtils";
 import { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContextProvider';
 import { Check } from "lucide-react";
-
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Task from "./Task";
-
+import { IconButton } from "@mui/material";
+import { green } from '@mui/material/colors';
+import AddTaskFormDialog from "./AddTaskFormDialog";
 
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 type Props = {
@@ -23,7 +25,8 @@ function MonthView(props: Props) {
         return null;
     }
     const { tasks } = context;
-    const [open, setOpen] = useState(false);
+    const [openDrawer, setOpenDrawer] = useState(false);
+    const [openAddTaskForm, setOpenAddTaskForm] = useState(false);
     const [date, setDate] = useState(today);
 
     const currentMonth = monthStartDate.month() + 1;
@@ -31,28 +34,47 @@ function MonthView(props: Props) {
 
     const toggleDrawer = (newOpen: boolean, day: dayjs.Dayjs) => () => {
         setDate(day);
-        setOpen(newOpen);
+        setOpenDrawer(newOpen);
     };
 
+    function handleOpenAddTaskForm(event: React.MouseEvent) {
+        event.stopPropagation();
+        setOpenAddTaskForm(true);
+    }
+
+    function handleCloseAddTaskForm() {
+        setOpenAddTaskForm(false);
+    }
+
     const DrawerList = (
-        <Box sx={{ width: 300 }} role="presentation" onClick={toggleDrawer(false, date)}>
-            <div className="text-2xl font-semibold ps-4 py-2">
-                {date.format('YYYY/MM/DD')}
-            </div>
-            <List>
-                {tasks.filter(task => task.done_date === date.format('YYYY/MM/DD') || task.task_date === date.format('YYYY/MM/DD'))
-                    .map(task => {
-                        return (
-                            <ListItem key={task.id}>
-                                <Task
-                                    key={task.id}
-                                    task={task}
-                                    isInTable={false} />
-                            </ListItem>
-                        );
-                    })}
-            </List>
-        </Box>
+        <>
+            <Box sx={{ width: 300 }} role="presentation" onClick={toggleDrawer(false, date)}>
+                <div className="flex justify-between items-center px-4 py-2">
+                    <div className="text-2xl font-semibold">
+                        {date.format('YYYY/MM/DD')}
+                    </div>
+                    <IconButton sx={{ color: green[400] }} onClick={handleOpenAddTaskForm}>
+                        <AddCircleOutlineRoundedIcon />
+                    </IconButton>
+                </div>
+                <List>
+                    {tasks.filter(task => task.done_date === date.format('YYYY/MM/DD') || task.task_date === date.format('YYYY/MM/DD'))
+                        .map(task => {
+                            return (
+                                <ListItem key={task.id}>
+                                    <Task
+                                        key={task.id}
+                                        task={task}
+                                        isInTable={false} />
+                                </ListItem>
+                            );
+                        })}
+                </List>
+            </Box >
+            <AddTaskFormDialog
+                open={openAddTaskForm}
+                handleClose={handleCloseAddTaskForm} />
+        </>
     );
 
     return (
@@ -140,7 +162,7 @@ function MonthView(props: Props) {
                 </div>
             </div>
 
-            <Drawer anchor="right" open={open} onClose={toggleDrawer(false, date)}>
+            <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer(false, date)}>
                 {DrawerList}
             </Drawer>
         </>
