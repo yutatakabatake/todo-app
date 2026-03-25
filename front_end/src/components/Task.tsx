@@ -46,7 +46,7 @@ function Task(props: Props) {
     if (isInTable) {
         return (
             <>
-                <tr className="border-b" data-id={task.id.toString()}>
+                <tr className="border-b border-gray-200" data-id={task.id.toString()}>
                     <td className="py-3 px-4">
                         <Checkbox
                             onChange={() => handleDoneTask(task.id)}
@@ -82,7 +82,7 @@ function Task(props: Props) {
     } else {
         return (
             <>
-                <div className="rounded-lg p-4 mb-3 border bg-white transition-all">
+                <div className="rounded-lg p-4 mb-3 border border-gray-200 bg-white transition-all">
                     <div className="flex items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-2">

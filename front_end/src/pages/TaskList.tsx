@@ -41,7 +41,7 @@ function TaskList() {
 
     return (
         <>
-            <div className="border-b px-6 py-4 bg-white">
+            <div className="border-b border-gray-200 px-6 py-4 bg-white">
                 <div className="flex justify-between items-center">
                     <div>
                         <h2 className="text-xl font-semibold">TaskList</h2>

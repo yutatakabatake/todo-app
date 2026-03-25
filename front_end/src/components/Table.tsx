@@ -10,13 +10,13 @@ function Table(props: Props) {
     const { timeSlot, tasks } = props;
 
     return (
-        <div className="bg-white rounded-lg border overflow-hidden">
-            <div className="bg-gray-50 border-b px-6 py-3">
+        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="bg-gray-50 border-b border-gray-200 px-6 py-3">
                 <h3 className="font-semibold">{timeSlot}</h3>
             </div>
             <table className="w-full">
                 <thead>
-                    <tr className="border-b bg-gray-50">
+                    <tr className="border-b border-gray-200 bg-gray-50">
                         <th className="font-medium text-sm text-gray-600 py-3 px-4 text-left w-12">
                             Done
                         </th>

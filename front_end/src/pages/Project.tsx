@@ -54,8 +54,8 @@ function Project() {
     return (
         <>
             <div className="flex-1 overflow-hidden flex">
-                <div className="w-80 bg-white border-r overflow-y-auto">
-                    <div className="sticky top-0 bg-white border-b p-4 z-10">
+                <div className="w-80 bg-white border-r border-gray-200 overflow-y-auto">
+                    <div className="sticky top-0 bg-white border-b border-gray-200 p-4 z-10">
                         <div className="flex items-center justify-between">
                             <h2 className="font-semibold">Projects</h2>
                             <Button
@@ -75,7 +75,7 @@ function Project() {
 
                         <div className="space-y-3">
                             {projects.map(project => (
-                                <div key={project.id} className="border rounded-lg p-3 hover:shadow-md transition-shadow bg-white">
+                                <div key={project.id} className="border border-gray-200 rounded-lg p-3 hover:shadow-md transition-shadow bg-white">
                                     <div className="flex items-center justify-between mb-1">
                                         <div className="min-w-0">
                                             <h3 className="font-medium text-lg">{project.label}</h3>

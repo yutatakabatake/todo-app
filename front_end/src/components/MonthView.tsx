@@ -58,7 +58,7 @@ function MonthView(props: Props) {
     return (
         <>
             <div className="flex flex-col h-full">
-                <div className="bg-white z-10 border-b px-6 py-2 sticky top-0">
+                <div className="bg-white z-10 border-b border-gray-200 px-6 py-2 sticky top-0">
                     <h3 className="text-xl font-semibold">
                         {`${monthStartDate.format('YYYY')} ${monthStartDate.format('MMMM')}`}
                     </h3>
@@ -90,7 +90,7 @@ function MonthView(props: Props) {
                                     <div
                                         key={day.format('YYYY/MM/DD')}
                                         className={`min-h-30 border rounded-lg p-2 cursor-pointer transition-all hover:shadow-md
-                                        ${isToday ? 'bg-blue-50 border-blue-500 border-2' : 'bg-white'}
+                                        ${isToday ? 'bg-blue-50 border-blue-500 border-2' : 'bg-white border-gray-200'}
                                         ${!isCurrentMonth ? 'opacity-40' : ''}`}
                                         onClick={toggleDrawer(true, day)}>
                                         <div className="flex items-center justify-between mb-2">
