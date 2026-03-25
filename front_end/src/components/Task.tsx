@@ -38,6 +38,11 @@ function Task(props: Props) {
         handleOpen();
     }
 
+    function handleClickEditWithStop(event: React.MouseEvent) {
+        event.stopPropagation();
+        handleClickEdit(task);
+    }
+
     if (isInTable) {
         return (
             <>
@@ -51,9 +56,9 @@ function Task(props: Props) {
                             checked={task.done}
                         />
                     </td>
-                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 title" onClick={() => handleClickEdit(task)}>{task.title}</td>
-                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 project" onClick={() => handleClickEdit(task)}>{projects?.find(project => project.id === task.project_id)?.label}</td>
-                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 date" onClick={() => handleClickEdit(task)}>{task.task_date}</td>
+                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 title" onClick={handleClickEditWithStop}>{task.title}</td>
+                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 project" onClick={handleClickEditWithStop}>{projects?.find(project => project.id === task.project_id)?.label}</td>
+                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 date" onClick={handleClickEditWithStop}>{task.task_date}</td>
                     <td className="py-3 px-4 cursor-pointer hover:text-gray-600 text-right expected_time">{task.expected_time}min</td>
                     <td className="py-3 px-4 text-right actual_time">{task.actual_time !== null ? `${task.actual_time}min` : ''}</td>
                     <td className="py-3 px-4 text-left w-3">
@@ -89,7 +94,7 @@ function Task(props: Props) {
                                     checked={task.done}
                                 />
                                 <h4 className="cursor-pointer hover:text-gray-600"
-                                    onClick={() => handleClickEdit(task)}>
+                                    onClick={handleClickEditWithStop}>
                                     {task.title}
                                 </h4>
                             </div>

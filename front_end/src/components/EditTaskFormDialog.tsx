@@ -51,7 +51,7 @@ export default function TaskFormDialog(props: Props) {
     defaultValueProject = editingTask?.project_id;
 
     return (
-        <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth={true}>
+        <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth={true} onClick={(e) => e.stopPropagation()}>
             <DialogTitle>Edit task</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit} id="subscription-form">
