@@ -118,7 +118,7 @@ function MonthView(props: Props) {
                                                 return (
                                                     <div
                                                         key={task.id}
-                                                        className="text-xs rounded px-2 py-1 truncate flex items-center gap-1 bg-gray-50">
+                                                        className="text-xs rounded px-2 py-1 truncate flex items-center gap-1 bg-gray-50 border-green-600 border">
                                                         <Check className="w-3 h-3 shrink-0 text-green-600" />
                                                         <span className="text-gray-600">
                                                             {task.title}
