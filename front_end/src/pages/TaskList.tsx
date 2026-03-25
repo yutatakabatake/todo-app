@@ -1,13 +1,13 @@
 import Button from '@mui/material/Button';
 import Table from "../components/Table";
-import TaskFormDialog from "../components/TaskFormDialog";
 import { useState } from 'react';
 import dayjs from 'dayjs'
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import type { Filter, TaskType } from '../types/task';
+import type { Filter } from '../types/task';
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
+import AddTaskFormDialog from '../components/AddTaskFormDialog'
 
 function TaskList() {
     const context = useContext(AppContext);
@@ -16,26 +16,14 @@ function TaskList() {
     }
     const { tasks } = context;
     const [open, setOpen] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editingTask, setEditingTask] = useState<TaskType | undefined>();
     const [filter, setFilter] = useState<Filter>('today');
 
-    function handleClickNew() {
-        setIsEditing(false);
-        setOpen(!open);
-    }
-
-    function handleClickEdit(e: React.ChangeEvent<HTMLInputElement>) {
-        const nowEditingTaskId = parseInt((e.currentTarget.parentNode?.parentNode as HTMLElement)?.dataset.id?.toString() ?? '');
-        const nowEditingTask = tasks.find(task => task.id === nowEditingTaskId);
-
-        setEditingTask(nowEditingTask);
-        setOpen(!open);
-        setIsEditing(true);
+    function handleOpen() {
+        setOpen(true);
     }
 
     function handleClose() {
-        setOpen(!open);
+        setOpen(false);
     }
 
     function handleFilterChange(_: any, filter: Filter) {
@@ -74,7 +62,7 @@ function TaskList() {
                         <Button
                             variant='contained'
                             color='success'
-                            onClick={handleClickNew}>
+                            onClick={handleOpen}>
                             new
                         </Button>
                     </div>
@@ -86,33 +74,27 @@ function TaskList() {
                     <div className="max-w-6xl mx-auto space-y-6">
                         <Table
                             timeSlot='Morning'
-                            handleClickEdit={handleClickEdit}
                             tasks={filterdTasks.filter(task => task.time_slot === 'Morning')} />
                         <Table
                             timeSlot='Evening'
-                            handleClickEdit={handleClickEdit}
                             tasks={filterdTasks.filter(task => task.time_slot === 'Evening')} />
                         <Table
                             timeSlot='Night'
-                            handleClickEdit={handleClickEdit}
                             tasks={filterdTasks.filter(task => task.time_slot === 'Night')} />
                         <Table
                             timeSlot='Nothing'
-                            handleClickEdit={handleClickEdit}
                             tasks={filterdTasks.filter(task => task.time_slot === 'Nothing')} />
                     </div>}
                 {filter === 'expired' &&
                     <div className="max-w-6xl mx-auto space-y-6">
                         <Table
                             timeSlot='Nothing'
-                            handleClickEdit={handleClickEdit}
                             tasks={filterdTasks} />
                     </div>}
             </div>
-            <TaskFormDialog
+
+            <AddTaskFormDialog
                 open={open}
-                isEditing={isEditing}
-                editingTask={editingTask}
                 handleClose={handleClose} />
         </>
     )

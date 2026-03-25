@@ -6,61 +6,49 @@ import IconButton from '@mui/material/IconButton';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import Task from "../components/Task"
-import TaskFormDialog from '../components/TaskFormDialog';
 import ProjectFormDialog from '../components/ProjectFormDialog';
-import type { ProjectType, TaskType } from '../types/task';
+import type { ProjectType } from '../types/task';
+import AddTaskFormDialog from '../components/AddTaskFormDialog';
 
 
 function Project() {
+    const [addTaskFormOpen, setAddTaskFormOpen] = useState(false);
     const [projectFormOpen, setProjectFormOpen] = useState<boolean>(false);
     const [isEditingProject, setIsEditingProject] = useState(false);
     const [onProject, setOnProject] = useState<ProjectType | undefined>(undefined);
-    const [taskFormOpen, setTaskFormOpen] = useState<boolean>(false);
-    const [isEditingTask, setIsEditingTask] = useState<boolean>(false);
-    const [editingTask, setEditingTask] = useState<TaskType | undefined>(undefined);
     const context = useContext(AppContext);
     if (!context) {
         return null;
     }
     const { tasks, projects } = context;
 
+    function handleOpenAddTaskForm(project: ProjectType) {
+        setOnProject(project);
+        setAddTaskFormOpen(true);
+    }
+
+    function handleCloseAddTaskForm() {
+        setAddTaskFormOpen(false);
+    }
+
     function handleOpenProjectForm() {
-        setProjectFormOpen(!projectFormOpen);
+        setProjectFormOpen(true);
     }
 
     function handleCloseProjectForm() {
-        setProjectFormOpen(!projectFormOpen);
-        setIsEditingProject(!isEditingProject);
+        setProjectFormOpen(false);
+        // Dialog のクローズアニメーション完了後にリセット
+        setTimeout(() => {
+            setIsEditingProject(false);
+        }, 300);
     }
 
-    function handleOpenTaskForm() {
-        setIsEditingTask(false);
-        setTaskFormOpen(!taskFormOpen);
-    }
-
-    function handleOpenAddTask(project: ProjectType) {
-        setOnProject(project);
-        handleOpenTaskForm();
-    }
-
-    function handleCloseTaskForm() {
-        setTaskFormOpen(!taskFormOpen);
-    }
 
     function handleClickEditProject(id: ProjectType['id']) {
         setIsEditingProject(!isEditingProject);
         const nowEditingProject = projects.find(project => project.id === id);
         setOnProject(nowEditingProject);
         setProjectFormOpen(!projectFormOpen);
-    }
-
-    function handleClickEditTask(
-        taskId: TaskType['id'],
-    ) {
-        const nowEditingTask = tasks.find(task => task.id === taskId);
-        setEditingTask(nowEditingTask);
-        setIsEditingTask(true);
-        setTaskFormOpen(!taskFormOpen);
     }
 
     return (
@@ -101,7 +89,7 @@ function Project() {
                                         <div className="text-gray-500">
                                             {tasks.filter(task => task.project_id === project.id && !task.done).length} pending tasks
                                         </div>
-                                        <IconButton aria-label='add task' onClick={() => handleOpenAddTask(project)}>
+                                        <IconButton aria-label='add task' onClick={() => handleOpenAddTaskForm(project)}>
                                             <AddIcon />
                                         </IconButton>
                                     </div>
@@ -159,8 +147,7 @@ function Project() {
                                                         <Task
                                                             key={task.id}
                                                             task={task}
-                                                            isInTable={false}
-                                                            handleClickEdit={() => handleClickEditTask(task.id)} />
+                                                            isInTable={false} />
                                                     ))}
                                                 </div>}
 
@@ -181,14 +168,10 @@ function Project() {
                 editingProject={onProject}
                 handleClose={handleCloseProjectForm}
             />
-
-            <TaskFormDialog
-                open={taskFormOpen}
-                isEditing={isEditingTask}
-                editingTask={editingTask}
+            <AddTaskFormDialog
+                open={addTaskFormOpen}
                 defaultProject={onProject}
-                handleClose={handleCloseTaskForm}
-            />
+                handleClose={handleCloseAddTaskForm} />
         </>
     )
 }
