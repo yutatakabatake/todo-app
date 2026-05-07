@@ -8,6 +8,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import NumberField from './NumberField';
 import type { ProjectType, TaskType, TimeSlot } from '../types/task';
 import { useContext } from 'react';
@@ -21,6 +23,8 @@ type Props = {
 
 export default function AddTaskFormDialog(props: Props) {
     const { open, defaultProject, handleClose } = props;
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const context = useContext(AppContext);
     if (!context) {
         return null;
@@ -44,7 +48,7 @@ export default function AddTaskFormDialog(props: Props) {
     defaultValueProject = defaultProject?.id;
 
     return (
-        <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth={true} onClick={(e) => e.stopPropagation()}>
+        <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth={true} fullScreen={fullScreen} onClick={(e) => e.stopPropagation()}>
             <DialogTitle>Add new task</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit} id="subscription-form">
