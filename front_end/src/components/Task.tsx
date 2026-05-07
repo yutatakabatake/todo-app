@@ -47,29 +47,45 @@ function Task(props: Props) {
         return (
             <>
                 <tr className="border-b border-gray-200" data-id={task.id.toString()}>
-                    <td className="py-3 px-4">
+                    <td className="py-2 sm:py-3 px-1 sm:px-4">
                         <Checkbox
                             onChange={() => handleDoneTask(task.id)}
                             slotProps={{
                                 input: { 'aria-label': 'controlled' },
                             }}
                             checked={task.done}
+                            size="small"
+                            sx={{
+                                padding: { xs: '2px', sm: '9px' }
+                            }}
                         />
                     </td>
-                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 title" onClick={handleClickEditWithStop}>{task.title}</td>
-                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 project" onClick={handleClickEditWithStop}>{projects?.find(project => project.id === task.project_id)?.label}</td>
-                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 date" onClick={handleClickEditWithStop}>{task.task_date}</td>
-                    <td className="py-3 px-4 cursor-pointer hover:text-gray-600 text-right expected_time">{task.expected_time}min</td>
-                    <td className="py-3 px-4 text-right actual_time">{task.actual_time !== null ? `${task.actual_time}min` : ''}</td>
-                    <td className="py-3 px-4 text-left w-3">
+                    <td className="py-2 sm:py-3 px-1 sm:px-4 cursor-pointer hover:text-gray-600 title text-xs sm:text-sm" onClick={handleClickEditWithStop}>
+                        <span className="block truncate max-w-[80px] sm:max-w-none">{task.title}</span>
+                    </td>
+                    <td className="py-2 sm:py-3 px-1 sm:px-4 cursor-pointer hover:text-gray-600 project text-xs sm:text-sm" onClick={handleClickEditWithStop}>
+                        <span className="block truncate max-w-[60px] sm:max-w-none">{projects?.find(project => project.id === task.project_id)?.label}</span>
+                    </td>
+                    <td className="hidden sm:table-cell py-3 px-4 cursor-pointer hover:text-gray-600 date text-sm" onClick={handleClickEditWithStop}>
+                        {task.task_date}
+                    </td>
+                    <td className="py-2 sm:py-3 px-1 sm:px-4 cursor-pointer hover:text-gray-600 text-right expected_time text-xs sm:text-sm whitespace-nowrap">
+                        <span className="sm:hidden">{task.expected_time}m</span>
+                        <span className="hidden sm:inline">{task.expected_time}min</span>
+                    </td>
+                    <td className="py-2 sm:py-3 px-1 sm:px-4 text-right actual_time text-xs sm:text-sm whitespace-nowrap">
+                        <span className="sm:hidden">{task.actual_time !== null ? `${task.actual_time}m` : ''}</span>
+                        <span className="hidden sm:inline">{task.actual_time !== null ? `${task.actual_time}min` : ''}</span>
+                    </td>
+                    <td className="py-2 sm:py-3 px-0 sm:px-4 text-left w-8 sm:w-12">
                         {task.is_working ?
-                            <IconButton onClick={() => handleStop(task.id)}>
-                                <StopCircleOutlinedIcon sx={{ color: red[400] }} />
+                            <IconButton onClick={() => handleStop(task.id)} size="small" sx={{ padding: { xs: '4px', sm: '8px' } }}>
+                                <StopCircleOutlinedIcon sx={{ color: red[400], fontSize: { xs: '1.1rem', sm: '1.5rem' } }} />
                             </IconButton>
                             :
-                            <IconButton onClick={() => handleStart(task.id)} disabled={task.done}
-                                sx={{ color: green[400] }} >
-                                <PlayArrowRoundedIcon />
+                            <IconButton onClick={() => handleStart(task.id)} disabled={task.done} size="small"
+                                sx={{ color: green[400], padding: { xs: '4px', sm: '8px' } }} >
+                                <PlayArrowRoundedIcon sx={{ fontSize: { xs: '1.1rem', sm: '1.5rem' } }} />
                             </IconButton>}
                     </td>
                 </tr>

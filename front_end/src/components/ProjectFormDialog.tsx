@@ -3,6 +3,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button, TextField } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContextProvider';
 import type { ProjectType } from '../types/task';
@@ -16,6 +18,8 @@ type Props = {
 
 function ProjectFormDialog(props: Props) {
     const { open, isEditing, editingProject, handleClose } = props;
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const context = useContext(AppContext);
     if (!context) {
         return null;
@@ -45,7 +49,7 @@ function ProjectFormDialog(props: Props) {
     }
 
     return (
-        <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth>
+        <Dialog open={open} onClose={handleClose} scroll='paper' maxWidth='sm' fullWidth fullScreen={fullScreen}>
             <DialogTitle>{isEditing ? 'Edit project' : 'Add new project'}</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit} id="subscription-form">

@@ -41,17 +41,24 @@ function TaskList() {
 
     return (
         <>
-            <div className="border-b border-gray-200 px-6 py-4 bg-white">
-                <div className="flex justify-between items-center">
+            <div className="border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 bg-white">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
                     <div>
-                        <h2 className="text-xl font-semibold">TaskList</h2>
-                        <p className="text-gray-600">{pendingTasks.length} pending tasks</p>
+                        <h2 className="text-lg sm:text-xl font-semibold">TaskList</h2>
+                        <p className="text-sm sm:text-base text-gray-600">{pendingTasks.length} pending tasks</p>
                     </div>
-                    <div className='flex gap-6'>
+                    <div className='flex gap-2 sm:gap-6 w-full sm:w-auto'>
                         <ToggleButtonGroup
                             exclusive
                             value={filter}
-                            onChange={handleFilterChange}>
+                            onChange={handleFilterChange}
+                            size="small"
+                            sx={{
+                                '& .MuiToggleButton-root': {
+                                    fontSize: { xs: '0.7rem', sm: '0.875rem' },
+                                    padding: { xs: '4px 8px', sm: '6px 16px' }
+                                }
+                            }}>
                             <ToggleButton value="today" aria-label="today">
                                 today
                             </ToggleButton>
@@ -62,16 +69,21 @@ function TaskList() {
                         <Button
                             variant='contained'
                             color='success'
-                            onClick={handleOpen}>
+                            onClick={handleOpen}
+                            size="small"
+                            sx={{
+                                fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                                padding: { xs: '4px 12px', sm: '6px 16px' }
+                            }}>
                             new
                         </Button>
                     </div>
                 </div>
             </div>
 
-            <div className="flex-1 bg-gray-50 p-6 overflow-y-auto">
+            <div className="flex-1 bg-gray-50 p-3 sm:p-6 overflow-y-auto">
                 {filter === 'today' &&
-                    <div className="max-w-6xl mx-auto space-y-6">
+                    <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6">
                         <Table
                             timeSlot='Morning'
                             tasks={filterdTasks.filter(task => task.time_slot === 'Morning')} />
@@ -86,7 +98,7 @@ function TaskList() {
                             tasks={filterdTasks.filter(task => task.time_slot === 'Nothing')} />
                     </div>}
                 {filter === 'expired' &&
-                    <div className="max-w-6xl mx-auto space-y-6">
+                    <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6">
                         <Table
                             timeSlot='Nothing'
                             tasks={filterdTasks} />

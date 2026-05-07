@@ -23,22 +23,22 @@ function Calender() {
 
     return (
         <div className="flex-1 overflow-hidden flex flex-col">
-            <div className="bg-white border-b border-gray-200 px-6 py-3">
+            <div className="bg-white border-b border-gray-200 px-3 sm:px-6 py-2 sm:py-3">
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <h2 className="text-xl font-semibold">Calender</h2>
-                        <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 sm:gap-4">
+                        <h2 className="text-base sm:text-xl font-semibold">Calender</h2>
+                        <div className="flex items-center gap-1 sm:gap-2">
                             <Button
                                 variant="outlined"
                                 sx={{
                                     minWidth: 0,
-                                    padding: 0,
+                                    padding: { xs: '2px', sm: 0 },
                                     lineHeight: 1,
                                     borderColor: '#0000001f',
                                     color: '#000000'
                                 }}
                                 onClick={handleClickPrev}>
-                                <ChevronLeftIcon />
+                                <ChevronLeftIcon sx={{ fontSize: { xs: '1.2rem', sm: '1.5rem' } }} />
                             </Button>
                             <Button
                                 variant="outlined"
@@ -46,7 +46,9 @@ function Calender() {
                                     minWidth: 0,
                                     lineHeight: 1,
                                     borderColor: '#0000001f',
-                                    color: '#000000'
+                                    color: '#000000',
+                                    fontSize: { xs: '0.65rem', sm: '0.875rem' },
+                                    padding: { xs: '4px 6px', sm: '6px 16px' }
                                 }}
                                 onClick={handleClickToday}>
                                 TODAY
@@ -55,13 +57,13 @@ function Calender() {
                                 variant="outlined"
                                 sx={{
                                     minWidth: 0,
-                                    padding: 0,
+                                    padding: { xs: '2px', sm: 0 },
                                     lineHeight: 1,
                                     borderColor: '#0000001f',
                                     color: '#000000'
                                 }}
                                 onClick={handleClickNext}>
-                                <ChevronRightIcon />
+                                <ChevronRightIcon sx={{ fontSize: { xs: '1.2rem', sm: '1.5rem' } }} />
                             </Button>
                         </div>
                     </div>

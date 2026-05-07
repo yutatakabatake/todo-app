@@ -3,6 +3,32 @@ import { createContext, useState, useEffect } from 'react'
 import dayjs from 'dayjs'
 import type { ProjectType, TaskType, TimeSlot } from '../types/task';
 
+// Mock data for demonstration
+const today = dayjs().format('YYYY/MM/DD');
+const yesterday = dayjs().subtract(1, 'day').format('YYYY/MM/DD');
+
+const MOCK_PROJECTS: ProjectType[] = [
+    { id: 1, label: 'Work' },
+    { id: 2, label: 'Personal' },
+    { id: 3, label: 'Study' },
+];
+
+const MOCK_TASKS: TaskType[] = [
+    // Morning tasks
+    { id: 1, title: 'Check emails', project_id: 1, expected_time: 30, actual_time: null, time_slot: 'Morning', task_date: today, done: false, is_working: false, start_time: null, done_date: null },
+    { id: 2, title: 'Team meeting', project_id: 1, expected_time: 60, actual_time: null, time_slot: 'Morning', task_date: today, done: false, is_working: true, start_time: dayjs(), done_date: null },
+    { id: 3, title: 'Morning exercise', project_id: 2, expected_time: 45, actual_time: 50, time_slot: 'Morning', task_date: today, done: true, is_working: false, start_time: null, done_date: today },
+    // Evening tasks
+    { id: 4, title: 'Code review', project_id: 1, expected_time: 45, actual_time: null, time_slot: 'Evening', task_date: today, done: false, is_working: false, start_time: null, done_date: null },
+    { id: 5, title: 'Read book', project_id: 2, expected_time: 30, actual_time: null, time_slot: 'Evening', task_date: today, done: false, is_working: false, start_time: null, done_date: null },
+    // Night tasks
+    { id: 6, title: 'Study React', project_id: 3, expected_time: 60, actual_time: null, time_slot: 'Night', task_date: today, done: false, is_working: false, start_time: null, done_date: null },
+    { id: 7, title: 'Write journal', project_id: 2, expected_time: 15, actual_time: null, time_slot: 'Night', task_date: today, done: false, is_working: false, start_time: null, done_date: null },
+    // Yesterday completed tasks (for calendar view)
+    { id: 8, title: 'Project setup', project_id: 1, expected_time: 90, actual_time: 85, time_slot: 'Morning', task_date: yesterday, done: true, is_working: false, start_time: null, done_date: yesterday },
+    { id: 9, title: 'TypeScript study', project_id: 3, expected_time: 60, actual_time: 55, time_slot: 'Evening', task_date: yesterday, done: true, is_working: false, start_time: null, done_date: yesterday },
+];
+
 type AppContextType = {
     tasks: TaskType[]
     projects: ProjectType[]
@@ -39,8 +65,9 @@ export const AppContext = createContext<AppContextType | null>(null);
 
 export default function AppContextProvider(props: Props) {
     const { children } = props;
-    const [tasks, setTasks] = useState<TaskType[]>([]);
-    const [projects, setProjects] = useState<ProjectType[]>([]);
+    // Initialize with mock data for demonstration
+    const [tasks, setTasks] = useState<TaskType[]>(MOCK_TASKS);
+    const [projects, setProjects] = useState<ProjectType[]>(MOCK_PROJECTS);
 
     useEffect(() => {
         let ignore = false;
