@@ -35,6 +35,8 @@ type Props = {
     children: React.ReactNode
 }
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 export const AppContext = createContext<AppContextType | null>(null);
 
 export default function AppContextProvider(props: Props) {
@@ -46,7 +48,7 @@ export default function AppContextProvider(props: Props) {
         let ignore = false;
         async function fetchTasks() {
             try {
-                const response = await axios.get('http://localhost:3000/api/tasks');
+                const response = await axios.get(`${API_BASE_URL}/api/tasks`);
                 if (!ignore) {
                     setTasks(response.data);
                 }
@@ -66,7 +68,7 @@ export default function AppContextProvider(props: Props) {
         let ignore = false;
         async function fetchProjects() {
             try {
-                const response = await axios.get('http://localhost:3000/api/projects');
+                const response = await axios.get(`${API_BASE_URL}/api/projects`);
                 if (!ignore) {
                     setProjects(response.data);
                 }
@@ -89,7 +91,7 @@ export default function AppContextProvider(props: Props) {
         time_slot: TimeSlot
     ) {
         try {
-            const response = await axios.post('http://localhost:3000/api/tasks', {
+            const response = await axios.post(`${API_BASE_URL}/api/tasks`, {
                 title: title,
                 project_id: project_id,
                 expected_time: expected_time,
@@ -103,7 +105,7 @@ export default function AppContextProvider(props: Props) {
 
     async function handleDeleteTask(id: TaskType['id']) {
         try {
-            await axios.delete(`http://localhost:3000/api/tasks/${id}`);
+            await axios.delete(`${API_BASE_URL}/api/tasks/${id}`);
             const newTasks = tasks.filter(task => task.id !== id);
             setTasks(newTasks);
         } catch (error) {
@@ -113,7 +115,7 @@ export default function AppContextProvider(props: Props) {
 
     async function handleDoneTask(id: TaskType['id']) {
         try {
-            const response = await axios.put(`http://localhost:3000/api/tasks/done/${id}`);
+            const response = await axios.put(`${API_BASE_URL}/api/tasks/done/${id}`);
             const newTasks = tasks.map(task => (task.id === id ? response.data : task));
             setTasks(newTasks);
         } catch (error) {
@@ -135,7 +137,7 @@ export default function AppContextProvider(props: Props) {
                 expected_time: newExpectedTime,
                 time_slot: newTimeSlot
             }
-            const response = await axios.put(`http://localhost:3000/api/tasks/${editingTask?.id}`, newTaskData);
+            const response = await axios.put(`${API_BASE_URL}/api/tasks/${editingTask?.id}`, newTaskData);
             const newTasks = tasks.map(task => (task.id === editingTask?.id ? response.data : task));
             setTasks(newTasks);
         } catch (error) {
@@ -145,7 +147,7 @@ export default function AppContextProvider(props: Props) {
 
     async function handleStart(id: TaskType['id']) {
         try {
-            const response = await axios.put(`http://localhost:3000/api/tasks/start/${id}`);
+            const response = await axios.put(`${API_BASE_URL}/api/tasks/start/${id}`);
             const updatedTaskFromServer = response.data;
             const formattedTask: TaskType = {
                 ...updatedTaskFromServer,
@@ -161,7 +163,7 @@ export default function AppContextProvider(props: Props) {
 
     async function handleStop(id: TaskType['id']) {
         try {
-            const response = await axios.put(`http://localhost:3000/api/tasks/stop/${id}`);
+            const response = await axios.put(`${API_BASE_URL}/api/tasks/stop/${id}`);
             const updatedTaskFromServer = response.data;
             const formattedTask: TaskType = {
                 ...updatedTaskFromServer,
@@ -178,7 +180,7 @@ export default function AppContextProvider(props: Props) {
 
     async function handleAddProject(projectLabel: ProjectType['label']) {
         try {
-            const response = await axios.post('http://localhost:3000/api/projects', {
+            const response = await axios.post(`${API_BASE_URL}/api/projects`, {
                 label: projectLabel
             });
             setProjects([...projects, response.data]);
@@ -189,7 +191,7 @@ export default function AppContextProvider(props: Props) {
 
     async function handleDeleteProject(id: ProjectType['id']) {
         try {
-            await axios.delete(`http://localhost:3000/api/projects/${id}`);
+            await axios.delete(`${API_BASE_URL}/api/projects/${id}`);
             const newProjects = projects.filter(project => project.id !== id);
             setProjects(newProjects);
 
@@ -206,7 +208,7 @@ export default function AppContextProvider(props: Props) {
         label: ProjectType['label']
     ) {
         try {
-            const response = await axios.put(`http://localhost:3000/api/projects/${editingProject.id}`, {
+            const response = await axios.put(`${API_BASE_URL}/api/projects/${editingProject.id}`, {
                 label: label
             });
             const newProjects = projects.map(project => (project.id === editingProject.id ? response.data : project));
