@@ -34,7 +34,7 @@ function TaskList() {
         if (filter === 'today') {
             return task.task_date === dayjs().format('YYYY/MM/DD');
         } else {
-            return task.task_date !== dayjs().format('YYYY/MM/DD');
+            return task.task_date !== dayjs().format('YYYY/MM/DD') && !task.done;
         }
     });
     const pendingTasks = filterdTasks.filter(task => !task.done);
