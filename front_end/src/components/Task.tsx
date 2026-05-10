@@ -71,11 +71,11 @@ function Task(props: Props) {
                     </td>
                     <td className="py-2 sm:py-3 px-1 sm:px-4 cursor-pointer hover:text-gray-600 text-right expected_time text-xs sm:text-sm whitespace-nowrap">
                         <span className="sm:hidden">{task.expected_time}m</span>
-                        <span className="hidden sm:inline">{task.expected_time}min</span>
+                        <span className="hidden sm:inline">{task.expected_time}m</span>
                     </td>
                     <td className="py-2 sm:py-3 px-1 sm:px-4 text-right actual_time text-xs sm:text-sm whitespace-nowrap">
                         <span className="sm:hidden">{task.actual_time !== null ? `${task.actual_time}m` : ''}</span>
-                        <span className="hidden sm:inline">{task.actual_time !== null ? `${task.actual_time}min` : ''}</span>
+                        <span className="hidden sm:inline">{task.actual_time !== null ? `${task.actual_time}m` : ''}</span>
                     </td>
                     <td className="py-2 sm:py-3 px-0 sm:px-4 text-left w-8 sm:w-12">
                         {task.is_working ?
@@ -122,12 +122,12 @@ function Task(props: Props) {
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <Clock className="w-3 h-3" />
-                                    <span>{task.expected_time}min</span>
+                                    <span>{task.expected_time}m</span>
                                 </div>
                                 {task.done &&
                                     <div className='flex items-center gap-1 text-green-600 font-medium'>
                                         <Clock className="w-3 h-3" />
-                                        <span>{task.actual_time ?? 0}min</span>
+                                        <span>{task.actual_time ?? 0}m</span>
                                     </div>}
                             </div>
                         </div>
