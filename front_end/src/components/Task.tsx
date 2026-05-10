@@ -61,10 +61,10 @@ function Task(props: Props) {
                         />
                     </td>
                     <td className="py-2 sm:py-3 px-1 sm:px-4 cursor-pointer hover:text-gray-600 title text-xs sm:text-sm" onClick={handleClickEditWithStop}>
-                        <span className="block truncate max-w-[80px] sm:max-w-none">{task.title}</span>
+                        <span className="block truncate max-w-20 sm:max-w-none">{task.title}</span>
                     </td>
                     <td className="py-2 sm:py-3 px-1 sm:px-4 cursor-pointer hover:text-gray-600 project text-xs sm:text-sm" onClick={handleClickEditWithStop}>
-                        <span className="block truncate max-w-[60px] sm:max-w-none">{projects?.find(project => project.id === task.project_id)?.label}</span>
+                        <span className="block truncate `max-w-15 sm:max-w-none">{projects?.find(project => project.id === task.project_id)?.label}</span>
                     </td>
                     <td className="hidden sm:table-cell py-3 px-4 cursor-pointer hover:text-gray-600 date text-sm" onClick={handleClickEditWithStop}>
                         {task.task_date}
