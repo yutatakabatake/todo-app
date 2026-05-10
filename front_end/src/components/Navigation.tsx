@@ -1,10 +1,11 @@
 import { NavLink } from 'react-router'
-import { ListTodo, Folder, Calendar } from 'lucide-react';
+import { ListTodo, Folder, Calendar, ChartPie } from 'lucide-react';
 
 const NAV_ITEMS = [
     { path: "/", icon: ListTodo, label: 'Tasks' },
     { path: "/project", icon: Folder, label: 'Projects' },
-    { path: "/calender", icon: Calendar, label: 'Calender' }
+    { path: "/calender", icon: Calendar, label: 'Calender' },
+    { path: "/24h", icon: ChartPie, label: '24h' }
 ];
 
 function Navigation() {

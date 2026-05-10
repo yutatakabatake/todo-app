@@ -5,6 +5,7 @@ import TaskList from './pages/TaskList';
 import Project from './pages/Project';
 import AppContextProvider from './context/AppContextProvider';
 import Calendar from './pages/Calender';
+import Pie from './components/Pie';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path='/' element={<TaskList />} />
             <Route path='/project' element={<Project />} />
             <Route path='/calender' element={<Calendar />} />
+            <Route path='/24h' element={<Pie />} />
           </Routes>
         </div>
       </BrowserRouter>
