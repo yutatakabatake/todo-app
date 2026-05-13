@@ -7,13 +7,19 @@ type Props = {
     tasks: TaskType[]
 }
 
+const term = {
+    Morning: '：6:00-12:00',
+    Evening: '：12:00-18:00',
+    Night: '：18:00-24:00',
+    Nothing: ''
+};
 function Table(props: Props) {
     const { timeSlot, tasks } = props;
 
     return (
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
             <div className="bg-gray-50 border-b border-gray-200 px-4 sm:px-6 py-3">
-                <h3 className="font-semibold text-sm sm:text-base">{timeSlot}</h3>
+                <h3 className="font-semibold text-sm sm:text-base">{timeSlot}{term[timeSlot]}</h3>
             </div>
             <table className="w-full">
                 <thead>
